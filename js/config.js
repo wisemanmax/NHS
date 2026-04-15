@@ -4,33 +4,34 @@
 
 const REUNION_CONFIG = {
   // Event Info
-  schoolName: "Lincoln High School",
-  reunionTitle: "Class Reunion",
-  year: "2005",          // Graduation year(s) being celebrated
-  tagline: "Twenty years, one night, and the people who shaped us.",
-  description: `We're bringing back the class of 2005 for a night of good stories, old faces, and long overdue catch-ups. Come see where life has taken everyone.`,
+  schoolName: "Newark High School",
+  reunionTitle: "Class of 2016 Reunion",
+  year: "2016",          // Graduation year(s) being celebrated
+  mascot: "Yellowjackets",
+  tagline: "Ten years later — still buzzing.",
+  description: `It's been a decade since we walked the halls of Newark High. Join the Class of 2016 for a night of catching up, swapping stories, and celebrating how far we've all come. Once a Yellowjacket, always a Yellowjacket.`,
 
   // Date & Venue (set to null if TBD)
-  eventDate: "2025-09-20T18:00:00",   // ISO format — set to null if TBD
-  eventDateDisplay: "September 20, 2025",
+  eventDate: "2026-08-15T18:00:00",   // ISO format — set to null if TBD
+  eventDateDisplay: "August 15, 2026",
   eventTime: "6:00 PM – 11:00 PM",
-  venueName: "The Grand Ballroom at Riverside",
-  venueAddress: "123 Riverside Drive, Springfield, IL 62701",
-  venueMapLink: "https://maps.google.com/?q=123+Riverside+Drive+Springfield+IL",
+  venueName: "TBA",
+  venueAddress: "",
+  venueMapLink: "",
 
   // Dress code, tickets, etc.
-  dresscode: "Business Casual",
+  dresscode: "Smart Casual",
   ticketInfo: "Free to attend — donations welcome at the door.",
   ageRestriction: "21+ event",
 
   // Organizer Contact
-  organizerName: "Sarah Mitchell",
-  organizerEmail: "hello@lincolnreunion2025.com",
-  facebookGroup: "https://facebook.com/groups/lincoln2005reunion",
+  organizerName: "Reunion Committee",
+  organizerEmail: "reunion@newark2016.com",
+  facebookGroup: "",
 
   // Social / sharing
-  metaTitle: "Lincoln High Class of 2005 Reunion",
-  metaDescription: "Join us September 20, 2025 for the Lincoln High School Class of 2005 Reunion. RSVP now!",
+  metaTitle: "Newark High School Class of 2016 — 10 Year Reunion",
+  metaDescription: "Join us for the Newark High School Class of 2016 Ten Year Reunion. RSVP now — it's free!",
   metaImage: "", // Optional: full URL to a share image
 
   // Supabase (set in env, but fallback here for local dev)
@@ -42,7 +43,7 @@ const REUNION_CONFIG = {
 const FAQ_ITEMS = [
   {
     q: "Who is this reunion for?",
-    a: "This event is primarily for graduates of Lincoln High School's Class of 2005, though alumni from nearby years are welcome to join. Bring a guest if you'd like!"
+    a: "This event is for graduates of Newark High School's Class of 2016 — Yellowjackets! Alumni from nearby years are welcome too. Feel free to bring a guest."
   },
   {
     q: "How do I RSVP?",
@@ -58,7 +59,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "What should I wear?",
-    a: "Business casual — think nice jeans and a blazer, or a cocktail dress. No tuxedos required."
+    a: "Smart casual — think nice jeans and a blazer, or a cocktail dress. No need to go overboard."
   },
   {
     q: "Will there be food and drinks?",
@@ -66,7 +67,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "I lost touch with classmates — how can I help spread the word?",
-    a: "Share the link to this site in any group chats, Facebook groups, or LinkedIn connections from your class. Every RSVP helps us plan!"
+    a: "Share the link to this site in any group chats, social media groups, or LinkedIn connections from your class. Every RSVP helps us plan!"
   },
   {
     q: "I'm not sure if I can make it — should I still RSVP?",
@@ -78,6 +79,6 @@ const FAQ_ITEMS = [
   },
   {
     q: "Who do I contact with questions?",
-    a: `Reach out to ${REUNION_CONFIG.organizerName} at ${REUNION_CONFIG.organizerEmail} or message us through the Facebook group.`
+    a: `Reach out to the ${REUNION_CONFIG.organizerName} at ${REUNION_CONFIG.organizerEmail}.`
   },
 ];

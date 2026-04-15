@@ -11,7 +11,7 @@
 
   <nav class="nav">
     <div class="nav__inner">
-      <a class="nav__logo" href="index.html" id="nav-logo">Reunion</a>
+      <a class="nav__logo" href="index.html" id="nav-logo"><img src="images/logo.svg" alt="NHS" class="nav__logo-img" />Reunion</a>
       <button class="nav__hamburger" onclick="document.getElementById('nav-links').classList.toggle('open')" aria-label="Menu">
         <span></span><span></span><span></span>
       </button>
@@ -53,7 +53,7 @@
         <a href="faq.html">FAQ</a>
         <a href="rsvp.html">RSVP</a>
       </div>
-      <p id="footer-text">© 2025 Lincoln High School Reunion.</p>
+      <p id="footer-text">© 2026 Newark High School Reunion.</p>
     </div>
   </footer>
 
@@ -61,9 +61,13 @@
     window.addEventListener('DOMContentLoaded', () => {
       const c = REUNION_CONFIG;
       document.title = `FAQ — ${c.metaTitle}`;
-      document.getElementById('nav-logo').textContent = `${c.schoolName} '${c.year.slice(-2)}`;
+      const navLogo = document.getElementById('nav-logo');
+      const logoImg = navLogo.querySelector('img');
+      navLogo.textContent = '';
+      if (logoImg) navLogo.appendChild(logoImg);
+      navLogo.appendChild(document.createTextNode(` ${c.schoolName} '${c.year.slice(-2)}`));
       document.getElementById('contact-btn').href = `mailto:${c.organizerEmail}`;
-      document.getElementById('footer-text').textContent = `© 2025 ${c.schoolName} Reunion.`;
+      document.getElementById('footer-text').textContent = `© 2026 ${c.schoolName} Reunion.`;
 
       const list = document.getElementById('faq-list');
       FAQ_ITEMS.forEach((item, i) => {
