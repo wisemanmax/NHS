@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- Outer gold ring -->
+  <circle cx="100" cy="100" r="98" fill="#D4A017" />
+  <!-- Black ring -->
+  <circle cx="100" cy="100" r="92" fill="#1A1A1A" />
+  <!-- Inner gold ring -->
+  <circle cx="100" cy="100" r="62" fill="#D4A017" />
+  <!-- Inner black circle -->
+  <circle cx="100" cy="100" r="58" fill="#1A1A1A" />
+
+  <!-- Top arc text: NEWARK HIGH SCHOOL -->
+  <defs>
+    <path id="topArc" d="M 30,100 a 70,70 0 0,1 140,0" fill="none" />
+    <path id="bottomArc" d="M 170,108 a 70,70 0 0,1 -140,0" fill="none" />
+  </defs>
+
+  <text font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="14" fill="#D4A017" letter-spacing="3">
+    <textPath href="#topArc" startOffset="50%" text-anchor="middle">NEWARK HIGH SCHOOL</textPath>
+  </text>
+
+  <text font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="14.5" fill="#D4A017" letter-spacing="4">
+    <textPath href="#bottomArc" startOffset="50%" text-anchor="middle">YELLOWJACKETS</textPath>
+  </text>
+
+  <!-- Center: Stylized bee/yellowjacket icon -->
+  <g transform="translate(100,95)">
+    <!-- Body -->
+    <ellipse cx="0" cy="5" rx="18" ry="22" fill="#F5C518" />
+    <!-- Stripes -->
+    <rect x="-18" y="-4" width="36" height="5" rx="2" fill="#1A1A1A" />
+    <rect x="-16" y="6" width="32" height="5" rx="2" fill="#1A1A1A" />
+    <rect x="-12" y="16" width="24" height="5" rx="2" fill="#1A1A1A" />
+    <!-- Wings -->
+    <ellipse cx="-14" cy="-12" rx="10" ry="6" fill="rgba(255,255,255,0.7)" transform="rotate(-20)" />
+    <ellipse cx="14" cy="-12" rx="10" ry="6" fill="rgba(255,255,255,0.7)" transform="rotate(20)" />
+    <!-- Head -->
+    <circle cx="0" cy="-18" r="8" fill="#F5C518" />
+    <!-- Eyes -->
+    <circle cx="-3" cy="-20" r="2" fill="#1A1A1A" />
+    <circle cx="3" cy="-20" r="2" fill="#1A1A1A" />
+    <!-- Stinger -->
+    <polygon points="-3,27 3,27 0,34" fill="#1A1A1A" />
+  </g>
+</svg>

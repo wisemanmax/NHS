@@ -10,10 +10,10 @@
 :root {
   --cream: #FDFAF4;
   --cream-dark: #F5F0E8;
-  --navy: #1A2E4A;
-  --navy-light: #264466;
-  --gold: #C9963E;
-  --gold-light: #E8B860;
+  --navy: #1A1A1A;
+  --navy-light: #2A2A2A;
+  --gold: #D4A017;
+  --gold-light: #F5C518;
   --text: #1C1917;
   --text-muted: #6B6560;
   --border: #E2D9C8;
@@ -26,8 +26,8 @@
 
   --radius: 8px;
   --radius-lg: 16px;
-  --shadow: 0 2px 12px rgba(26,46,74,0.08);
-  --shadow-lg: 0 8px 40px rgba(26,46,74,0.14);
+  --shadow: 0 2px 12px rgba(0,0,0,0.08);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,0.14);
   --transition: 0.2s ease;
 }
 
@@ -64,6 +64,25 @@ p:last-child { margin-bottom: 0; }
 .container { max-width: 1000px; margin: 0 auto; padding: 0 1.5rem; }
 .container--narrow { max-width: 680px; margin: 0 auto; padding: 0 1.5rem; }
 section { padding: 5rem 0; }
+
+/* ---- Logo ---- */
+.hero__logo {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  margin: 0 auto 1.5rem;
+  display: block;
+  opacity: 0;
+  animation: fadeUp 0.6s ease forwards;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+}
+.nav__logo-img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  vertical-align: middle;
+  margin-right: 0.5rem;
+}
 
 /* ---- Nav ---- */
 .nav {
@@ -137,7 +156,7 @@ section { padding: 5rem 0; }
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(201,150,62,0.15) 0%, transparent 70%);
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(212,160,23,0.18) 0%, transparent 70%);
   pointer-events: none;
 }
 .hero__eyebrow {
