@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>You're Registered!</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="js/config.js" defer></script>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav__inner">
+      <a class="nav__logo" href="index.html" id="nav-logo">Reunion</a>
+      <ul class="nav__links" id="nav-links" style="display:flex;">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="details.html">Event Details</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="success-box">
+    <div class="success-icon">🎉</div>
+    <span class="section-label" style="display:block;text-align:center;">You're on the list</span>
+    <h1 style="font-family:var(--font-display);font-size:2rem;color:var(--navy);margin-bottom:0.75rem;" id="success-title">
+      See you there!
+    </h1>
+    <p style="color:var(--text-muted);margin-bottom:0.5rem;" id="success-sub">
+      Your RSVP has been received.
+    </p>
+    <p style="color:var(--text-muted);font-size:0.9rem;" id="success-email-note">
+      We'll send updates to your email as the reunion gets closer.
+    </p>
+
+    <div id="status-msg" style="margin: 1.5rem 0; padding: 1rem 1.5rem; border-radius: var(--radius); background: rgba(201,150,62,0.1); border: 1px solid rgba(201,150,62,0.25);">
+      <span id="status-text" style="font-family:var(--font-display);font-size:1.1rem;color:var(--navy);"></span>
+    </div>
+
+    <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:2rem;">
+      Help us reach more classmates — share this link with anyone who might want to come!
+    </p>
+
+    <div style="display:flex;gap:0.75rem;flex-wrap:wrap;justify-content:center;margin-bottom:1.5rem;">
+      <button class="btn btn--primary btn--sm" onclick="copyLink()">📋 Copy Link</button>
+      <a href="#" id="fb-share" target="_blank" class="btn btn--navy btn--sm">📣 Share on Facebook</a>
+    </div>
+
+    <a href="index.html" style="font-size:0.85rem;color:var(--text-muted);text-decoration:underline;">← Back to Home</a>
+  </div>
+
+  <footer style="margin-top:4rem;">
+    <div class="footer__inner">
+      <div class="footer__links">
+        <a href="index.html">Home</a>
+        <a href="details.html">Details</a>
+        <a href="faq.html">FAQ</a>
+      </div>
+      <p id="footer-text">© 2025 Lincoln High School Reunion.</p>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const c = REUNION_CONFIG;
+      document.title = `You're In! — ${c.metaTitle}`;
+      document.getElementById('nav-logo').textContent = `${c.schoolName} '${c.year.slice(-2)}`;
+      document.getElementById('footer-text').textContent = `© 2025 ${c.schoolName} Reunion.`;
+
+      // Read session data
+      const name = sessionStorage.getItem('rsvp_name') || '';
+      const email = sessionStorage.getItem('rsvp_email') || '';
+      const status = sessionStorage.getItem('rsvp_status') || 'yes';
+
+      if (name) {
+        document.getElementById('success-title').textContent = `See you there, ${name}! 🎉`;
+      }
+      if (email) {
+        document.getElementById('success-email-note').textContent =
+          `We'll send updates to ${email} as the reunion gets closer.`;
+      }
+
+      const statusMessages = {
+        yes: "You're confirmed as attending. Can't wait to see you there! 🙌",
+        maybe: "You're marked as 'Maybe.' We'll keep you posted as details are finalized.",
+        no: "Thanks for letting us know. We hope to see you next time!",
+      };
+      document.getElementById('status-text').textContent = statusMessages[status] || statusMessages.yes;
+
+      // Facebook share
+      const shareUrl = encodeURIComponent(window.location.origin + '/index.html');
+      const shareText = encodeURIComponent(`Just RSVP'd for the ${c.schoolName} Class of ${c.year} Reunion! 🎉 Are you going?`);
+      document.getElementById('fb-share').href =
+        `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}&quote=${shareText}`;
+
+      if (c.facebookGroup) {
+        document.getElementById('fb-share').href = c.facebookGroup;
+      }
+    });
+
+    function copyLink() {
+      const url = window.location.origin + '/index.html';
+      navigator.clipboard.writeText(url).then(() => {
+        showToast('Link copied! 🔗');
+      }).catch(() => {
+        showToast('Couldn\'t copy — copy from your address bar.');
+      });
+    }
+
+    function showToast(msg, type = 'success') {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.className = `toast ${type} show`;
+      setTimeout(() => t.classList.remove('show'), 3500);
+    }
+  </script>
+</body>
+</html>

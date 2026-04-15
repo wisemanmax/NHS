@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RSVP</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="js/config.js" defer></script>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav__inner">
+      <a class="nav__logo" href="index.html" id="nav-logo">Reunion</a>
+      <button class="nav__hamburger" onclick="document.getElementById('nav-links').classList.toggle('open')" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav__links" id="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="details.html">Event Details</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+        <li><a href="rsvp.html" class="nav__cta active">RSVP Now</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="page-hero">
+    <span class="page-hero__eyebrow">Count Me In</span>
+    <h1 class="page-hero__title">RSVP</h1>
+    <p class="page-hero__sub">Takes under 60 seconds. We'll keep you posted with details.</p>
+  </div>
+
+  <section>
+    <div class="container--narrow">
+
+      <div class="form-notice">
+        <strong>🎉 Free to attend.</strong> Just fill out the form below and you're on the list. We'll send a confirmation to your email.
+      </div>
+
+      <div class="form-section">
+        <form id="rsvp-form" novalidate>
+
+          <!-- Name -->
+          <h3 style="font-family:var(--font-display);font-size:1.1rem;color:var(--navy);margin-bottom:1.2rem;">
+            About You
+          </h3>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="first_name">First Name</label>
+              <input type="text" id="first_name" name="first_name" class="form-control"
+                placeholder="Jane" autocomplete="given-name" />
+              <div class="form-error" id="err-first_name">Please enter your first name.</div>
+            </div>
+            <div class="form-group">
+              <label for="last_name">Last Name</label>
+              <input type="text" id="last_name" name="last_name" class="form-control"
+                placeholder="Smith" autocomplete="family-name" />
+              <div class="form-error" id="err-last_name">Please enter your last name.</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="preferred_name">Preferred Name <span class="optional">(optional)</span></label>
+            <input type="text" id="preferred_name" name="preferred_name" class="form-control"
+              placeholder="What your friends call you" />
+          </div>
+
+          <hr class="form-divider" />
+
+          <!-- Contact -->
+          <h3 style="font-family:var(--font-display);font-size:1.1rem;color:var(--navy);margin-bottom:1.2rem;">
+            Contact Info
+          </h3>
+
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" class="form-control"
+              placeholder="jane@email.com" autocomplete="email" />
+            <div class="form-error" id="err-email">Please enter a valid email address.</div>
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Phone Number <span class="optional">(optional)</span></label>
+            <input type="tel" id="phone" name="phone" class="form-control"
+              placeholder="(555) 123-4567" autocomplete="tel" />
+          </div>
+
+          <hr class="form-divider" />
+
+          <!-- Event info -->
+          <h3 style="font-family:var(--font-display);font-size:1.1rem;color:var(--navy);margin-bottom:1.2rem;">
+            Reunion Info
+          </h3>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="graduation_year">Graduation Year</label>
+              <select id="graduation_year" name="graduation_year" class="form-control">
+                <option value="">Select year...</option>
+              </select>
+              <div class="form-error" id="err-graduation_year">Please select your graduation year.</div>
+            </div>
+            <div class="form-group">
+              <label for="attending_status">Will You Attend?</label>
+              <select id="attending_status" name="attending_status" class="form-control">
+                <option value="">Select...</option>
+                <option value="yes">✅ Yes, I'll be there!</option>
+                <option value="maybe">🤔 Maybe / Not Sure Yet</option>
+                <option value="no">❌ Can't Make It</option>
+              </select>
+              <div class="form-error" id="err-attending_status">Please select your attendance status.</div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="current_city">Current City <span class="optional">(optional)</span></label>
+              <input type="text" id="current_city" name="current_city" class="form-control"
+                placeholder="Chicago" />
+            </div>
+            <div class="form-group">
+              <label for="current_state">Current State <span class="optional">(optional)</span></label>
+              <select id="current_state" name="current_state" class="form-control">
+                <option value="">Select state...</option>
+                <option>AL</option><option>AK</option><option>AZ</option><option>AR</option>
+                <option>CA</option><option>CO</option><option>CT</option><option>DE</option>
+                <option>FL</option><option>GA</option><option>HI</option><option>ID</option>
+                <option>IL</option><option>IN</option><option>IA</option><option>KS</option>
+                <option>KY</option><option>LA</option><option>ME</option><option>MD</option>
+                <option>MA</option><option>MI</option><option>MN</option><option>MS</option>
+                <option>MO</option><option>MT</option><option>NE</option><option>NV</option>
+                <option>NH</option><option>NJ</option><option>NM</option><option>NY</option>
+                <option>NC</option><option>ND</option><option>OH</option><option>OK</option>
+                <option>OR</option><option>PA</option><option>RI</option><option>SC</option>
+                <option>SD</option><option>TN</option><option>TX</option><option>UT</option>
+                <option>VT</option><option>VA</option><option>WA</option><option>WV</option>
+                <option>WI</option><option>WY</option><option>DC</option><option>Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="guest_count">Number of Guests <span class="optional">(optional)</span></label>
+            <select id="guest_count" name="guest_count" class="form-control">
+              <option value="0">Just me</option>
+              <option value="1">+1 guest</option>
+              <option value="2">+2 guests</option>
+              <option value="3">+3 guests</option>
+              <option value="4">+4 guests</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="comments">Anything else? <span class="optional">(optional)</span></label>
+            <textarea id="comments" name="comments" class="form-control" rows="3"
+              placeholder="Dietary restrictions, accessibility needs, shoutouts to old friends..."></textarea>
+          </div>
+
+          <hr class="form-divider" />
+
+          <!-- Consent -->
+          <h3 style="font-family:var(--font-display);font-size:1.1rem;color:var(--navy);margin-bottom:1rem;">
+            Stay in the Loop
+          </h3>
+
+          <div class="form-group">
+            <div class="checkbox-group">
+              <input type="checkbox" id="email_opt_in" name="email_opt_in" checked />
+              <label for="email_opt_in">
+                <strong>Email updates</strong> — Send me event reminders, schedule updates, and reunion info by email.
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="checkbox-group">
+              <input type="checkbox" id="sms_opt_in" name="sms_opt_in" />
+              <label for="sms_opt_in">
+                SMS updates <em>(optional)</em> — Text me quick event updates. Standard messaging rates may apply.
+              </label>
+            </div>
+          </div>
+
+          <div class="form-error" id="err-email_opt_in" style="margin-bottom:1rem;">
+            Please agree to receive email updates to submit your RSVP.
+          </div>
+
+          <div id="form-submit-error" style="display:none;background:rgba(192,57,43,0.08);border:1px solid rgba(192,57,43,0.25);border-radius:var(--radius);padding:0.85rem 1.1rem;font-size:0.88rem;color:var(--error);margin-bottom:1rem;"></div>
+
+          <button type="submit" class="btn btn--primary btn--full" id="submit-btn" style="font-size:1rem; padding: 0.9rem;">
+            Submit RSVP
+          </button>
+          <p style="text-align:center;font-size:0.8rem;color:var(--text-muted);margin-top:0.75rem;">
+            We will never share your information with third parties.
+          </p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer__inner">
+      <div class="footer__links">
+        <a href="index.html">Home</a>
+        <a href="details.html">Details</a>
+        <a href="faq.html">FAQ</a>
+        <a href="rsvp.html">RSVP</a>
+      </div>
+      <p id="footer-text">© 2025 Lincoln High School Reunion.</p>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast"></div>
+
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+    const c = REUNION_CONFIG;
+    let supabase;
+
+    window.addEventListener('DOMContentLoaded', () => {
+      document.title = `RSVP — ${c.metaTitle}`;
+      document.getElementById('nav-logo').textContent = `${c.schoolName} '${c.year.slice(-2)}`;
+      document.getElementById('footer-text').textContent = `© 2025 ${c.schoolName} Reunion.`;
+
+      // Populate graduation year select (± 5 years from config year)
+      const baseYear = parseInt(c.year, 10);
+      const sel = document.getElementById('graduation_year');
+      for (let y = baseYear - 5; y <= baseYear + 5; y++) {
+        const opt = document.createElement('option');
+        opt.value = y;
+        opt.textContent = y;
+        if (y === baseYear) opt.selected = true;
+        sel.appendChild(opt);
+      }
+
+      // Detect signup source from URL params
+      const params = new URLSearchParams(window.location.search);
+      window._signupSource = params.get('src') || document.referrer
+        ? (document.referrer.includes('facebook') ? 'facebook' : 'direct')
+        : 'direct';
+
+      supabase = createClient(c.supabaseUrl, c.supabaseAnonKey);
+
+      document.getElementById('rsvp-form').addEventListener('submit', handleSubmit);
+    });
+
+    // ---- Validation ----
+    function validateField(id, condition, msgId) {
+      const el = document.getElementById(id);
+      const err = document.getElementById(msgId);
+      if (!condition) {
+        el.classList.add('error');
+        if (err) err.classList.add('visible');
+        return false;
+      }
+      el.classList.remove('error');
+      if (err) err.classList.remove('visible');
+      return true;
+    }
+
+    function validateEmail(val) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+    }
+
+    function validate() {
+      const f = document.getElementById('rsvp-form');
+      let valid = true;
+
+      valid = validateField('first_name', f.first_name.value.trim().length > 0, 'err-first_name') && valid;
+      valid = validateField('last_name', f.last_name.value.trim().length > 0, 'err-last_name') && valid;
+      valid = validateField('email', validateEmail(f.email.value.trim()), 'err-email') && valid;
+      valid = validateField('graduation_year', f.graduation_year.value !== '', 'err-graduation_year') && valid;
+      valid = validateField('attending_status', f.attending_status.value !== '', 'err-attending_status') && valid;
+
+      // Email opt-in check
+      if (!f.email_opt_in.checked) {
+        document.getElementById('err-email_opt_in').classList.add('visible');
+        valid = false;
+      } else {
+        document.getElementById('err-email_opt_in').classList.remove('visible');
+      }
+
+      return valid;
+    }
+
+    // ---- Submit ----
+    async function handleSubmit(e) {
+      e.preventDefault();
+      if (!validate()) return;
+
+      const btn = document.getElementById('submit-btn');
+      const errBox = document.getElementById('form-submit-error');
+      btn.textContent = 'Submitting...';
+      btn.disabled = true;
+      errBox.style.display = 'none';
+
+      const f = document.getElementById('rsvp-form');
+
+      const payload = {
+        first_name: f.first_name.value.trim(),
+        last_name: f.last_name.value.trim(),
+        preferred_name: f.preferred_name.value.trim() || null,
+        email: f.email.value.trim().toLowerCase(),
+        phone: f.phone.value.trim() || null,
+        graduation_year: parseInt(f.graduation_year.value, 10),
+        current_city: f.current_city.value.trim() || null,
+        current_state: f.current_state.value || null,
+        guest_count: parseInt(f.guest_count.value, 10),
+        attending_status: f.attending_status.value,
+        comments: f.comments.value.trim() || null,
+        email_opt_in: f.email_opt_in.checked,
+        sms_opt_in: f.sms_opt_in.checked,
+        consent_timestamp: new Date().toISOString(),
+        signup_source: window._signupSource || 'direct',
+      };
+
+      try {
+        // Duplicate email check
+        const { data: existing } = await supabase
+          .from('attendees')
+          .select('id')
+          .eq('email', payload.email)
+          .maybeSingle();
+
+        if (existing) {
+          errBox.style.display = 'block';
+          errBox.textContent = 'This email is already registered! Check your inbox for your original confirmation.';
+          btn.textContent = 'Submit RSVP';
+          btn.disabled = false;
+          return;
+        }
+
+        const { error } = await supabase.from('attendees').insert(payload);
+
+        if (error) throw error;
+
+        // Success — redirect to confirmation page
+        sessionStorage.setItem('rsvp_name', payload.first_name);
+        sessionStorage.setItem('rsvp_email', payload.email);
+        sessionStorage.setItem('rsvp_status', payload.attending_status);
+        window.location.href = 'success.html';
+
+      } catch (err) {
+        console.error('RSVP error:', err);
+        errBox.style.display = 'block';
+        errBox.textContent = err.message?.includes('duplicate')
+          ? 'This email is already registered.'
+          : 'Something went wrong. Please try again or contact the organizer.';
+        btn.textContent = 'Submit RSVP';
+        btn.disabled = false;
+      }
+    }
+
+    // Real-time validation on blur
+    window.addEventListener('DOMContentLoaded', () => {
+      ['first_name','last_name','email','graduation_year','attending_status'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('blur', () => {
+          el.classList.remove('error');
+          document.getElementById('err-' + id)?.classList.remove('visible');
+        });
+      });
+    });
+  </script>
+</body>
+</html>

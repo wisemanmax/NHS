@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title id="page-title">Class Reunion</title>
+  <meta name="description" id="page-desc" content="" />
+  <!-- Open Graph -->
+  <meta property="og:title" id="og-title" content="" />
+  <meta property="og:description" id="og-desc" content="" />
+  <meta property="og:type" content="website" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="js/config.js" defer></script>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav" id="main-nav">
+    <div class="nav__inner">
+      <a class="nav__logo" href="index.html" id="nav-logo">Reunion</a>
+      <button class="nav__hamburger" onclick="toggleNav()" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav__links" id="nav-links">
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="details.html">Event Details</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+        <li><a href="rsvp.html" class="nav__cta">RSVP Now</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <span class="hero__eyebrow" id="hero-eyebrow">Lincoln High School · Class of 2005</span>
+      <h1 class="hero__title" id="hero-title">Twenty Years <em>Together.</em></h1>
+      <p class="hero__sub" id="hero-sub">It's been a minute. Come catch up with the people who shaped you.</p>
+      <div class="hero__actions">
+        <a href="rsvp.html" class="btn btn--primary">RSVP Now — It's Free</a>
+        <a href="details.html" class="btn btn--outline">Event Details</a>
+      </div>
+      <!-- Countdown -->
+      <div class="countdown" id="countdown">
+        <div class="countdown__block">
+          <span class="countdown__num" id="cd-days">--</span>
+          <span class="countdown__label">Days</span>
+        </div>
+        <div class="countdown__block">
+          <span class="countdown__num" id="cd-hours">--</span>
+          <span class="countdown__label">Hours</span>
+        </div>
+        <div class="countdown__block">
+          <span class="countdown__num" id="cd-mins">--</span>
+          <span class="countdown__label">Mins</span>
+        </div>
+        <div class="countdown__block">
+          <span class="countdown__num" id="cd-secs">--</span>
+          <span class="countdown__label">Secs</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUICK DETAILS -->
+  <section style="background: var(--cream-dark); padding: 3rem 0;">
+    <div class="container">
+      <div class="info-grid" id="quick-details">
+        <div class="info-card fade-up">
+          <div class="info-card__icon">📅</div>
+          <div class="info-card__title">Date</div>
+          <div class="info-card__value" id="card-date">September 20, 2025</div>
+          <div class="info-card__sub" id="card-time">6:00 PM – 11:00 PM</div>
+        </div>
+        <div class="info-card fade-up" style="animation-delay:0.1s">
+          <div class="info-card__icon">📍</div>
+          <div class="info-card__title">Venue</div>
+          <div class="info-card__value" id="card-venue">TBA</div>
+          <div class="info-card__sub"><a href="#" id="card-map" target="_blank">View on Map →</a></div>
+        </div>
+        <div class="info-card fade-up" style="animation-delay:0.2s">
+          <div class="info-card__icon">👔</div>
+          <div class="info-card__title">Dress Code</div>
+          <div class="info-card__value" id="card-dress">Business Casual</div>
+          <div class="info-card__sub" id="card-ticket">Free to attend</div>
+        </div>
+        <div class="info-card fade-up" style="animation-delay:0.3s">
+          <div class="info-card__icon">📣</div>
+          <div class="info-card__title">Spread the Word</div>
+          <div class="info-card__value" style="font-size:1.1rem">Share with classmates</div>
+          <div class="info-card__sub"><a href="#" id="card-facebook" target="_blank">Join the Facebook Group →</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section>
+    <div class="container--narrow">
+      <span class="section-label">About the Reunion</span>
+      <h2 class="section-title" id="about-title">The night we've all been waiting for.</h2>
+      <hr class="divider" />
+      <p class="section-intro" id="about-desc"></p>
+      <p style="color:var(--text-muted); margin-top:1rem;" id="about-extra">
+        Whether you stayed local or moved across the country, this is your night to reconnect, reminisce, and celebrate how far everyone's come. We can't wait to see you there.
+      </p>
+      <a href="rsvp.html" class="btn btn--navy" style="margin-top:2rem;">Reserve Your Spot</a>
+    </div>
+  </section>
+
+  <!-- SIGNUP STATS -->
+  <div class="stats-bar">
+    <div class="stats-bar__inner" id="stats-bar">
+      <div class="stat-item">
+        <span class="stat-item__num" id="stat-total">—</span>
+        <div class="stat-item__label">Signups So Far</div>
+      </div>
+      <div class="stat-item">
+        <span class="stat-item__num" id="stat-yes">—</span>
+        <div class="stat-item__label">Confirmed Yes</div>
+      </div>
+      <div class="stat-item">
+        <span class="stat-item__num" id="stat-maybe">—</span>
+        <div class="stat-item__label">Considering It</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <section style="text-align:center; background: var(--cream-dark);">
+    <div class="container--narrow">
+      <span class="section-label">Don't Miss It</span>
+      <h2 class="section-title">Ready to reconnect?</h2>
+      <hr class="divider divider--center" />
+      <p style="color:var(--text-muted); margin-bottom:2rem;">
+        RSVP takes under 60 seconds. We'll send you a confirmation and keep you updated with event details as they're finalized.
+      </p>
+      <a href="rsvp.html" class="btn btn--primary" style="font-size:1rem; padding: 0.9rem 2.5rem;">RSVP — It's Free</a>
+      <p style="margin-top:1rem; font-size:0.85rem; color:var(--text-muted);">
+        Questions? <a href="mailto:" id="contact-link">Email the organizer</a> or <a href="#" id="fb-link-2">join the Facebook group</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer__inner">
+      <div class="footer__links">
+        <a href="index.html">Home</a>
+        <a href="details.html">Details</a>
+        <a href="faq.html">FAQ</a>
+        <a href="rsvp.html">RSVP</a>
+      </div>
+      <p id="footer-text">© 2025 Lincoln High School Reunion. Made with ❤️ for the Class of 2005.</p>
+    </div>
+  </footer>
+
+  <script>
+    function toggleNav() {
+      document.getElementById('nav-links').classList.toggle('open');
+    }
+
+    // Populate from config
+    window.addEventListener('DOMContentLoaded', () => {
+      const c = REUNION_CONFIG;
+      document.title = c.metaTitle;
+      document.getElementById('page-title').textContent = c.metaTitle;
+      document.getElementById('page-desc').setAttribute('content', c.metaDescription);
+      document.getElementById('og-title').setAttribute('content', c.metaTitle);
+      document.getElementById('og-desc').setAttribute('content', c.metaDescription);
+      document.getElementById('nav-logo').textContent = `${c.schoolName} '${c.year.slice(-2)}`;
+      document.getElementById('hero-eyebrow').textContent = `${c.schoolName} · Class of ${c.year}`;
+      document.getElementById('hero-sub').textContent = c.tagline;
+      document.getElementById('card-date').textContent = c.eventDateDisplay || 'Date TBD';
+      document.getElementById('card-time').textContent = c.eventTime || '';
+      document.getElementById('card-venue').textContent = c.venueName || 'Venue TBD';
+      document.getElementById('card-dress').textContent = c.dresscode || '';
+      document.getElementById('card-ticket').textContent = c.ticketInfo || '';
+      if (c.venueMapLink) document.getElementById('card-map').href = c.venueMapLink;
+      if (c.facebookGroup) {
+        document.getElementById('card-facebook').href = c.facebookGroup;
+        document.getElementById('fb-link-2').href = c.facebookGroup;
+      }
+      document.getElementById('about-desc').textContent = c.description;
+      document.getElementById('contact-link').href = `mailto:${c.organizerEmail}`;
+      document.getElementById('contact-link').textContent = c.organizerEmail;
+      document.getElementById('footer-text').textContent =
+        `© 2025 ${c.schoolName} Reunion. Made with ❤️ for the Class of ${c.year}.`;
+
+      // Countdown
+      if (c.eventDate) {
+        const target = new Date(c.eventDate);
+        function tick() {
+          const now = new Date();
+          const diff = target - now;
+          if (diff <= 0) {
+            document.getElementById('countdown').innerHTML = '<p style="color:var(--gold-light);font-family:var(--font-display);font-size:1.5rem;font-style:italic;">The reunion is here! 🎉</p>';
+            return;
+          }
+          const d = Math.floor(diff / 86400000);
+          const h = Math.floor((diff % 86400000) / 3600000);
+          const m = Math.floor((diff % 3600000) / 60000);
+          const s = Math.floor((diff % 60000) / 1000);
+          document.getElementById('cd-days').textContent = String(d).padStart(2,'0');
+          document.getElementById('cd-hours').textContent = String(h).padStart(2,'0');
+          document.getElementById('cd-mins').textContent = String(m).padStart(2,'0');
+          document.getElementById('cd-secs').textContent = String(s).padStart(2,'0');
+        }
+        tick(); setInterval(tick, 1000);
+      } else {
+        document.getElementById('countdown').style.display = 'none';
+      }
+
+      // Load signup stats from Supabase (public count only)
+      loadStats();
+    });
+
+    async function loadStats() {
+      try {
+        const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm');
+        const sb = createClient(REUNION_CONFIG.supabaseUrl, REUNION_CONFIG.supabaseAnonKey);
+        const { data, error } = await sb.from('attendees').select('attending_status');
+        if (error || !data) return;
+        const total = data.length;
+        const yes = data.filter(r => r.attending_status === 'yes').length;
+        const maybe = data.filter(r => r.attending_status === 'maybe').length;
+        document.getElementById('stat-total').textContent = total;
+        document.getElementById('stat-yes').textContent = yes;
+        document.getElementById('stat-maybe').textContent = maybe;
+      } catch (e) { /* Stats are nice-to-have, fail silently */ }
+    }
+  </script>
+</body>
+</html>

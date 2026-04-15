@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAQ</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="js/config.js" defer></script>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav__inner">
+      <a class="nav__logo" href="index.html" id="nav-logo">Reunion</a>
+      <button class="nav__hamburger" onclick="document.getElementById('nav-links').classList.toggle('open')" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav__links" id="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="details.html">Event Details</a></li>
+        <li><a href="faq.html" class="active">FAQ</a></li>
+        <li><a href="rsvp.html" class="nav__cta">RSVP Now</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="page-hero">
+    <span class="page-hero__eyebrow">Got Questions?</span>
+    <h1 class="page-hero__title">Frequently Asked Questions</h1>
+    <p class="page-hero__sub">Everything you need to know before you RSVP.</p>
+  </div>
+
+  <section>
+    <div class="container--narrow">
+      <div class="faq-list" id="faq-list">
+        <!-- Populated by JS -->
+      </div>
+
+      <div style="text-align:center; margin-top:3rem; padding-top:2.5rem; border-top: 1px solid var(--border);">
+        <p style="color:var(--text-muted); margin-bottom:1.5rem;">Still have questions? We're happy to help.</p>
+        <a href="mailto:" id="contact-btn" class="btn btn--navy">Email the Organizer</a>
+        <span style="margin:0 1rem; color:var(--text-muted);">or</span>
+        <a href="rsvp.html" class="btn btn--primary">RSVP Now</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer__inner">
+      <div class="footer__links">
+        <a href="index.html">Home</a>
+        <a href="details.html">Details</a>
+        <a href="faq.html">FAQ</a>
+        <a href="rsvp.html">RSVP</a>
+      </div>
+      <p id="footer-text">© 2025 Lincoln High School Reunion.</p>
+    </div>
+  </footer>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const c = REUNION_CONFIG;
+      document.title = `FAQ — ${c.metaTitle}`;
+      document.getElementById('nav-logo').textContent = `${c.schoolName} '${c.year.slice(-2)}`;
+      document.getElementById('contact-btn').href = `mailto:${c.organizerEmail}`;
+      document.getElementById('footer-text').textContent = `© 2025 ${c.schoolName} Reunion.`;
+
+      const list = document.getElementById('faq-list');
+      FAQ_ITEMS.forEach((item, i) => {
+        const el = document.createElement('div');
+        el.className = 'faq-item';
+        el.innerHTML = `
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>${item.q}</span>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M3 6l5 5 5-5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="faq-answer">${item.a}</div>
+        `;
+        list.appendChild(el);
+      });
+    });
+
+    function toggleFaq(btn) {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      // Close all
+      document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+      // Open clicked if it was closed
+      if (!isOpen) item.classList.add('open');
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "name": "reunion-site",
+  "version": "1.0.0",
+  "description": "High school reunion website with Supabase backend and Resend email",
+  "private": true,
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

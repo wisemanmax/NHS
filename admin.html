@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — Reunion</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="js/config.js" defer></script>
+  <!-- Don't index this page -->
+  <meta name="robots" content="noindex, nofollow" />
+</head>
+<body style="background:var(--cream-dark);">
+
+  <!-- LOGIN SCREEN -->
+  <div id="login-screen">
+    <div class="admin-login">
+      <div class="admin-login__box">
+        <div style="font-size:2rem;margin-bottom:0.5rem;">🔒</div>
+        <div class="admin-login__title">Admin Access</div>
+        <div class="admin-login__sub">Enter your credentials to manage signups.</div>
+
+        <div id="login-error" style="display:none;background:rgba(192,57,43,0.08);border:1px solid rgba(192,57,43,0.2);border-radius:var(--radius);padding:0.75rem;font-size:0.85rem;color:var(--error);margin-bottom:1rem;"></div>
+
+        <div class="form-group" style="text-align:left;">
+          <label for="login-email">Email</label>
+          <input type="email" id="login-email" class="form-control" placeholder="organizer@email.com" />
+        </div>
+        <div class="form-group" style="text-align:left;">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" class="form-control" placeholder="••••••••" />
+        </div>
+        <button class="btn btn--primary btn--full" onclick="handleLogin()" id="login-btn">Sign In</button>
+        <p style="font-size:0.78rem;color:var(--text-muted);margin-top:1rem;">
+          First time? <a href="#" onclick="handleMagicLink(event)">Send magic link to email</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN DASHBOARD (hidden until logged in) -->
+  <div id="admin-screen" style="display:none;">
+    <div class="admin-header">
+      <div>
+        <h1 id="admin-title">Reunion Admin</h1>
+        <div style="font-size:0.8rem;color:rgba(255,255,255,0.5);margin-top:0.2rem;" id="admin-subtitle"></div>
+      </div>
+      <div style="display:flex;gap:0.75rem;flex-wrap:wrap;align-items:center;">
+        <button class="btn btn--sm" onclick="openEmailModal()"
+          style="background:var(--gold);color:var(--white);border:none;">
+          📧 Send Email Update
+        </button>
+        <button class="btn btn--sm btn--outline" style="color:var(--white);border-color:rgba(255,255,255,0.3);"
+          onclick="handleLogout()">
+          Sign Out
+        </button>
+      </div>
+    </div>
+
+    <div class="admin-body">
+
+      <!-- Stats -->
+      <div class="admin-stats" id="stats-grid">
+        <div class="admin-stat">
+          <span class="admin-stat__num" id="s-total">—</span>
+          <div class="admin-stat__label">Total RSVPs</div>
+        </div>
+        <div class="admin-stat admin-stat--yes">
+          <span class="admin-stat__num" id="s-yes">—</span>
+          <div class="admin-stat__label">Attending (Yes)</div>
+        </div>
+        <div class="admin-stat admin-stat--maybe">
+          <span class="admin-stat__num" id="s-maybe">—</span>
+          <div class="admin-stat__label">Maybe</div>
+        </div>
+        <div class="admin-stat admin-stat--no">
+          <span class="admin-stat__num" id="s-no">—</span>
+          <div class="admin-stat__label">Not Attending</div>
+        </div>
+        <div class="admin-stat">
+          <span class="admin-stat__num" id="s-email">—</span>
+          <div class="admin-stat__label">Email Opted In</div>
+        </div>
+        <div class="admin-stat">
+          <span class="admin-stat__num" id="s-guests">—</span>
+          <div class="admin-stat__label">Total Guests</div>
+        </div>
+      </div>
+
+      <!-- Controls -->
+      <div class="admin-controls">
+        <input type="text" id="search-input" placeholder="🔍 Search by name or email..."
+          oninput="applyFilters()" />
+        <select id="filter-status" onchange="applyFilters()">
+          <option value="">All statuses</option>
+          <option value="yes">Attending</option>
+          <option value="maybe">Maybe</option>
+          <option value="no">Not attending</option>
+        </select>
+        <select id="filter-year" onchange="applyFilters()">
+          <option value="">All years</option>
+        </select>
+        <select id="filter-optin" onchange="applyFilters()">
+          <option value="">All opt-ins</option>
+          <option value="email">Email opted in</option>
+          <option value="sms">SMS opted in</option>
+        </select>
+        <button class="btn btn--sm btn--navy" onclick="exportCSV()">⬇ Export CSV</button>
+        <button class="btn btn--sm" onclick="loadData()"
+          style="background:var(--cream-dark);border:1px solid var(--border);color:var(--navy);">
+          ↻ Refresh
+        </button>
+      </div>
+
+      <!-- Table -->
+      <div style="overflow-x:auto;">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Status</th>
+              <th>Year</th>
+              <th>Location</th>
+              <th>Guests</th>
+              <th>Opt-ins</th>
+              <th>Source</th>
+              <th>Signed Up</th>
+            </tr>
+          </thead>
+          <tbody id="table-body">
+            <tr><td colspan="10" class="empty-state">Loading...</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div id="table-footer" style="margin-top:0.75rem;font-size:0.82rem;color:var(--text-muted);"></div>
+    </div>
+  </div>
+
+  <!-- EMAIL MODAL -->
+  <div id="email-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:999;align-items:center;justify-content:center;">
+    <div style="background:var(--white);border-radius:var(--radius-lg);padding:2rem;width:100%;max-width:520px;margin:1rem;box-shadow:var(--shadow-lg);">
+      <h3 style="font-family:var(--font-display);font-size:1.4rem;color:var(--navy);margin-bottom:0.5rem;">Send Email Update</h3>
+      <p style="color:var(--text-muted);font-size:0.88rem;margin-bottom:1.5rem;">
+        Sends to all attendees with email opt-in enabled. Review carefully before sending.
+      </p>
+
+      <div class="form-group">
+        <label>Subject Line</label>
+        <input type="text" id="email-subject" class="form-control"
+          placeholder="e.g. Reunion Update — Venue Confirmed!" />
+      </div>
+      <div class="form-group">
+        <label>Message Body</label>
+        <textarea id="email-body" class="form-control" rows="6"
+          placeholder="Write your message here. Keep it friendly and informative!"></textarea>
+      </div>
+
+      <div id="email-status" style="display:none;padding:0.75rem;border-radius:var(--radius);font-size:0.875rem;margin-bottom:1rem;"></div>
+
+      <div style="display:flex;gap:0.75rem;justify-content:flex-end;">
+        <button class="btn btn--sm" onclick="closeEmailModal()"
+          style="background:var(--cream-dark);border:1px solid var(--border);color:var(--navy);">
+          Cancel
+        </button>
+        <button class="btn btn--sm btn--primary" id="send-btn" onclick="sendEmail()">
+          Send to Opted-In List
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+    const c = REUNION_CONFIG;
+    const supabase = createClient(c.supabaseUrl, c.supabaseAnonKey);
+    window._supabase = supabase;
+    window._allData = [];
+
+    // ---- Auth ----
+    async function checkSession() {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) showAdmin();
+    }
+    checkSession();
+
+    window.handleLogin = async function() {
+      const email = document.getElementById('login-email').value.trim();
+      const pw = document.getElementById('login-password').value;
+      const btn = document.getElementById('login-btn');
+      const errEl = document.getElementById('login-error');
+      btn.textContent = 'Signing in...'; btn.disabled = true;
+      errEl.style.display = 'none';
+
+      const { error } = await supabase.auth.signInWithPassword({ email, password: pw });
+      if (error) {
+        errEl.style.display = 'block';
+        errEl.textContent = 'Invalid credentials. Try again or use the magic link option.';
+        btn.textContent = 'Sign In'; btn.disabled = false;
+      } else {
+        showAdmin();
+      }
+    };
+
+    window.handleMagicLink = async function(e) {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value.trim();
+      if (!email) { alert('Enter your email first.'); return; }
+      await supabase.auth.signInWithOtp({ email });
+      alert(`Magic link sent to ${email}. Check your inbox.`);
+    };
+
+    window.handleLogout = async function() {
+      await supabase.auth.signOut();
+      document.getElementById('admin-screen').style.display = 'none';
+      document.getElementById('login-screen').style.display = 'block';
+    };
+
+    // Allow Enter key on login
+    document.getElementById('login-password').addEventListener('keydown', e => {
+      if (e.key === 'Enter') window.handleLogin();
+    });
+
+    function showAdmin() {
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('admin-screen').style.display = 'block';
+      document.getElementById('admin-title').textContent = `${c.schoolName} '${c.year} Admin`;
+      document.getElementById('admin-subtitle').textContent = `Reunion Management Dashboard`;
+      loadData();
+    }
+
+    // ---- Data ----
+    window.loadData = async function() {
+      const tbody = document.getElementById('table-body');
+      tbody.innerHTML = '<tr><td colspan="10" class="empty-state">Loading...</td></tr>';
+
+      const { data, error } = await supabase
+        .from('attendees')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        tbody.innerHTML = `<tr><td colspan="10" class="empty-state" style="color:var(--error);">Error loading data: ${error.message}</td></tr>`;
+        return;
+      }
+
+      window._allData = data || [];
+      updateStats(data);
+      populateYearFilter(data);
+      applyFilters();
+    };
+
+    function updateStats(data) {
+      const yes = data.filter(r => r.attending_status === 'yes').length;
+      const maybe = data.filter(r => r.attending_status === 'maybe').length;
+      const no = data.filter(r => r.attending_status === 'no').length;
+      const emailIn = data.filter(r => r.email_opt_in).length;
+      const guests = data.reduce((sum, r) => sum + (r.guest_count || 0), 0);
+
+      document.getElementById('s-total').textContent = data.length;
+      document.getElementById('s-yes').textContent = yes;
+      document.getElementById('s-maybe').textContent = maybe;
+      document.getElementById('s-no').textContent = no;
+      document.getElementById('s-email').textContent = emailIn;
+      document.getElementById('s-guests').textContent = guests;
+    }
+
+    function populateYearFilter(data) {
+      const years = [...new Set(data.map(r => r.graduation_year).filter(Boolean))].sort();
+      const sel = document.getElementById('filter-year');
+      sel.innerHTML = '<option value="">All years</option>';
+      years.forEach(y => {
+        const o = document.createElement('option');
+        o.value = y; o.textContent = y;
+        sel.appendChild(o);
+      });
+    }
+
+    window.applyFilters = function() {
+      const search = document.getElementById('search-input').value.toLowerCase();
+      const status = document.getElementById('filter-status').value;
+      const year = document.getElementById('filter-year').value;
+      const optin = document.getElementById('filter-optin').value;
+
+      let rows = window._allData.filter(r => {
+        const name = `${r.first_name} ${r.last_name}`.toLowerCase();
+        const email = (r.email || '').toLowerCase();
+        if (search && !name.includes(search) && !email.includes(search)) return false;
+        if (status && r.attending_status !== status) return false;
+        if (year && String(r.graduation_year) !== year) return false;
+        if (optin === 'email' && !r.email_opt_in) return false;
+        if (optin === 'sms' && !r.sms_opt_in) return false;
+        return true;
+      });
+
+      renderTable(rows);
+      document.getElementById('table-footer').textContent =
+        `Showing ${rows.length} of ${window._allData.length} records`;
+    };
+
+    function renderTable(rows) {
+      const tbody = document.getElementById('table-body');
+      if (rows.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="10" class="empty-state">No matching records.</td></tr>';
+        return;
+      }
+      tbody.innerHTML = rows.map((r, i) => {
+        const name = `${r.first_name} ${r.last_name}` + (r.preferred_name ? ` <span style="color:var(--text-muted);font-size:0.8rem;">(${r.preferred_name})</span>` : '');
+        const statusBadge = `<span class="badge badge--${r.attending_status}">${r.attending_status || '?'}</span>`;
+        const optins = [
+          r.email_opt_in ? '<span class="badge badge--email">Email</span>' : '',
+          r.sms_opt_in ? '<span class="badge badge--sms">SMS</span>' : '',
+        ].filter(Boolean).join(' ');
+        const loc = [r.current_city, r.current_state].filter(Boolean).join(', ') || '—';
+        const date = r.created_at ? new Date(r.created_at).toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' }) : '—';
+        return `
+          <tr>
+            <td style="color:var(--text-muted)">${i + 1}</td>
+            <td>${name}</td>
+            <td><a href="mailto:${r.email}" style="color:var(--navy);">${r.email}</a></td>
+            <td>${statusBadge}</td>
+            <td>${r.graduation_year || '—'}</td>
+            <td>${loc}</td>
+            <td>${r.guest_count || 0}</td>
+            <td>${optins || '—'}</td>
+            <td style="color:var(--text-muted);font-size:0.8rem;">${r.signup_source || '—'}</td>
+            <td style="color:var(--text-muted);font-size:0.8rem;white-space:nowrap;">${date}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // ---- CSV Export ----
+    window.exportCSV = function() {
+      const rows = window._allData;
+      if (!rows.length) { showToast('No data to export.', 'error'); return; }
+
+      const headers = [
+        'First Name','Last Name','Preferred Name','Email','Phone',
+        'Graduation Year','City','State','Guests','Status',
+        'Email Opt-In','SMS Opt-In','Comments','Signup Source','Submitted At'
+      ];
+      const lines = [headers.join(',')];
+      rows.forEach(r => {
+        lines.push([
+          r.first_name, r.last_name, r.preferred_name||'', r.email, r.phone||'',
+          r.graduation_year, r.current_city||'', r.current_state||'',
+          r.guest_count||0, r.attending_status,
+          r.email_opt_in?'Yes':'No', r.sms_opt_in?'Yes':'No',
+          (r.comments||'').replace(/,/g,';').replace(/\n/g,' '),
+          r.signup_source||'', r.created_at||''
+        ].map(v => `"${v}"`).join(','));
+      });
+
+      const blob = new Blob([lines.join('\n')], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `reunion-signups-${new Date().toISOString().slice(0,10)}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast(`Exported ${rows.length} records.`);
+    };
+
+    // ---- Email Modal ----
+    window.openEmailModal = function() {
+      document.getElementById('email-modal').style.display = 'flex';
+      document.getElementById('email-status').style.display = 'none';
+    };
+    window.closeEmailModal = function() {
+      document.getElementById('email-modal').style.display = 'none';
+    };
+
+    window.sendEmail = async function() {
+      const subject = document.getElementById('email-subject').value.trim();
+      const body = document.getElementById('email-body').value.trim();
+      const statusEl = document.getElementById('email-status');
+      const btn = document.getElementById('send-btn');
+
+      if (!subject || !body) {
+        statusEl.style.display = 'block';
+        statusEl.style.background = 'rgba(192,57,43,0.08)';
+        statusEl.style.border = '1px solid rgba(192,57,43,0.25)';
+        statusEl.style.color = 'var(--error)';
+        statusEl.textContent = 'Please fill in subject and message.';
+        return;
+      }
+
+      if (!confirm(`Send this email to all opted-in subscribers? This cannot be undone.`)) return;
+
+      btn.textContent = 'Sending...'; btn.disabled = true;
+
+      try {
+        const res = await fetch('/api/send-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ subject, body }),
+        });
+        const result = await res.json();
+        if (!res.ok) throw new Error(result.error || 'Failed to send');
+
+        statusEl.style.display = 'block';
+        statusEl.style.background = 'rgba(29,122,78,0.08)';
+        statusEl.style.border = '1px solid rgba(29,122,78,0.25)';
+        statusEl.style.color = 'var(--success)';
+        statusEl.textContent = `✅ Sent to ${result.count} subscribers.`;
+        btn.textContent = 'Send to Opted-In List'; btn.disabled = false;
+
+        // Log it
+        await window._supabase.from('communication_logs').insert({
+          type: 'email',
+          subject,
+          body,
+          recipient_count: result.count,
+          sent_by: (await supabase.auth.getUser()).data.user?.email,
+          sent_at: new Date().toISOString(),
+        });
+
+      } catch (err) {
+        statusEl.style.display = 'block';
+        statusEl.style.background = 'rgba(192,57,43,0.08)';
+        statusEl.style.border = '1px solid rgba(192,57,43,0.25)';
+        statusEl.style.color = 'var(--error)';
+        statusEl.textContent = `Error: ${err.message}`;
+        btn.textContent = 'Send to Opted-In List'; btn.disabled = false;
+      }
+    };
+
+    window.showToast = function(msg, type = 'success') {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.className = `toast ${type} show`;
+      setTimeout(() => t.classList.remove('show'), 3500);
+    };
+  </script>
+</body>
+</html>
