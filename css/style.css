@@ -529,6 +529,103 @@ textarea.form-control { resize: vertical; min-height: 90px; }
 }
 .form-notice strong { color: var(--navy); }
 
+/* ---- Input with prefix ---- */
+.input-with-prefix {
+  display: flex;
+  align-items: center;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--cream);
+  transition: all var(--transition);
+  overflow: hidden;
+}
+.input-with-prefix:focus-within {
+  border-color: var(--navy);
+  background: var(--white);
+  box-shadow: 0 0 0 3px rgba(26,46,74,0.08);
+}
+.input-prefix {
+  padding: 0.7rem 0 0.7rem 0.95rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  white-space: nowrap;
+  user-select: none;
+  flex-shrink: 0;
+}
+.form-control--prefixed {
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  padding-left: 0.3rem;
+}
+.form-control--prefixed:focus {
+  box-shadow: none !important;
+}
+
+/* ---- Who's Going ---- */
+.whos-going-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+}
+.whos-going-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.2rem 1.3rem;
+  transition: all var(--transition);
+  box-shadow: var(--shadow);
+}
+.whos-going-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--gold);
+}
+.whos-going-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.3rem;
+}
+.whos-going-card__name {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--navy);
+}
+.whos-going-card__status {
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+.whos-going-card__location {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+.whos-going-card__socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--border);
+}
+.whos-going__social {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color var(--transition);
+}
+.whos-going__social:hover {
+  color: var(--gold);
+}
+.whos-going__social svg {
+  flex-shrink: 0;
+}
+
 /* ---- Toast / Alert ---- */
 .toast {
   position: fixed;
@@ -908,6 +1005,7 @@ footer a:hover { color: var(--white); }
   .admin-controls { flex-direction: column; align-items: stretch; }
   .admin-table { font-size: 0.8rem; }
   .admin-table th:nth-child(n+5), .admin-table td:nth-child(n+5) { display: none; }
+  .whos-going-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
   .form-section { padding: 1.75rem; }
   .admin-tabs { padding: 0 0.75rem; }
   .admin-tab { padding: 0.75rem 1.2rem; font-size: 0.82rem; }

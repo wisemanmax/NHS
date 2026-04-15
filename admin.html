@@ -131,6 +131,7 @@
               <th>Name</th>
               <th>Email</th>
               <th>Status</th>
+              <th>Socials</th>
               <th>Year</th>
               <th>Location</th>
               <th>Guests</th>
@@ -140,7 +141,7 @@
             </tr>
           </thead>
           <tbody id="table-body">
-            <tr><td colspan="10" class="empty-state">Loading...</td></tr>
+            <tr><td colspan="11" class="empty-state">Loading...</td></tr>
           </tbody>
         </table>
       </div>
@@ -409,7 +410,7 @@
     // ---- Data ----
     window.loadData = async function() {
       const tbody = document.getElementById('table-body');
-      tbody.innerHTML = '<tr><td colspan="10" class="empty-state">Loading...</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="11" class="empty-state">Loading...</td></tr>';
 
       const { data, error } = await supabase
         .from('attendees')
@@ -417,7 +418,7 @@
         .order('created_at', { ascending: false });
 
       if (error) {
-        tbody.innerHTML = `<tr><td colspan="10" class="empty-state" style="color:var(--error);">Error loading data: ${error.message}</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="11" class="empty-state" style="color:var(--error);">Error loading data: ${error.message}</td></tr>`;
         return;
       }
 
@@ -478,12 +479,17 @@
     function renderTable(rows) {
       const tbody = document.getElementById('table-body');
       if (rows.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="10" class="empty-state">No matching records.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="11" class="empty-state">No matching records.</td></tr>';
         return;
       }
       tbody.innerHTML = rows.map((r, i) => {
         const name = `${r.first_name} ${r.last_name}` + (r.preferred_name ? ` <span style="color:var(--text-muted);font-size:0.8rem;">(${r.preferred_name})</span>` : '');
         const statusBadge = `<span class="badge badge--${r.attending_status}">${r.attending_status || '?'}</span>`;
+        const socials = [
+          r.instagram ? `<span style="font-size:0.78rem;">IG: @${r.instagram}</span>` : '',
+          r.twitter ? `<span style="font-size:0.78rem;">X: @${r.twitter}</span>` : '',
+          r.linkedin ? `<span style="font-size:0.78rem;">LI: ${r.linkedin}</span>` : '',
+        ].filter(Boolean).join('<br>') || '—';
         const optins = [
           r.email_opt_in ? '<span class="badge badge--email">Email</span>' : '',
           r.sms_opt_in ? '<span class="badge badge--sms">SMS</span>' : '',
@@ -496,6 +502,7 @@
             <td>${name}</td>
             <td><a href="mailto:${r.email}" style="color:var(--navy);">${r.email}</a></td>
             <td>${statusBadge}</td>
+            <td>${socials}</td>
             <td>${r.graduation_year || '—'}</td>
             <td>${loc}</td>
             <td>${r.guest_count || 0}</td>
@@ -514,6 +521,7 @@
 
       const headers = [
         'First Name','Last Name','Preferred Name','Email','Phone',
+        'Instagram','Twitter','LinkedIn',
         'Graduation Year','City','State','Guests','Status',
         'Email Opt-In','SMS Opt-In','Comments','Signup Source','Submitted At'
       ];
@@ -521,6 +529,7 @@
       rows.forEach(r => {
         lines.push([
           r.first_name, r.last_name, r.preferred_name||'', r.email, r.phone||'',
+          r.instagram||'', r.twitter||'', r.linkedin||'',
           r.graduation_year, r.current_city||'', r.current_state||'',
           r.guest_count||0, r.attending_status,
           r.email_opt_in?'Yes':'No', r.sms_opt_in?'Yes':'No',

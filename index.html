@@ -127,6 +127,24 @@
     </div>
   </div>
 
+  <!-- WHO'S GOING -->
+  <section id="whos-going-section" style="display:none;">
+    <div class="container">
+      <div style="text-align:center;">
+        <span class="section-label">The List</span>
+        <h2 class="section-title">Who's Going</h2>
+        <hr class="divider divider--center" />
+        <p style="color:var(--text-muted); margin-bottom:2.5rem;">
+          See who's already signed up. Add your name to the list!
+        </p>
+      </div>
+      <div class="whos-going-grid" id="whos-going-list"></div>
+      <div style="text-align:center; margin-top:2rem;">
+        <a href="rsvp.html" class="btn btn--primary">Join the List</a>
+      </div>
+    </div>
+  </section>
+
   <!-- CTA -->
   <section style="text-align:center; background: var(--cream-dark);">
     <div class="container--narrow">
@@ -218,12 +236,14 @@
 
       // Load signup stats from Supabase (public count only)
       loadStats();
+      loadWhosGoing();
     });
 
     async function loadStats() {
       try {
         const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm');
         const sb = createClient(REUNION_CONFIG.supabaseUrl, REUNION_CONFIG.supabaseAnonKey);
+        window._sb = sb;
         const { data, error } = await sb.from('attendees').select('attending_status');
         if (error || !data) return;
         const total = data.length;
@@ -233,6 +253,57 @@
         document.getElementById('stat-yes').textContent = yes;
         document.getElementById('stat-maybe').textContent = maybe;
       } catch (e) { /* Stats are nice-to-have, fail silently */ }
+    }
+
+    async function loadWhosGoing() {
+      try {
+        const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm');
+        const sb = window._sb || createClient(REUNION_CONFIG.supabaseUrl, REUNION_CONFIG.supabaseAnonKey);
+        const { data, error } = await sb.rpc('get_whos_going');
+        if (error || !data || data.length === 0) return;
+
+        const section = document.getElementById('whos-going-section');
+        const list = document.getElementById('whos-going-list');
+        section.style.display = 'block';
+
+        list.innerHTML = data.map(person => {
+          const name = person.preferred_name || person.first_name;
+          const displayName = `${name} ${person.last_initial}.`;
+          const loc = [person.current_city, person.current_state].filter(Boolean).join(', ');
+          const statusIcon = person.attending_status === 'yes' ? '✅' : '🤔';
+
+          const socials = [];
+          if (person.instagram) {
+            socials.push(`<a href="https://instagram.com/${person.instagram}" target="_blank" rel="noopener" class="whos-going__social" title="Instagram">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+              @${person.instagram}
+            </a>`);
+          }
+          if (person.twitter) {
+            socials.push(`<a href="https://x.com/${person.twitter}" target="_blank" rel="noopener" class="whos-going__social" title="X / Twitter">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+              @${person.twitter}
+            </a>`);
+          }
+          if (person.linkedin) {
+            socials.push(`<a href="https://linkedin.com/in/${person.linkedin}" target="_blank" rel="noopener" class="whos-going__social" title="LinkedIn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+              ${person.linkedin}
+            </a>`);
+          }
+
+          return `
+            <div class="whos-going-card fade-up">
+              <div class="whos-going-card__header">
+                <span class="whos-going-card__name">${displayName}</span>
+                <span class="whos-going-card__status" title="${person.attending_status === 'yes' ? 'Attending' : 'Maybe'}">${statusIcon}</span>
+              </div>
+              ${loc ? `<div class="whos-going-card__location">${loc}</div>` : ''}
+              ${socials.length ? `<div class="whos-going-card__socials">${socials.join('')}</div>` : ''}
+            </div>
+          `;
+        }).join('');
+      } catch (e) { /* Who's Going is nice-to-have, fail silently */ }
     }
   </script>
 </body>
