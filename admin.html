@@ -56,7 +56,18 @@
       </div>
     </div>
 
-    <div class="admin-body">
+    <!-- TAB NAVIGATION -->
+    <div class="admin-tabs">
+      <button class="admin-tab active" data-tab="rsvps" onclick="switchTab('rsvps')">
+        RSVPs &amp; Signups
+      </button>
+      <button class="admin-tab" data-tab="settings" onclick="switchTab('settings')">
+        Event Settings
+      </button>
+    </div>
+
+    <!-- ====== TAB: RSVPs ====== -->
+    <div class="admin-body" id="tab-rsvps">
 
       <!-- Stats -->
       <div class="admin-stats" id="stats-grid">
@@ -135,6 +146,153 @@
       </div>
       <div id="table-footer" style="margin-top:0.75rem;font-size:0.82rem;color:var(--text-muted);"></div>
     </div>
+
+    <!-- ====== TAB: Event Settings ====== -->
+    <div class="admin-body" id="tab-settings" style="display:none;">
+
+      <div class="settings-banner">
+        Changes you save here will be pushed to GitHub and your live site will update automatically within ~1 minute.
+      </div>
+
+      <!-- Event Info Section -->
+      <div class="settings-section">
+        <h3 class="settings-section__title">Event Information</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="cfg-schoolName">School Name</label>
+            <input type="text" id="cfg-schoolName" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label for="cfg-reunionTitle">Reunion Title</label>
+            <input type="text" id="cfg-reunionTitle" class="form-control" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="cfg-year">Graduation Year</label>
+            <input type="text" id="cfg-year" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label for="cfg-mascot">Mascot</label>
+            <input type="text" id="cfg-mascot" class="form-control" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="cfg-tagline">Tagline</label>
+          <input type="text" id="cfg-tagline" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label for="cfg-description">Event Description</label>
+          <textarea id="cfg-description" class="form-control" rows="3"></textarea>
+        </div>
+      </div>
+
+      <!-- Date & Venue Section -->
+      <div class="settings-section">
+        <h3 class="settings-section__title">Date &amp; Venue</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="cfg-eventDate">Event Date <span class="optional">(ISO format, or leave blank for TBD)</span></label>
+            <input type="datetime-local" id="cfg-eventDate" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label for="cfg-eventDateDisplay">Display Date <span class="optional">(how it appears on the site)</span></label>
+            <input type="text" id="cfg-eventDateDisplay" class="form-control" placeholder="e.g. August 15, 2026" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="cfg-eventTime">Event Time</label>
+          <input type="text" id="cfg-eventTime" class="form-control" placeholder="e.g. 6:00 PM – 11:00 PM" />
+        </div>
+        <div class="form-group">
+          <label for="cfg-venueName">Venue Name</label>
+          <input type="text" id="cfg-venueName" class="form-control" placeholder="e.g. The Grand Ballroom (or TBA)" />
+        </div>
+        <div class="form-group">
+          <label for="cfg-venueAddress">Venue Address</label>
+          <input type="text" id="cfg-venueAddress" class="form-control" placeholder="e.g. 123 Main Street, Newark, NJ" />
+        </div>
+        <div class="form-group">
+          <label for="cfg-venueMapLink">Google Maps Link <span class="optional">(optional)</span></label>
+          <input type="url" id="cfg-venueMapLink" class="form-control" placeholder="https://maps.google.com/..." />
+        </div>
+      </div>
+
+      <!-- Event Details Section -->
+      <div class="settings-section">
+        <h3 class="settings-section__title">Event Details</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="cfg-dresscode">Dress Code</label>
+            <input type="text" id="cfg-dresscode" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label for="cfg-ageRestriction">Age Restriction</label>
+            <input type="text" id="cfg-ageRestriction" class="form-control" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="cfg-ticketInfo">Ticket / Cost Info</label>
+          <input type="text" id="cfg-ticketInfo" class="form-control" />
+        </div>
+      </div>
+
+      <!-- Contact Section -->
+      <div class="settings-section">
+        <h3 class="settings-section__title">Organizer Contact</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="cfg-organizerName">Organizer Name</label>
+            <input type="text" id="cfg-organizerName" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label for="cfg-organizerEmail">Organizer Email</label>
+            <input type="email" id="cfg-organizerEmail" class="form-control" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="cfg-facebookGroup">Facebook Group URL <span class="optional">(optional)</span></label>
+          <input type="url" id="cfg-facebookGroup" class="form-control" placeholder="https://facebook.com/groups/..." />
+        </div>
+      </div>
+
+      <!-- SEO / Sharing Section -->
+      <div class="settings-section">
+        <h3 class="settings-section__title">SEO &amp; Social Sharing</h3>
+        <div class="form-group">
+          <label for="cfg-metaTitle">Page Title <span class="optional">(for search engines)</span></label>
+          <input type="text" id="cfg-metaTitle" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label for="cfg-metaDescription">Meta Description</label>
+          <textarea id="cfg-metaDescription" class="form-control" rows="2"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="cfg-metaImage">Share Image URL <span class="optional">(optional)</span></label>
+          <input type="url" id="cfg-metaImage" class="form-control" placeholder="https://..." />
+        </div>
+      </div>
+
+      <!-- FAQ Editor Section -->
+      <div class="settings-section">
+        <h3 class="settings-section__title">
+          FAQ Items
+          <button class="btn btn--sm btn--navy" onclick="addFaqItem()" style="float:right;margin-top:-0.25rem;">
+            + Add Question
+          </button>
+        </h3>
+        <div id="faq-editor"></div>
+      </div>
+
+      <!-- Save Bar -->
+      <div class="settings-save-bar">
+        <div id="save-status" class="settings-save-status"></div>
+        <button class="btn btn--primary" id="save-config-btn" onclick="saveConfig()">
+          Save &amp; Publish Changes
+        </button>
+      </div>
+
+    </div>
   </div>
 
   <!-- EMAIL MODAL -->
@@ -179,6 +337,22 @@
     const supabase = createClient(c.supabaseUrl, c.supabaseAnonKey);
     window._supabase = supabase;
     window._allData = [];
+
+    // ---- Tab switching ----
+    window.switchTab = function(tabName) {
+      // Toggle tab buttons
+      document.querySelectorAll('.admin-tab').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.tab === tabName);
+      });
+      // Toggle tab content
+      document.getElementById('tab-rsvps').style.display = tabName === 'rsvps' ? 'block' : 'none';
+      document.getElementById('tab-settings').style.display = tabName === 'settings' ? 'block' : 'none';
+
+      // Load current config into form when switching to settings
+      if (tabName === 'settings') {
+        populateSettingsForm();
+      }
+    };
 
     // ---- Auth ----
     async function checkSession() {
@@ -406,7 +580,7 @@
         statusEl.style.background = 'rgba(29,122,78,0.08)';
         statusEl.style.border = '1px solid rgba(29,122,78,0.25)';
         statusEl.style.color = 'var(--success)';
-        statusEl.textContent = `✅ Sent to ${result.count} subscribers.`;
+        statusEl.textContent = `Sent to ${result.count} subscribers.`;
         btn.textContent = 'Send to Opted-In List'; btn.disabled = false;
 
         // Log it
@@ -428,6 +602,178 @@
         btn.textContent = 'Send to Opted-In List'; btn.disabled = false;
       }
     };
+
+    // ---- Settings: Populate form from current config ----
+    window.populateSettingsForm = function() {
+      const fields = [
+        'schoolName', 'reunionTitle', 'year', 'mascot', 'tagline', 'description',
+        'eventDateDisplay', 'eventTime', 'venueName', 'venueAddress', 'venueMapLink',
+        'dresscode', 'ticketInfo', 'ageRestriction',
+        'organizerName', 'organizerEmail', 'facebookGroup',
+        'metaTitle', 'metaDescription', 'metaImage'
+      ];
+
+      fields.forEach(field => {
+        const el = document.getElementById('cfg-' + field);
+        if (el) el.value = c[field] || '';
+      });
+
+      // Handle eventDate separately (datetime-local format)
+      const dateEl = document.getElementById('cfg-eventDate');
+      if (dateEl && c.eventDate) {
+        // Convert ISO to datetime-local format (YYYY-MM-DDTHH:MM)
+        dateEl.value = c.eventDate.slice(0, 16);
+      }
+
+      // Populate FAQ editor
+      renderFaqEditor();
+
+      // Clear save status
+      const statusEl = document.getElementById('save-status');
+      statusEl.textContent = '';
+      statusEl.className = 'settings-save-status';
+    };
+
+    // ---- Settings: FAQ Editor ----
+    window._faqItems = typeof FAQ_ITEMS !== 'undefined' ? JSON.parse(JSON.stringify(FAQ_ITEMS)) : [];
+
+    window.renderFaqEditor = function() {
+      const container = document.getElementById('faq-editor');
+      if (window._faqItems.length === 0) {
+        container.innerHTML = '<p style="color:var(--text-muted);font-size:0.9rem;">No FAQ items yet. Click "+ Add Question" to create one.</p>';
+        return;
+      }
+
+      container.innerHTML = window._faqItems.map((item, i) => `
+        <div class="faq-edit-item" data-index="${i}">
+          <div class="faq-edit-header">
+            <span class="faq-edit-num">#${i + 1}</span>
+            <button class="faq-edit-remove" onclick="removeFaqItem(${i})" title="Remove this question">
+              &times;
+            </button>
+          </div>
+          <div class="form-group">
+            <label>Question</label>
+            <input type="text" class="form-control faq-q" data-index="${i}" value="${escapeAttr(item.q)}" />
+          </div>
+          <div class="form-group">
+            <label>Answer</label>
+            <textarea class="form-control faq-a" data-index="${i}" rows="2">${escapeHtml(item.a)}</textarea>
+          </div>
+        </div>
+      `).join('');
+
+      // Attach input listeners to sync with _faqItems
+      container.querySelectorAll('.faq-q').forEach(input => {
+        input.addEventListener('input', (e) => {
+          window._faqItems[parseInt(e.target.dataset.index)].q = e.target.value;
+        });
+      });
+      container.querySelectorAll('.faq-a').forEach(input => {
+        input.addEventListener('input', (e) => {
+          window._faqItems[parseInt(e.target.dataset.index)].a = e.target.value;
+        });
+      });
+    };
+
+    window.addFaqItem = function() {
+      window._faqItems.push({ q: '', a: '' });
+      renderFaqEditor();
+      // Scroll to the new item
+      const container = document.getElementById('faq-editor');
+      const lastItem = container.querySelector('.faq-edit-item:last-child');
+      if (lastItem) lastItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    };
+
+    window.removeFaqItem = function(index) {
+      if (!confirm('Remove this FAQ item?')) return;
+      window._faqItems.splice(index, 1);
+      renderFaqEditor();
+    };
+
+    // ---- Settings: Save & Push ----
+    window.saveConfig = async function() {
+      const btn = document.getElementById('save-config-btn');
+      const statusEl = document.getElementById('save-status');
+
+      // Gather config values
+      const fields = [
+        'schoolName', 'reunionTitle', 'year', 'mascot', 'tagline', 'description',
+        'eventDateDisplay', 'eventTime', 'venueName', 'venueAddress', 'venueMapLink',
+        'dresscode', 'ticketInfo', 'ageRestriction',
+        'organizerName', 'organizerEmail', 'facebookGroup',
+        'metaTitle', 'metaDescription', 'metaImage'
+      ];
+
+      const config = {};
+      fields.forEach(field => {
+        const el = document.getElementById('cfg-' + field);
+        config[field] = el ? el.value : '';
+      });
+
+      // Handle eventDate
+      const dateVal = document.getElementById('cfg-eventDate').value;
+      config.eventDate = dateVal ? dateVal + ':00' : null; // Add seconds for ISO format
+
+      // Validate required fields
+      if (!config.schoolName.trim() || !config.reunionTitle.trim() || !config.year.trim()) {
+        statusEl.textContent = 'School name, reunion title, and year are required.';
+        statusEl.className = 'settings-save-status error';
+        return;
+      }
+
+      // Sync FAQ from the editor inputs
+      const faq = window._faqItems.filter(item => item.q.trim() || item.a.trim());
+
+      btn.textContent = 'Saving...';
+      btn.disabled = true;
+      statusEl.textContent = 'Pushing changes to GitHub...';
+      statusEl.className = 'settings-save-status saving';
+
+      try {
+        // Get auth token
+        const { data: { session } } = await supabase.auth.getSession();
+        if (!session) throw new Error('Session expired. Please sign in again.');
+
+        const res = await fetch('/api/update-config', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${session.access_token}`,
+          },
+          body: JSON.stringify({ config, faq }),
+        });
+
+        const result = await res.json();
+
+        if (!res.ok) {
+          throw new Error(result.error || 'Failed to save');
+        }
+
+        statusEl.innerHTML = `Changes published! Your site will update in about a minute.${result.commitUrl ? ` <a href="${result.commitUrl}" target="_blank" style="color:var(--success);text-decoration:underline;">View commit</a>` : ''}`;
+        statusEl.className = 'settings-save-status success';
+
+        showToast('Event settings saved and published!');
+
+      } catch (err) {
+        statusEl.textContent = `Error: ${err.message}`;
+        statusEl.className = 'settings-save-status error';
+        showToast(`Save failed: ${err.message}`, 'error');
+      } finally {
+        btn.textContent = 'Save & Publish Changes';
+        btn.disabled = false;
+      }
+    };
+
+    // ---- Helpers ----
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+    function escapeAttr(str) {
+      if (!str) return '';
+      return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
 
     window.showToast = function(msg, type = 'success') {
       const t = document.getElementById('toast');

@@ -18,6 +18,8 @@
     "RESEND_API_KEY": "@resend_api_key",
     "FROM_NAME": "@from_name",
     "FROM_EMAIL": "@from_email",
-    "SITE_URL": "@site_url"
+    "SITE_URL": "@site_url",
+    "GITHUB_TOKEN": "@github_token",
+    "GITHUB_REPO": "@github_repo"
   }
 }
