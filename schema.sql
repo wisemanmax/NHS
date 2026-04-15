@@ -18,6 +18,11 @@ CREATE TABLE IF NOT EXISTS attendees (
   email            TEXT NOT NULL,
   phone            TEXT,
 
+  -- Social media (optional, displayed on "Who's Going" list)
+  instagram        TEXT,
+  twitter          TEXT,
+  linkedin         TEXT,
+
   -- Event-specific
   graduation_year  SMALLINT,
   current_city     TEXT,
@@ -115,6 +120,39 @@ GRANT EXECUTE ON FUNCTION get_public_stats() TO anon;
 
 
 -- ============================================================
+-- WHO'S GOING — Public attendee list
+-- Returns first name, last initial, and social handles only
+-- No email, phone, or other PII exposed
+-- ============================================================
+CREATE OR REPLACE FUNCTION get_whos_going()
+RETURNS JSON
+LANGUAGE plpgsql SECURITY DEFINER AS $$
+DECLARE result JSON;
+BEGIN
+  SELECT json_agg(row_to_json(t)) INTO result
+  FROM (
+    SELECT
+      first_name,
+      LEFT(last_name, 1) AS last_initial,
+      preferred_name,
+      instagram,
+      twitter,
+      linkedin,
+      current_city,
+      current_state,
+      attending_status
+    FROM attendees
+    WHERE attending_status IN ('yes', 'maybe')
+    ORDER BY created_at DESC
+  ) t;
+  RETURN COALESCE(result, '[]'::json);
+END;
+$$;
+
+GRANT EXECUTE ON FUNCTION get_whos_going() TO anon;
+
+
+-- ============================================================
 -- DUPLICATE EMAIL CHECK (optional stored procedure)
 -- Called before insert to give a friendlier error
 -- ============================================================
@@ -143,11 +181,11 @@ GRANT EXECUTE ON FUNCTION check_email_exists(TEXT) TO anon;
 -- ============================================================
 /*
 INSERT INTO attendees
-  (first_name, last_name, email, phone, graduation_year, current_city, current_state, guest_count, attending_status, email_opt_in, sms_opt_in, signup_source)
+  (first_name, last_name, email, phone, instagram, twitter, linkedin, graduation_year, current_city, current_state, guest_count, attending_status, email_opt_in, sms_opt_in, signup_source)
 VALUES
-  ('Sarah',  'Mitchell', 'sarah@example.com', '(555) 111-2222', 2005, 'Chicago',    'IL', 1, 'yes',   true, false, 'facebook'),
-  ('Marcus', 'Hayes',    'marcus@example.com', null,            2005, 'Austin',     'TX', 0, 'yes',   true, true,  'direct'),
-  ('Priya',  'Sharma',   'priya@example.com',  null,            2005, 'New York',   'NY', 2, 'maybe', true, false, 'facebook'),
-  ('James',  'Torres',   'james@example.com',  '(555) 999-0000',2004, 'Springfield','IL', 0, 'no',    true, false, 'direct'),
-  ('Nia',    'Johnson',  'nia@example.com',    null,            2005, 'Atlanta',    'GA', 1, 'yes',   true, true,  'facebook');
+  ('Sarah',  'Mitchell', 'sarah@example.com', '(555) 111-2222', 'sarah.mitchell', null,          'sarahmitchell', 2005, 'Chicago',    'IL', 1, 'yes',   true, false, 'facebook'),
+  ('Marcus', 'Hayes',    'marcus@example.com', null,             'marc_hayes',     'marchayes',   null,            2005, 'Austin',     'TX', 0, 'yes',   true, true,  'direct'),
+  ('Priya',  'Sharma',   'priya@example.com',  null,             null,             'priyasharma', 'priyasharma',   2005, 'New York',   'NY', 2, 'maybe', true, false, 'facebook'),
+  ('James',  'Torres',   'james@example.com',  '(555) 999-0000', null,             null,          null,            2004, 'Springfield','IL', 0, 'no',    true, false, 'direct'),
+  ('Nia',    'Johnson',  'nia@example.com',    null,             'niaj',           null,          'niajohnson',    2005, 'Atlanta',    'GA', 1, 'yes',   true, true,  'facebook');
 */

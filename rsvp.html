@@ -88,6 +88,41 @@
 
           <hr class="form-divider" />
 
+          <!-- Social Media -->
+          <h3 style="font-family:var(--font-display);font-size:1.1rem;color:var(--navy);margin-bottom:1.2rem;">
+            Social Media <span class="optional" style="font-family:var(--font-body);font-size:0.82rem;">(optional — shown on the "Who's Going" list)</span>
+          </h3>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="instagram">Instagram <span class="optional">(optional)</span></label>
+              <div class="input-with-prefix">
+                <span class="input-prefix">@</span>
+                <input type="text" id="instagram" name="instagram" class="form-control form-control--prefixed"
+                  placeholder="yourhandle" autocomplete="off" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="twitter">X / Twitter <span class="optional">(optional)</span></label>
+              <div class="input-with-prefix">
+                <span class="input-prefix">@</span>
+                <input type="text" id="twitter" name="twitter" class="form-control form-control--prefixed"
+                  placeholder="yourhandle" autocomplete="off" />
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="linkedin">LinkedIn <span class="optional">(optional)</span></label>
+            <div class="input-with-prefix">
+              <span class="input-prefix">linkedin.com/in/</span>
+              <input type="text" id="linkedin" name="linkedin" class="form-control form-control--prefixed"
+                placeholder="yourname" autocomplete="off" />
+            </div>
+          </div>
+
+          <hr class="form-divider" />
+
           <!-- Event info -->
           <h3 style="font-family:var(--font-display);font-size:1.1rem;color:var(--navy);margin-bottom:1.2rem;">
             Reunion Info
@@ -302,12 +337,18 @@
 
       const f = document.getElementById('rsvp-form');
 
+      // Strip leading @ from social handles
+      const cleanHandle = (val) => val.trim().replace(/^@/, '') || null;
+
       const payload = {
         first_name: f.first_name.value.trim(),
         last_name: f.last_name.value.trim(),
         preferred_name: f.preferred_name.value.trim() || null,
         email: f.email.value.trim().toLowerCase(),
         phone: f.phone.value.trim() || null,
+        instagram: cleanHandle(f.instagram.value),
+        twitter: cleanHandle(f.twitter.value),
+        linkedin: f.linkedin.value.trim() || null,
         graduation_year: parseInt(f.graduation_year.value, 10),
         current_city: f.current_city.value.trim() || null,
         current_state: f.current_state.value || null,
