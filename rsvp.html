@@ -3,26 +3,44 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RSVP</title>
+  <meta name="theme-color" content="#1A1A1A" />
+  <title>RSVP — Newark High School Class of 2016 Reunion</title>
+  <meta name="description" content="RSVP for the Newark High School Class of 2016 ten-year reunion. Free, takes under 60 seconds." />
+  <link rel="canonical" id="canonical" href="https://newark2016.com/rsvp.html" />
+  <meta property="og:title" id="og-title" content="" />
+  <meta property="og:description" id="og-desc" content="" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" id="og-url" content="" />
+  <meta property="og:image" id="og-image" content="" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" type="image/svg+xml" href="images/logo.svg" />
+  <script src="/api/env.js"></script>
   <script src="js/config.js" defer></script>
 </head>
 <body>
 
-  <nav class="nav">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <nav class="nav" aria-label="Primary">
     <div class="nav__inner">
-      <a class="nav__logo" href="index.html" id="nav-logo"><img src="images/logo.svg" alt="NHS" class="nav__logo-img" />Reunion</a>
-      <button class="nav__hamburger" onclick="document.getElementById('nav-links').classList.toggle('open')" aria-label="Menu">
+      <a class="nav__logo" href="index.html" id="nav-logo"><img src="images/logo.svg" alt="" class="nav__logo-img" />Reunion</a>
+      <button class="nav__hamburger" onclick="toggleNav()" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-links">
         <span></span><span></span><span></span>
       </button>
       <ul class="nav__links" id="nav-links">
         <li><a href="index.html">Home</a></li>
         <li><a href="details.html">Event Details</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
         <li><a href="faq.html">FAQ</a></li>
-        <li><a href="rsvp.html" class="nav__cta active">RSVP Now</a></li>
+        <li><a href="rsvp.html" class="nav__cta active" aria-current="page">RSVP Now</a></li>
       </ul>
     </div>
   </nav>
+
+  <main id="main">
 
   <div class="page-hero">
     <span class="page-hero__eyebrow">Count Me In</span>
@@ -234,13 +252,17 @@
     </div>
   </section>
 
+  </main>
+
   <footer>
     <div class="footer__inner">
       <div class="footer__links">
         <a href="index.html">Home</a>
         <a href="details.html">Details</a>
+        <a href="gallery.html">Gallery</a>
         <a href="faq.html">FAQ</a>
         <a href="rsvp.html">RSVP</a>
+        <a href="privacy.html">Privacy</a>
       </div>
       <p id="footer-text">© 2026 Newark High School Reunion.</p>
     </div>
@@ -254,8 +276,25 @@
     const c = REUNION_CONFIG;
     let supabase;
 
+    window.toggleNav = function() {
+      const links = document.getElementById('nav-links');
+      const btn = document.querySelector('.nav__hamburger');
+      const open = links.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    };
+
     window.addEventListener('DOMContentLoaded', () => {
+      const baseUrl = (c.siteUrl || window.location.origin).replace(/\/$/, '');
+      const url = baseUrl + '/rsvp.html';
+      const ogImg = c.metaImage && /^https?:/.test(c.metaImage) ? c.metaImage : baseUrl + '/' + (c.metaImage || 'images/og-cover.jpg');
+
       document.title = `RSVP — ${c.metaTitle}`;
+      document.getElementById('canonical').setAttribute('href', url);
+      document.getElementById('og-title').setAttribute('content', `RSVP — ${c.metaTitle}`);
+      document.getElementById('og-desc').setAttribute('content', c.metaDescription);
+      document.getElementById('og-url').setAttribute('content', url);
+      document.getElementById('og-image').setAttribute('content', ogImg);
+
       const navLogo = document.getElementById('nav-logo');
       const logoImg = navLogo.querySelector('img');
       navLogo.textContent = '';
@@ -327,11 +366,17 @@
     // ---- Submit ----
     async function handleSubmit(e) {
       e.preventDefault();
-      if (!validate()) return;
+      if (!validate()) {
+        // Focus the first invalid field for accessibility
+        const firstError = document.querySelector('.form-control.error');
+        if (firstError) firstError.focus();
+        return;
+      }
 
       const btn = document.getElementById('submit-btn');
       const errBox = document.getElementById('form-submit-error');
-      btn.textContent = 'Submitting...';
+      btn.textContent = 'Submitting';
+      btn.setAttribute('aria-busy', 'true');
       btn.disabled = true;
       errBox.style.display = 'none';
 
@@ -373,6 +418,7 @@
           errBox.style.display = 'block';
           errBox.textContent = 'This email is already registered! Check your inbox for your original confirmation.';
           btn.textContent = 'Submit RSVP';
+          btn.removeAttribute('aria-busy');
           btn.disabled = false;
           return;
         }
@@ -380,6 +426,19 @@
         const { error } = await supabase.from('attendees').insert(payload);
 
         if (error) throw error;
+
+        // Fire-and-forget confirmation email (don't block on failure)
+        try {
+          fetch('/api/rsvp-confirm', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              email: payload.email,
+              first_name: payload.first_name,
+              attending_status: payload.attending_status,
+            }),
+          }).catch(() => {});
+        } catch (e) { /* nbd */ }
 
         // Success — redirect to confirmation page
         sessionStorage.setItem('rsvp_name', payload.first_name);
@@ -394,17 +453,33 @@
           ? 'This email is already registered.'
           : 'Something went wrong. Please try again or contact the organizer.';
         btn.textContent = 'Submit RSVP';
+        btn.removeAttribute('aria-busy');
         btn.disabled = false;
       }
     }
 
-    // Real-time validation on blur
+    // Real-time validation on blur — actually validate, not just clear
     window.addEventListener('DOMContentLoaded', () => {
-      ['first_name','last_name','email','graduation_year','attending_status'].forEach(id => {
+      const f = () => document.getElementById('rsvp-form');
+      const checks = {
+        first_name:       (v) => v.trim().length > 0,
+        last_name:        (v) => v.trim().length > 0,
+        email:            (v) => validateEmail(v.trim()),
+        graduation_year:  (v) => v !== '',
+        attending_status: (v) => v !== '',
+      };
+      Object.entries(checks).forEach(([id, ok]) => {
         const el = document.getElementById(id);
-        if (el) el.addEventListener('blur', () => {
-          el.classList.remove('error');
-          document.getElementById('err-' + id)?.classList.remove('visible');
+        if (!el) return;
+        el.addEventListener('blur', () => {
+          if (el.value === '') return; // don't show errors on empty unblurred fields
+          validateField(id, ok(el.value), 'err-' + id);
+        });
+        el.addEventListener('input', () => {
+          if (el.classList.contains('error') && ok(el.value)) {
+            el.classList.remove('error');
+            document.getElementById('err-' + id)?.classList.remove('visible');
+          }
         });
       });
     });

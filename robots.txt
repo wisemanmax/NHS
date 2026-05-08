@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /success.html
+Disallow: /api/
+
+Sitemap: https://newark2016.com/sitemap.xml

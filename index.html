@@ -3,35 +3,65 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title id="page-title">Class Reunion</title>
-  <meta name="description" id="page-desc" content="" />
-  <!-- Open Graph -->
+  <meta name="theme-color" content="#1A1A1A" />
+
+  <title id="page-title">Newark High School Class of 2016 — 10 Year Reunion</title>
+  <meta name="description" id="page-desc" content="Join us for the Newark High School Class of 2016 Ten Year Reunion. RSVP now — it's free!" />
+  <link rel="canonical" id="canonical" href="https://newark2016.com/" />
+
+  <!-- Open Graph / Twitter -->
   <meta property="og:title" id="og-title" content="" />
   <meta property="og:description" id="og-desc" content="" />
   <meta property="og:type" content="website" />
+  <meta property="og:url" id="og-url" content="" />
+  <meta property="og:image" id="og-image" content="" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" id="tw-title" content="" />
+  <meta name="twitter:description" id="tw-desc" content="" />
+  <meta name="twitter:image" id="tw-image" content="" />
+
+  <!-- Performance: preload key fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" type="image/svg+xml" href="images/logo.svg" />
+  <script src="/api/env.js"></script>
   <script src="js/config.js" defer></script>
+
+  <!-- JSON-LD Event schema (populated at runtime from config) -->
+  <script type="application/ld+json" id="event-schema"></script>
 </head>
 <body>
 
+  <a class="skip-link" href="#main">Skip to content</a>
+
   <!-- NAV -->
-  <nav class="nav" id="main-nav">
+  <nav class="nav" id="main-nav" aria-label="Primary">
     <div class="nav__inner">
-      <a class="nav__logo" href="index.html" id="nav-logo"><img src="images/logo.svg" alt="NHS" class="nav__logo-img" />Reunion</a>
-      <button class="nav__hamburger" onclick="toggleNav()" aria-label="Menu">
+      <a class="nav__logo" href="index.html" id="nav-logo"><img src="images/logo.svg" alt="" class="nav__logo-img" />Reunion</a>
+      <button class="nav__hamburger" onclick="toggleNav()" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-links">
         <span></span><span></span><span></span>
       </button>
       <ul class="nav__links" id="nav-links">
-        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="index.html" class="active" aria-current="page">Home</a></li>
         <li><a href="details.html">Event Details</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
         <li><a href="faq.html">FAQ</a></li>
         <li><a href="rsvp.html" class="nav__cta">RSVP Now</a></li>
       </ul>
     </div>
   </nav>
 
+  <main id="main">
+
   <!-- HERO -->
   <section class="hero">
+    <picture>
+      <source srcset="images/hero.webp" type="image/webp" />
+      <img src="images/hero.jpg" alt="" class="hero__media" id="hero-media" loading="eager" decoding="async" onerror="this.remove()" />
+    </picture>
     <div class="container">
       <img src="images/logo.svg" alt="Newark High School Yellowjackets" class="hero__logo" />
       <span class="hero__eyebrow" id="hero-eyebrow">Newark High School · Class of 2016</span>
@@ -42,9 +72,9 @@
         <a href="details.html" class="btn btn--outline">Event Details</a>
       </div>
       <!-- Countdown -->
-      <div class="countdown" id="countdown">
+      <div class="countdown" id="countdown" aria-label="Time until the reunion">
         <div class="countdown__block">
-          <span class="countdown__num" id="cd-days">--</span>
+          <span class="countdown__num" id="cd-days" aria-live="off">--</span>
           <span class="countdown__label">Days</span>
         </div>
         <div class="countdown__block">
@@ -68,28 +98,28 @@
     <div class="container">
       <div class="info-grid" id="quick-details">
         <div class="info-card fade-up">
-          <div class="info-card__icon">📅</div>
+          <div class="info-card__icon" aria-hidden="true">📅</div>
           <div class="info-card__title">Date</div>
-          <div class="info-card__value" id="card-date">September 20, 2025</div>
+          <div class="info-card__value" id="card-date">August 15, 2026</div>
           <div class="info-card__sub" id="card-time">6:00 PM – 11:00 PM</div>
         </div>
         <div class="info-card fade-up" style="animation-delay:0.1s">
-          <div class="info-card__icon">📍</div>
+          <div class="info-card__icon" aria-hidden="true">📍</div>
           <div class="info-card__title">Venue</div>
           <div class="info-card__value" id="card-venue">TBA</div>
-          <div class="info-card__sub"><a href="#" id="card-map" target="_blank">View on Map →</a></div>
+          <div class="info-card__sub"><a href="#" id="card-map" target="_blank" rel="noopener">View on Map →</a></div>
         </div>
         <div class="info-card fade-up" style="animation-delay:0.2s">
-          <div class="info-card__icon">👔</div>
+          <div class="info-card__icon" aria-hidden="true">👔</div>
           <div class="info-card__title">Dress Code</div>
-          <div class="info-card__value" id="card-dress">Business Casual</div>
+          <div class="info-card__value" id="card-dress">Smart Casual</div>
           <div class="info-card__sub" id="card-ticket">Free to attend</div>
         </div>
         <div class="info-card fade-up" style="animation-delay:0.3s">
-          <div class="info-card__icon">📣</div>
+          <div class="info-card__icon" aria-hidden="true">📣</div>
           <div class="info-card__title">Spread the Word</div>
           <div class="info-card__value" style="font-size:1.1rem">Share with classmates</div>
-          <div class="info-card__sub"><a href="#" id="card-facebook" target="_blank">Join the Facebook Group →</a></div>
+          <div class="info-card__sub"><a href="#" id="card-facebook" target="_blank" rel="noopener">Join the Facebook Group →</a></div>
         </div>
       </div>
     </div>
@@ -161,14 +191,18 @@
     </div>
   </section>
 
+  </main>
+
   <!-- FOOTER -->
   <footer>
     <div class="footer__inner">
       <div class="footer__links">
         <a href="index.html">Home</a>
         <a href="details.html">Details</a>
+        <a href="gallery.html">Gallery</a>
         <a href="faq.html">FAQ</a>
         <a href="rsvp.html">RSVP</a>
+        <a href="privacy.html">Privacy</a>
       </div>
       <p id="footer-text">© 2026 Newark High School Reunion. Made with ❤️ for the Class of 2016.</p>
     </div>
@@ -176,17 +210,38 @@
 
   <script>
     function toggleNav() {
-      document.getElementById('nav-links').classList.toggle('open');
+      const links = document.getElementById('nav-links');
+      const btn = document.querySelector('.nav__hamburger');
+      const open = links.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
     }
 
     // Populate from config
     window.addEventListener('DOMContentLoaded', () => {
       const c = REUNION_CONFIG;
+      const url = c.siteUrl || window.location.origin;
+      const ogImg = c.metaImage && /^https?:/.test(c.metaImage) ? c.metaImage : url.replace(/\/$/, '') + '/' + (c.metaImage || 'images/og-cover.jpg');
+
       document.title = c.metaTitle;
       document.getElementById('page-title').textContent = c.metaTitle;
       document.getElementById('page-desc').setAttribute('content', c.metaDescription);
+      document.getElementById('canonical').setAttribute('href', url);
       document.getElementById('og-title').setAttribute('content', c.metaTitle);
       document.getElementById('og-desc').setAttribute('content', c.metaDescription);
+      document.getElementById('og-url').setAttribute('content', url);
+      document.getElementById('og-image').setAttribute('content', ogImg);
+      document.getElementById('tw-title').setAttribute('content', c.metaTitle);
+      document.getElementById('tw-desc').setAttribute('content', c.metaDescription);
+      document.getElementById('tw-image').setAttribute('content', ogImg);
+
+      // Hero background image
+      const heroImg = document.getElementById('hero-media');
+      if (heroImg && c.heroImage) {
+        heroImg.setAttribute('src', c.heroImage);
+        const src = heroImg.previousElementSibling;
+        if (src && c.heroImageWebp) src.setAttribute('srcset', c.heroImageWebp);
+      }
+
       const navLogo = document.getElementById('nav-logo');
       const logoImg = navLogo.querySelector('img');
       navLogo.textContent = '';
@@ -203,12 +258,46 @@
       if (c.facebookGroup) {
         document.getElementById('card-facebook').href = c.facebookGroup;
         document.getElementById('fb-link-2').href = c.facebookGroup;
+      } else {
+        document.getElementById('card-facebook').textContent = 'Facebook group coming soon';
+        document.getElementById('card-facebook').removeAttribute('target');
       }
       document.getElementById('about-desc').textContent = c.description;
       document.getElementById('contact-link').href = `mailto:${c.organizerEmail}`;
       document.getElementById('contact-link').textContent = c.organizerEmail;
       document.getElementById('footer-text').textContent =
         `© 2026 ${c.schoolName} Reunion. Made with ❤️ for the Class of ${c.year}.`;
+
+      // JSON-LD Event schema
+      const schema = {
+        "@context": "https://schema.org",
+        "@type": "Event",
+        "name": c.metaTitle,
+        "description": c.metaDescription,
+        "startDate": c.eventDate || undefined,
+        "eventStatus": "https://schema.org/EventScheduled",
+        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+        "image": [ogImg],
+        "location": {
+          "@type": "Place",
+          "name": c.venueName || "TBA",
+          "address": c.venueAddress || ""
+        },
+        "organizer": {
+          "@type": "Organization",
+          "name": c.organizerName,
+          "email": c.organizerEmail,
+          "url": url
+        },
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock",
+          "url": url + "/rsvp.html"
+        }
+      };
+      document.getElementById('event-schema').textContent = JSON.stringify(schema);
 
       // Countdown
       if (c.eventDate) {

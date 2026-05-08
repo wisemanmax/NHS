@@ -27,12 +27,27 @@ const REUNION_CONFIG = {
   // Organizer Contact
   organizerName: "Reunion Committee",
   organizerEmail: "reunion@newark2016.com",
+  organizerPhone: "",
   facebookGroup: "",
+  instagramHandle: "",
+  privacyEmail: "",   // Falls back to organizerEmail when blank
+
+  // Hero imagery — drop a class photo at /images/hero.{webp,jpg}
+  heroImage: "images/hero.jpg",
+  heroImageWebp: "images/hero.webp",
+
+  // Photo gallery / memory wall
+  galleryEnabled: true,
+  galleryUploadEnabled: true,   // Allow RSVP'd attendees to submit photos
+  galleryBucket: "gallery-photos",
+
+  // Site URL — used for canonical tags, OG, sitemap, share links
+  siteUrl: "https://newark2016.com",
 
   // Social / sharing
   metaTitle: "Newark High School Class of 2016 — 10 Year Reunion",
   metaDescription: "Join us for the Newark High School Class of 2016 Ten Year Reunion. RSVP now — it's free!",
-  metaImage: "", // Optional: full URL to a share image
+  metaImage: "images/og-cover.jpg", // 1200x630 share image
 
   // Supabase (set in env, but fallback here for local dev)
   supabaseUrl: window.ENV_SUPABASE_URL || "YOUR_SUPABASE_URL",
@@ -76,6 +91,10 @@ const FAQ_ITEMS = [
   {
     q: "Will there be a photographer?",
     a: "Yes! We'll have a photographer for part of the evening. Photos will be shared after the event."
+  },
+  {
+    q: "Can I share photos before the reunion?",
+    a: "Absolutely — head to the Gallery page and upload throwback photos using the email you RSVP'd with. We moderate uploads before publishing them."
   },
   {
     q: "Who do I contact with questions?",

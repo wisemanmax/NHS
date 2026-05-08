@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#1A1A1A" />
+  <title>Privacy — Newark High School Class of 2016 Reunion</title>
+  <meta name="description" content="How we use the information you share when you RSVP to the Newark High School Class of 2016 reunion." />
+  <link rel="canonical" href="https://newark2016.com/privacy.html" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" type="image/svg+xml" href="images/logo.svg" />
+  <script src="/api/env.js"></script>
+  <script src="js/config.js" defer></script>
+</head>
+<body>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <nav class="nav" aria-label="Primary">
+    <div class="nav__inner">
+      <a class="nav__logo" href="index.html" id="nav-logo"><img src="images/logo.svg" alt="" class="nav__logo-img" />Reunion</a>
+      <button class="nav__hamburger" onclick="toggleNav()" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-links">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav__links" id="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="details.html">Event Details</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+        <li><a href="rsvp.html" class="nav__cta">RSVP Now</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="page-hero">
+    <span class="page-hero__eyebrow">The Fine Print</span>
+    <h1 class="page-hero__title">Privacy</h1>
+    <p class="page-hero__sub">Plain English. No tracking, no selling, no surprises.</p>
+  </div>
+
+  <main id="main">
+  <section>
+    <div class="container--narrow" style="line-height:1.75;color:var(--text);">
+
+      <h2 style="font-family:var(--font-display);color:var(--navy);margin-bottom:0.75rem;">What we collect</h2>
+      <p>When you RSVP we store your name, email, and the answers you give on the form (graduation year, location, attendance status, opt-ins, and anything you write in the comments box). Phone number and social handles are optional; you only share them if you fill them in.</p>
+
+      <h2 style="font-family:var(--font-display);color:var(--navy);margin:2rem 0 0.75rem;">How we use it</h2>
+      <ul style="padding-left:1.5rem;margin-bottom:1rem;list-style:disc;color:var(--text-muted);">
+        <li>To plan the reunion (headcount, dietary notes, accessibility needs).</li>
+        <li>To email you reunion updates — only if you opted in.</li>
+        <li>The "Who's Going" list shows your first name, last initial, city/state, and any social handles you chose to share. Email and phone are never shown publicly.</li>
+        <li>If you upload a photo to the Gallery, the email you submitted is verified against your RSVP and the photo is reviewed before it's published. Your email is never shown alongside the photo.</li>
+      </ul>
+
+      <h2 style="font-family:var(--font-display);color:var(--navy);margin:2rem 0 0.75rem;">Where it lives</h2>
+      <p>Data is stored in Supabase (Postgres). Photos are stored in Supabase Storage. Email is sent via Resend. We don't sell, share, or rent your information to anyone.</p>
+
+      <h2 style="font-family:var(--font-display);color:var(--navy);margin:2rem 0 0.75rem;">How long we keep it</h2>
+      <p>We delete the entire database within 60 days after the reunion ends. If you want your record removed sooner, just email us.</p>
+
+      <h2 style="font-family:var(--font-display);color:var(--navy);margin:2rem 0 0.75rem;">Unsubscribing</h2>
+      <p>Every email we send has an unsubscribe option. You can also reply with "unsubscribe" in the subject line. Unsubscribing removes you from email updates but keeps your RSVP on the headcount.</p>
+
+      <h2 style="font-family:var(--font-display);color:var(--navy);margin:2rem 0 0.75rem;">Contact</h2>
+      <p>Questions, corrections, or deletion requests: <a id="privacy-email" href="mailto:" style="color:var(--gold);font-weight:600;">privacy contact</a>.</p>
+
+    </div>
+  </section>
+  </main>
+
+  <footer>
+    <div class="footer__inner">
+      <div class="footer__links">
+        <a href="index.html">Home</a>
+        <a href="details.html">Details</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="faq.html">FAQ</a>
+        <a href="rsvp.html">RSVP</a>
+        <a href="privacy.html">Privacy</a>
+      </div>
+      <p id="footer-text">© 2026 Newark High School Reunion.</p>
+    </div>
+  </footer>
+
+  <script>
+    function toggleNav() {
+      const links = document.getElementById('nav-links');
+      const btn = document.querySelector('.nav__hamburger');
+      const open = links.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+    window.addEventListener('DOMContentLoaded', () => {
+      const c = REUNION_CONFIG;
+      const navLogo = document.getElementById('nav-logo');
+      const logoImg = navLogo.querySelector('img');
+      navLogo.textContent = '';
+      if (logoImg) navLogo.appendChild(logoImg);
+      navLogo.appendChild(document.createTextNode(` ${c.schoolName} '${c.year.slice(-2)}`));
+      document.getElementById('footer-text').textContent = `© 2026 ${c.schoolName} Reunion.`;
+      const contact = c.privacyEmail || c.organizerEmail;
+      const a = document.getElementById('privacy-email');
+      a.href = `mailto:${contact}`;
+      a.textContent = contact;
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#1A1A1A" />
+  <title>Page not found — Newark High School Class of 2016 Reunion</title>
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" type="image/svg+xml" href="images/logo.svg" />
+  <script src="/api/env.js"></script>
+  <script src="js/config.js" defer></script>
+</head>
+<body>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <nav class="nav" aria-label="Primary">
+    <div class="nav__inner">
+      <a class="nav__logo" href="index.html" id="nav-logo"><img src="images/logo.svg" alt="" class="nav__logo-img" />Reunion</a>
+      <ul class="nav__links" id="nav-links" style="display:flex;">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="details.html">Event Details</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+        <li><a href="rsvp.html" class="nav__cta">RSVP Now</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main id="main">
+  <section style="text-align:center;padding-top:6rem;">
+    <div class="container--narrow">
+      <span class="section-label" style="display:inline-block;">404</span>
+      <h1 style="font-family:var(--font-display);font-size:clamp(2.4rem,5vw,3.6rem);font-style:italic;color:var(--navy);margin:0.75rem 0 1rem;">Lost in the halls.</h1>
+      <hr class="divider divider--center" />
+      <p style="color:var(--text-muted);margin-bottom:2rem;">
+        We can't find that page. Maybe it graduated.
+      </p>
+      <div style="display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap;">
+        <a href="index.html" class="btn btn--primary">Back to Home</a>
+        <a href="rsvp.html" class="btn btn--navy">RSVP</a>
+      </div>
+    </div>
+  </section>
+  </main>
+
+  <footer style="margin-top:5rem;">
+    <div class="footer__inner">
+      <div class="footer__links">
+        <a href="index.html">Home</a>
+        <a href="details.html">Details</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="faq.html">FAQ</a>
+        <a href="privacy.html">Privacy</a>
+      </div>
+      <p id="footer-text">© 2026 Newark High School Reunion.</p>
+    </div>
+  </footer>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const c = REUNION_CONFIG;
+      const navLogo = document.getElementById('nav-logo');
+      const logoImg = navLogo.querySelector('img');
+      navLogo.textContent = '';
+      if (logoImg) navLogo.appendChild(logoImg);
+      navLogo.appendChild(document.createTextNode(` ${c.schoolName} '${c.year.slice(-2)}`));
+      document.getElementById('footer-text').textContent = `© 2026 ${c.schoolName} Reunion.`;
+    });
+  </script>
+</body>
+</html>

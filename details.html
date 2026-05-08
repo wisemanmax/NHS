@@ -3,26 +3,44 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Event Details</title>
+  <meta name="theme-color" content="#1A1A1A" />
+  <title>Event Details — Newark High School Class of 2016 Reunion</title>
+  <meta name="description" id="page-desc" content="Date, venue, dress code, and everything you need to know about the Newark High School Class of 2016 reunion." />
+  <link rel="canonical" id="canonical" href="https://newark2016.com/details.html" />
+  <meta property="og:title" id="og-title" content="" />
+  <meta property="og:description" id="og-desc" content="" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" id="og-url" content="" />
+  <meta property="og:image" id="og-image" content="" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" type="image/svg+xml" href="images/logo.svg" />
+  <script src="/api/env.js"></script>
   <script src="js/config.js" defer></script>
 </head>
 <body>
 
-  <nav class="nav">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <nav class="nav" aria-label="Primary">
     <div class="nav__inner">
-      <a class="nav__logo" href="index.html" id="nav-logo"><img src="images/logo.svg" alt="NHS" class="nav__logo-img" />Reunion</a>
-      <button class="nav__hamburger" onclick="document.getElementById('nav-links').classList.toggle('open')" aria-label="Menu">
+      <a class="nav__logo" href="index.html" id="nav-logo"><img src="images/logo.svg" alt="" class="nav__logo-img" />Reunion</a>
+      <button class="nav__hamburger" onclick="toggleNav()" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-links">
         <span></span><span></span><span></span>
       </button>
       <ul class="nav__links" id="nav-links">
         <li><a href="index.html">Home</a></li>
-        <li><a href="details.html" class="active">Event Details</a></li>
+        <li><a href="details.html" class="active" aria-current="page">Event Details</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
         <li><a href="faq.html">FAQ</a></li>
         <li><a href="rsvp.html" class="nav__cta">RSVP Now</a></li>
       </ul>
     </div>
   </nav>
+
+  <main id="main">
 
   <div class="page-hero">
     <span class="page-hero__eyebrow">Everything You Need to Know</span>
@@ -113,13 +131,17 @@
     </div>
   </section>
 
+  </main>
+
   <footer>
     <div class="footer__inner">
       <div class="footer__links">
         <a href="index.html">Home</a>
         <a href="details.html">Details</a>
+        <a href="gallery.html">Gallery</a>
         <a href="faq.html">FAQ</a>
         <a href="rsvp.html">RSVP</a>
+        <a href="privacy.html">Privacy</a>
       </div>
       <p id="footer-text">© 2026 Newark High School Reunion.</p>
     </div>
@@ -132,9 +154,25 @@
   </style>
 
   <script>
+    function toggleNav() {
+      const links = document.getElementById('nav-links');
+      const btn = document.querySelector('.nav__hamburger');
+      const open = links.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+
     window.addEventListener('DOMContentLoaded', () => {
       const c = REUNION_CONFIG;
+      const url = (c.siteUrl || window.location.origin).replace(/\/$/, '') + '/details.html';
+      const ogImg = c.metaImage && /^https?:/.test(c.metaImage) ? c.metaImage : (c.siteUrl || window.location.origin).replace(/\/$/, '') + '/' + (c.metaImage || 'images/og-cover.jpg');
+
       document.title = `Event Details — ${c.metaTitle}`;
+      document.getElementById('canonical').setAttribute('href', url);
+      document.getElementById('og-title').setAttribute('content', `Event Details — ${c.metaTitle}`);
+      document.getElementById('og-desc').setAttribute('content', c.metaDescription);
+      document.getElementById('og-url').setAttribute('content', url);
+      document.getElementById('og-image').setAttribute('content', ogImg);
+
       const navLogo = document.getElementById('nav-logo');
       const logoImg = navLogo.querySelector('img');
       navLogo.textContent = '';
@@ -152,9 +190,15 @@
       document.getElementById('org-name').textContent = c.organizerName;
       document.getElementById('org-email').href = `mailto:${c.organizerEmail}`;
       document.getElementById('org-email').textContent = c.organizerEmail;
-      if (c.venueMapLink) document.getElementById('det-map').href = c.venueMapLink;
+      if (c.venueMapLink) {
+        document.getElementById('det-map').href = c.venueMapLink;
+      } else {
+        document.getElementById('det-map').style.display = 'none';
+      }
       if (c.facebookGroup) {
         document.getElementById('org-facebook').href = c.facebookGroup;
+      } else {
+        document.getElementById('org-facebook').style.display = 'none';
       }
       document.getElementById('footer-text').textContent = `© 2026 ${c.schoolName} Reunion.`;
     });

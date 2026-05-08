@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#1A1A1A" />
+  <title>Gallery — Newark High School Class of 2016 Reunion</title>
+  <meta name="description" content="Throwback photos and reunion memories from the Newark High School Class of 2016." />
+  <link rel="canonical" id="canonical" href="https://newark2016.com/gallery.html" />
+  <meta property="og:title" id="og-title" content="" />
+  <meta property="og:description" id="og-desc" content="" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" id="og-url" content="" />
+  <meta property="og:image" id="og-image" content="" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" type="image/svg+xml" href="images/logo.svg" />
+  <script src="/api/env.js"></script>
+  <script src="js/config.js" defer></script>
+</head>
+<body>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <nav class="nav" aria-label="Primary">
+    <div class="nav__inner">
+      <a class="nav__logo" href="index.html" id="nav-logo"><img src="images/logo.svg" alt="" class="nav__logo-img" />Reunion</a>
+      <button class="nav__hamburger" onclick="toggleNav()" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-links">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav__links" id="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="details.html">Event Details</a></li>
+        <li><a href="gallery.html" class="active" aria-current="page">Gallery</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+        <li><a href="rsvp.html" class="nav__cta">RSVP Now</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="page-hero">
+    <span class="page-hero__eyebrow">Memory Wall</span>
+    <h1 class="page-hero__title">Then &amp; Now</h1>
+    <p class="page-hero__sub">Throwback photos shared by classmates. Add yours below.</p>
+  </div>
+
+  <main id="main">
+
+  <section style="padding-top:3.5rem;">
+    <div class="container">
+
+      <!-- Upload form -->
+      <div class="gallery-upload" id="upload-card">
+        <h3>Share a memory</h3>
+        <p>RSVP'd already? Drop a throwback photo (JPG, PNG, or WebP, up to 8MB). Photos are reviewed before going live.</p>
+
+        <form id="upload-form" novalidate>
+          <div class="form-group">
+            <label for="up-email">Your RSVP email</label>
+            <input type="email" id="up-email" class="form-control" placeholder="jane@email.com" autocomplete="email" required />
+            <div class="form-error" id="err-up-email">Use the same email you RSVP'd with.</div>
+          </div>
+          <div class="form-group">
+            <label for="up-file">Photo</label>
+            <input type="file" id="up-file" class="gallery-upload__file" accept="image/jpeg,image/png,image/webp" required />
+            <div class="form-error" id="err-up-file">Pick a JPG, PNG, or WebP under 8MB.</div>
+          </div>
+          <div class="form-group">
+            <label for="up-caption">Caption <span class="optional">(optional)</span></label>
+            <input type="text" id="up-caption" class="form-control" maxlength="140" placeholder="Senior trip, 2016" />
+          </div>
+
+          <div id="upload-error" style="display:none;background:rgba(192,57,43,0.08);border:1px solid rgba(192,57,43,0.25);border-radius:var(--radius);padding:0.75rem 1rem;font-size:0.88rem;color:var(--error);margin-bottom:1rem;"></div>
+          <div id="upload-ok" style="display:none;background:rgba(29,122,78,0.08);border:1px solid rgba(29,122,78,0.25);border-radius:var(--radius);padding:0.75rem 1rem;font-size:0.88rem;color:var(--success);margin-bottom:1rem;"></div>
+
+          <button type="submit" id="upload-btn" class="btn btn--primary btn--full">Upload Photo</button>
+        </form>
+      </div>
+
+      <!-- Gallery grid -->
+      <div id="gallery-status" style="text-align:center;color:var(--text-muted);margin-bottom:1rem;font-size:0.9rem;">Loading photos…</div>
+      <div class="gallery-grid" id="gallery-grid"></div>
+      <div class="gallery-empty" id="gallery-empty" style="display:none;">
+        <p style="font-size:1.05rem;color:var(--navy);margin-bottom:0.5rem;">No photos yet — be the first!</p>
+        <p>Use the form above to share a throwback. We'll publish it after a quick review.</p>
+      </div>
+    </div>
+  </section>
+
+  </main>
+
+  <footer>
+    <div class="footer__inner">
+      <div class="footer__links">
+        <a href="index.html">Home</a>
+        <a href="details.html">Details</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="faq.html">FAQ</a>
+        <a href="rsvp.html">RSVP</a>
+        <a href="privacy.html">Privacy</a>
+      </div>
+      <p id="footer-text">© 2026 Newark High School Reunion.</p>
+    </div>
+  </footer>
+
+  <!-- Lightbox -->
+  <dialog class="lightbox" id="lightbox" aria-label="Photo viewer">
+    <button class="lightbox__close" id="lightbox-close" aria-label="Close photo viewer">×</button>
+    <img id="lightbox-img" src="" alt="" />
+    <div class="lightbox__caption" id="lightbox-caption"></div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+    const c = REUNION_CONFIG;
+    const BUCKET = c.galleryBucket || 'gallery-photos';
+    const supabase = createClient(c.supabaseUrl, c.supabaseAnonKey);
+
+    window.toggleNav = function() {
+      const links = document.getElementById('nav-links');
+      const btn = document.querySelector('.nav__hamburger');
+      const open = links.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    };
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const baseUrl = (c.siteUrl || window.location.origin).replace(/\/$/, '');
+      const url = baseUrl + '/gallery.html';
+      const ogImg = c.metaImage && /^https?:/.test(c.metaImage) ? c.metaImage : baseUrl + '/' + (c.metaImage || 'images/og-cover.jpg');
+
+      document.title = `Gallery — ${c.metaTitle}`;
+      document.getElementById('canonical').setAttribute('href', url);
+      document.getElementById('og-title').setAttribute('content', `Gallery — ${c.metaTitle}`);
+      document.getElementById('og-desc').setAttribute('content', 'Throwback photos and reunion memories.');
+      document.getElementById('og-url').setAttribute('content', url);
+      document.getElementById('og-image').setAttribute('content', ogImg);
+
+      const navLogo = document.getElementById('nav-logo');
+      const logoImg = navLogo.querySelector('img');
+      navLogo.textContent = '';
+      if (logoImg) navLogo.appendChild(logoImg);
+      navLogo.appendChild(document.createTextNode(` ${c.schoolName} '${c.year.slice(-2)}`));
+      document.getElementById('footer-text').textContent = `© 2026 ${c.schoolName} Reunion.`;
+
+      if (c.galleryUploadEnabled === false) {
+        document.getElementById('upload-card').style.display = 'none';
+      }
+
+      loadGallery();
+      document.getElementById('upload-form').addEventListener('submit', handleUpload);
+
+      // Lightbox
+      const lb = document.getElementById('lightbox');
+      document.getElementById('lightbox-close').addEventListener('click', () => lb.close());
+      lb.addEventListener('click', (e) => { if (e.target === lb) lb.close(); });
+    });
+
+    async function loadGallery() {
+      const status = document.getElementById('gallery-status');
+      const grid = document.getElementById('gallery-grid');
+      const empty = document.getElementById('gallery-empty');
+
+      try {
+        const { data, error } = await supabase.rpc('get_approved_gallery');
+        if (error) throw error;
+        const items = data || [];
+
+        if (items.length === 0) {
+          status.style.display = 'none';
+          empty.style.display = 'block';
+          return;
+        }
+
+        status.style.display = 'none';
+        const esc = (s) => String(s || '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+        grid.innerHTML = items.map(p => {
+          const url = supabase.storage.from(BUCKET).getPublicUrl(p.storage_path).data.publicUrl;
+          const safeCaption = esc(p.caption);
+          const safeName = esc(p.uploader_name);
+          return `
+            <button class="gallery-tile" data-url="${esc(url)}" data-caption="${safeCaption}" data-name="${safeName}" aria-label="Open photo${p.caption ? ': ' + safeCaption : ''}">
+              <img src="${esc(url)}" alt="${safeCaption || 'Reunion photo'}" loading="lazy" decoding="async" />
+              ${(p.caption || p.uploader_name) ? `
+                <div class="gallery-tile__caption">
+                  ${p.uploader_name ? `<strong>${safeName}</strong>` : ''}
+                  ${safeCaption}
+                </div>` : ''}
+            </button>
+          `;
+        }).join('');
+
+        // Wire lightbox
+        grid.querySelectorAll('.gallery-tile').forEach(tile => {
+          tile.addEventListener('click', () => openLightbox(tile.dataset.url, tile.dataset.caption, tile.dataset.name));
+        });
+      } catch (err) {
+        console.error('Gallery load error:', err);
+        status.textContent = 'Could not load photos. Please try again later.';
+      }
+    }
+
+    function openLightbox(url, caption, name) {
+      const lb = document.getElementById('lightbox');
+      document.getElementById('lightbox-img').src = url;
+      document.getElementById('lightbox-img').alt = caption || 'Reunion photo';
+      const cap = document.getElementById('lightbox-caption');
+      cap.innerHTML = (name ? `<strong style="color:var(--gold-light);">${name}</strong>${caption ? ' · ' : ''}` : '') + (caption || '');
+      lb.showModal();
+    }
+
+    async function handleUpload(e) {
+      e.preventDefault();
+      const emailEl = document.getElementById('up-email');
+      const fileEl = document.getElementById('up-file');
+      const captionEl = document.getElementById('up-caption');
+      const errBox = document.getElementById('upload-error');
+      const okBox = document.getElementById('upload-ok');
+      const btn = document.getElementById('upload-btn');
+
+      const email = emailEl.value.trim().toLowerCase();
+      const file = fileEl.files[0];
+      const caption = captionEl.value.trim();
+
+      errBox.style.display = 'none';
+      okBox.style.display = 'none';
+      document.getElementById('err-up-email').classList.remove('visible');
+      document.getElementById('err-up-file').classList.remove('visible');
+      emailEl.classList.remove('error');
+      fileEl.classList.remove('error');
+
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        emailEl.classList.add('error');
+        document.getElementById('err-up-email').classList.add('visible');
+        return;
+      }
+      if (!file) {
+        fileEl.classList.add('error');
+        document.getElementById('err-up-file').classList.add('visible');
+        return;
+      }
+      if (file.size > 8 * 1024 * 1024) {
+        errBox.style.display = 'block';
+        errBox.textContent = 'That photo is over 8MB. Please pick a smaller file.';
+        return;
+      }
+      if (!/^image\/(jpeg|png|webp)$/.test(file.type)) {
+        errBox.style.display = 'block';
+        errBox.textContent = 'Only JPG, PNG, or WebP images are accepted.';
+        return;
+      }
+
+      btn.setAttribute('aria-busy', 'true');
+      btn.disabled = true;
+      btn.textContent = 'Uploading';
+
+      try {
+        // 1. Verify email is on the RSVP list (anon SELECT is blocked by RLS,
+        //    so we use the public function check_email_exists)
+        const { data: exists, error: checkErr } = await supabase
+          .rpc('check_email_exists', { check_email: email });
+        if (checkErr) throw checkErr;
+        if (!exists) {
+          errBox.style.display = 'block';
+          errBox.innerHTML = `We couldn't find an RSVP for that email. <a href="rsvp.html" style="color:var(--error);text-decoration:underline;">RSVP first</a>, then upload.`;
+          return;
+        }
+
+        // 2. Upload to Supabase Storage
+        const ext = (file.name.split('.').pop() || 'jpg').toLowerCase();
+        const safeEmail = email.replace(/[^a-z0-9]/gi, '_');
+        const storagePath = `${safeEmail}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+
+        const { error: upErr } = await supabase.storage
+          .from(BUCKET)
+          .upload(storagePath, file, {
+            cacheControl: '3600',
+            contentType: file.type,
+            upsert: false,
+          });
+        if (upErr) throw upErr;
+
+        // 3. Insert moderation row
+        const { error: insErr } = await supabase.from('gallery_uploads').insert({
+          storage_path: storagePath,
+          uploader_email: email,
+          caption: caption || null,
+          approved: false,
+        });
+        if (insErr) throw insErr;
+
+        okBox.style.display = 'block';
+        okBox.textContent = 'Thanks! Your photo is in the moderation queue. It\'ll appear here once approved.';
+        document.getElementById('upload-form').reset();
+      } catch (err) {
+        console.error('Upload error:', err);
+        errBox.style.display = 'block';
+        errBox.textContent = err.message || 'Upload failed. Please try again.';
+      } finally {
+        btn.removeAttribute('aria-busy');
+        btn.disabled = false;
+        btn.textContent = 'Upload Photo';
+      }
+    }
+  </script>
+</body>
+</html>
