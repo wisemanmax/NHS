@@ -168,6 +168,94 @@ GRANT EXECUTE ON FUNCTION check_email_exists(TEXT) TO anon;
 
 
 -- ============================================================
+-- GALLERY UPLOADS TABLE
+-- Photos submitted by RSVP'd attendees. Public sees `approved` rows only.
+-- ============================================================
+CREATE TABLE IF NOT EXISTS gallery_uploads (
+  id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  created_at      TIMESTAMPTZ NOT NULL DEFAULT now(),
+
+  storage_path    TEXT NOT NULL,          -- path in the gallery-photos bucket
+  uploader_email  TEXT NOT NULL,          -- must match an attendee's email
+  uploader_name   TEXT,                   -- denormalized for display
+  caption         TEXT,
+  approved        BOOLEAN NOT NULL DEFAULT FALSE,
+  approved_at     TIMESTAMPTZ,
+  approved_by     TEXT
+);
+
+CREATE INDEX IF NOT EXISTS idx_gallery_approved   ON gallery_uploads (approved, created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_gallery_uploader   ON gallery_uploads (uploader_email);
+
+ALTER TABLE gallery_uploads ENABLE ROW LEVEL SECURITY;
+
+-- Public can read only approved photos
+CREATE POLICY "public_can_read_approved_gallery"
+  ON gallery_uploads FOR SELECT
+  TO anon
+  USING (approved = true);
+
+-- Public (anon) can insert a pending upload — approval gate is `approved = false`
+CREATE POLICY "public_can_submit_gallery"
+  ON gallery_uploads FOR INSERT
+  TO anon
+  WITH CHECK (approved = false);
+
+-- Admins (authenticated) can do everything
+CREATE POLICY "admin_full_access_gallery"
+  ON gallery_uploads FOR ALL
+  TO authenticated
+  USING (true)
+  WITH CHECK (true);
+
+
+-- ============================================================
+-- STORAGE BUCKET POLICIES (run AFTER creating bucket "gallery-photos")
+-- In Supabase Dashboard → Storage → New bucket → name: gallery-photos, Public: ON
+-- Then run the policies below.
+-- ============================================================
+-- Anyone can read images (bucket is public anyway, this is belt + suspenders)
+CREATE POLICY IF NOT EXISTS "public_read_gallery_photos"
+  ON storage.objects FOR SELECT
+  TO anon, authenticated
+  USING (bucket_id = 'gallery-photos');
+
+-- Anyone can upload to the bucket — moderation happens via gallery_uploads.approved
+CREATE POLICY IF NOT EXISTS "public_upload_gallery_photos"
+  ON storage.objects FOR INSERT
+  TO anon, authenticated
+  WITH CHECK (bucket_id = 'gallery-photos');
+
+-- Only authenticated admins can delete photos
+CREATE POLICY IF NOT EXISTS "admin_delete_gallery_photos"
+  ON storage.objects FOR DELETE
+  TO authenticated
+  USING (bucket_id = 'gallery-photos');
+
+
+-- ============================================================
+-- APPROVED-GALLERY VIEW (public, no PII)
+-- ============================================================
+CREATE OR REPLACE FUNCTION get_approved_gallery()
+RETURNS JSON
+LANGUAGE plpgsql SECURITY DEFINER AS $$
+DECLARE result JSON;
+BEGIN
+  SELECT json_agg(row_to_json(t)) INTO result
+  FROM (
+    SELECT id, storage_path, uploader_name, caption, created_at
+    FROM gallery_uploads
+    WHERE approved = true
+    ORDER BY created_at DESC
+  ) t;
+  RETURN COALESCE(result, '[]'::json);
+END;
+$$;
+
+GRANT EXECUTE ON FUNCTION get_approved_gallery() TO anon;
+
+
+-- ============================================================
 -- ADMIN USER SETUP
 -- In Supabase Dashboard → Authentication → Users
 -- Click "Invite user" and add the organizer's email.

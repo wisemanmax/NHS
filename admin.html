@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin — Reunion</title>
   <link rel="stylesheet" href="css/style.css" />
+  <script src="/api/env.js"></script>
   <script src="js/config.js" defer></script>
   <!-- Don't index this page -->
   <meta name="robots" content="noindex, nofollow" />
@@ -60,6 +61,9 @@
     <div class="admin-tabs">
       <button class="admin-tab active" data-tab="rsvps" onclick="switchTab('rsvps')">
         RSVPs &amp; Signups
+      </button>
+      <button class="admin-tab" data-tab="photos" onclick="switchTab('photos')">
+        Photo Moderation <span id="pending-count-badge" style="display:none;background:var(--gold);color:var(--navy);font-size:0.65rem;padding:0.1rem 0.45rem;border-radius:999px;margin-left:0.4rem;font-weight:700;">0</span>
       </button>
       <button class="admin-tab" data-tab="settings" onclick="switchTab('settings')">
         Event Settings
@@ -146,6 +150,28 @@
         </table>
       </div>
       <div id="table-footer" style="margin-top:0.75rem;font-size:0.82rem;color:var(--text-muted);"></div>
+    </div>
+
+    <!-- ====== TAB: Photo Moderation ====== -->
+    <div class="admin-body" id="tab-photos" style="display:none;">
+      <div class="settings-banner">
+        Photos uploaded by RSVP'd attendees appear here for review. Approve them to publish to the public Gallery, or delete to remove permanently.
+      </div>
+
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:center;margin-bottom:1.5rem;">
+        <button class="btn btn--sm btn--navy" onclick="loadPendingPhotos()">↻ Refresh</button>
+        <span id="photos-count" style="font-size:0.85rem;color:var(--text-muted);"></span>
+      </div>
+
+      <h3 style="font-family:var(--font-display);color:var(--navy);margin-bottom:1rem;">Pending Approval</h3>
+      <div id="pending-photos-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem;margin-bottom:2.5rem;">
+        <div class="empty-state" style="grid-column:1/-1;">Loading...</div>
+      </div>
+
+      <h3 style="font-family:var(--font-display);color:var(--navy);margin-bottom:1rem;">Recently Approved</h3>
+      <div id="approved-photos-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem;">
+        <div class="empty-state" style="grid-column:1/-1;">—</div>
+      </div>
     </div>
 
     <!-- ====== TAB: Event Settings ====== -->
@@ -346,13 +372,12 @@
         btn.classList.toggle('active', btn.dataset.tab === tabName);
       });
       // Toggle tab content
-      document.getElementById('tab-rsvps').style.display = tabName === 'rsvps' ? 'block' : 'none';
+      document.getElementById('tab-rsvps').style.display    = tabName === 'rsvps'    ? 'block' : 'none';
+      document.getElementById('tab-photos').style.display   = tabName === 'photos'   ? 'block' : 'none';
       document.getElementById('tab-settings').style.display = tabName === 'settings' ? 'block' : 'none';
 
-      // Load current config into form when switching to settings
-      if (tabName === 'settings') {
-        populateSettingsForm();
-      }
+      if (tabName === 'settings') populateSettingsForm();
+      if (tabName === 'photos')   loadPendingPhotos();
     };
 
     // ---- Auth ----
@@ -772,6 +797,110 @@
         btn.textContent = 'Save & Publish Changes';
         btn.disabled = false;
       }
+    };
+
+    // ---- Photo Moderation ----
+    function publicPhotoUrl(storagePath) {
+      const { data } = supabase.storage.from(c.galleryBucket || 'gallery-photos').getPublicUrl(storagePath);
+      return data.publicUrl;
+    }
+
+    window.loadPendingPhotos = async function() {
+      const pendingGrid = document.getElementById('pending-photos-grid');
+      const approvedGrid = document.getElementById('approved-photos-grid');
+      pendingGrid.innerHTML = '<div class="empty-state" style="grid-column:1/-1;">Loading...</div>';
+      approvedGrid.innerHTML = '';
+
+      const { data, error } = await supabase
+        .from('gallery_uploads')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(80);
+
+      if (error) {
+        pendingGrid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;color:var(--error);">Error: ${escapeHtml(error.message)}</div>`;
+        return;
+      }
+
+      const pending = (data || []).filter(p => !p.approved);
+      const approved = (data || []).filter(p => p.approved).slice(0, 24);
+
+      // Update tab badge
+      const badge = document.getElementById('pending-count-badge');
+      if (pending.length > 0) {
+        badge.textContent = pending.length;
+        badge.style.display = 'inline-block';
+      } else {
+        badge.style.display = 'none';
+      }
+      document.getElementById('photos-count').textContent =
+        `${pending.length} pending · ${approved.length} approved (showing latest)`;
+
+      if (pending.length === 0) {
+        pendingGrid.innerHTML = '<div class="empty-state" style="grid-column:1/-1;">No photos waiting for review.</div>';
+      } else {
+        pendingGrid.innerHTML = pending.map(p => renderPendingTile(p, true)).join('');
+      }
+      if (approved.length === 0) {
+        approvedGrid.innerHTML = '<div class="empty-state" style="grid-column:1/-1;">No approved photos yet.</div>';
+      } else {
+        approvedGrid.innerHTML = approved.map(p => renderPendingTile(p, false)).join('');
+      }
+    };
+
+    function renderPendingTile(p, isPending) {
+      const url = publicPhotoUrl(p.storage_path);
+      const dt = p.created_at ? new Date(p.created_at).toLocaleDateString('en-US', { month:'short', day:'numeric' }) : '';
+      const meta = `
+        <div class="pending-photo__meta">
+          <strong>${escapeHtml(p.uploader_name || p.uploader_email)}</strong>
+          ${p.caption ? escapeHtml(p.caption) + '<br>' : ''}
+          <span style="font-size:0.78rem;">${escapeHtml(p.uploader_email)} · ${dt}</span>
+        </div>
+      `;
+      const actions = isPending ? `
+        <div class="pending-photo__actions">
+          <button class="btn btn--sm btn--primary" onclick="approvePhoto('${p.id}')">✓ Approve</button>
+          <button class="btn btn--sm" onclick="rejectPhoto('${p.id}','${encodeURIComponent(p.storage_path)}')"
+            style="background:rgba(192,57,43,0.08);border:1px solid rgba(192,57,43,0.3);color:var(--error);">✗ Reject</button>
+        </div>
+      ` : `
+        <div class="pending-photo__actions">
+          <span class="badge badge--yes">Approved</span>
+          <button class="btn btn--sm" onclick="rejectPhoto('${p.id}','${encodeURIComponent(p.storage_path)}')"
+            style="background:rgba(192,57,43,0.08);border:1px solid rgba(192,57,43,0.3);color:var(--error);margin-left:auto;">Delete</button>
+        </div>
+      `;
+      return `<div class="pending-photo">
+        <a href="${url}" target="_blank" rel="noopener"><img src="${url}" alt="${escapeHtml(p.caption || 'Reunion photo')}" loading="lazy" /></a>
+        ${meta}
+        ${actions}
+      </div>`;
+    }
+
+    window.approvePhoto = async function(id) {
+      const { data: { user } } = await supabase.auth.getUser();
+      const { error } = await supabase.from('gallery_uploads').update({
+        approved: true,
+        approved_at: new Date().toISOString(),
+        approved_by: user?.email || null,
+      }).eq('id', id);
+      if (error) { showToast('Approve failed: ' + error.message, 'error'); return; }
+      showToast('Photo approved.');
+      loadPendingPhotos();
+    };
+
+    window.rejectPhoto = async function(id, encodedPath) {
+      if (!confirm('Delete this photo? This cannot be undone.')) return;
+      const path = decodeURIComponent(encodedPath);
+      // Best-effort: remove from storage, then row
+      try {
+        await supabase.storage.from(c.galleryBucket || 'gallery-photos').remove([path]);
+      } catch (e) { /* row delete is the source of truth */ }
+      const { error } = await supabase.from('gallery_uploads').delete().eq('id', id);
+      if (error) { showToast('Delete failed: ' + error.message, 'error'); return; }
+      showToast('Photo deleted.');
+      loadPendingPhotos();
     };
 
     // ---- Helpers ----

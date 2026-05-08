@@ -3,25 +3,44 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>You're Registered!</title>
+  <meta name="theme-color" content="#1A1A1A" />
+  <title>You're In! — Newark High School Class of 2016 Reunion</title>
+  <meta name="description" content="Your RSVP for the Newark High School Class of 2016 reunion has been received." />
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" type="image/svg+xml" href="images/logo.svg" />
+  <script src="/api/env.js"></script>
   <script src="js/config.js" defer></script>
 </head>
 <body>
 
-  <nav class="nav">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <nav class="nav" aria-label="Primary">
     <div class="nav__inner">
-      <a class="nav__logo" href="index.html" id="nav-logo"><img src="images/logo.svg" alt="NHS" class="nav__logo-img" />Reunion</a>
-      <ul class="nav__links" id="nav-links" style="display:flex;">
+      <a class="nav__logo" href="index.html" id="nav-logo"><img src="images/logo.svg" alt="" class="nav__logo-img" />Reunion</a>
+      <button class="nav__hamburger" onclick="toggleNav()" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-links">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav__links" id="nav-links">
         <li><a href="index.html">Home</a></li>
         <li><a href="details.html">Event Details</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
         <li><a href="faq.html">FAQ</a></li>
       </ul>
     </div>
   </nav>
 
+  <main id="main">
+
   <div class="success-box">
-    <div class="success-icon">🎉</div>
+    <div class="success-check" role="img" aria-label="Confirmed">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M5 12.5l4.5 4.5L19 7.5" />
+      </svg>
+    </div>
     <span class="section-label" style="display:block;text-align:center;">You're on the list</span>
     <h1 style="font-family:var(--font-display);font-size:2rem;color:var(--navy);margin-bottom:0.75rem;" id="success-title">
       See you there!
@@ -43,26 +62,38 @@
 
     <div style="display:flex;gap:0.75rem;flex-wrap:wrap;justify-content:center;margin-bottom:1.5rem;">
       <button class="btn btn--primary btn--sm" onclick="copyLink()">📋 Copy Link</button>
-      <a href="#" id="fb-share" target="_blank" class="btn btn--navy btn--sm">📣 Share on Facebook</a>
+      <a href="#" id="fb-share" target="_blank" rel="noopener" class="btn btn--navy btn--sm">📣 Share on Facebook</a>
+      <a href="gallery.html" class="btn btn--sm" style="background:var(--cream-dark);border:1px solid var(--border);color:var(--navy);">📸 Add a Photo</a>
     </div>
 
     <a href="index.html" style="font-size:0.85rem;color:var(--text-muted);text-decoration:underline;">← Back to Home</a>
   </div>
+
+  </main>
 
   <footer style="margin-top:4rem;">
     <div class="footer__inner">
       <div class="footer__links">
         <a href="index.html">Home</a>
         <a href="details.html">Details</a>
+        <a href="gallery.html">Gallery</a>
         <a href="faq.html">FAQ</a>
+        <a href="privacy.html">Privacy</a>
       </div>
       <p id="footer-text">© 2026 Newark High School Reunion.</p>
     </div>
   </footer>
 
-  <div class="toast" id="toast"></div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script>
+    function toggleNav() {
+      const links = document.getElementById('nav-links');
+      const btn = document.querySelector('.nav__hamburger');
+      const open = links.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+
     window.addEventListener('DOMContentLoaded', () => {
       const c = REUNION_CONFIG;
       document.title = `You're In! — ${c.metaTitle}`;
@@ -73,7 +104,6 @@
       navLogo.appendChild(document.createTextNode(` ${c.schoolName} '${c.year.slice(-2)}`));
       document.getElementById('footer-text').textContent = `© 2026 ${c.schoolName} Reunion.`;
 
-      // Read session data
       const name = sessionStorage.getItem('rsvp_name') || '';
       const email = sessionStorage.getItem('rsvp_email') || '';
       const status = sessionStorage.getItem('rsvp_status') || 'yes';
@@ -93,8 +123,8 @@
       };
       document.getElementById('status-text').textContent = statusMessages[status] || statusMessages.yes;
 
-      // Facebook share
-      const shareUrl = encodeURIComponent(window.location.origin + '/index.html');
+      const baseUrl = (c.siteUrl || window.location.origin).replace(/\/$/, '');
+      const shareUrl = encodeURIComponent(baseUrl + '/');
       const shareText = encodeURIComponent(`Just RSVP'd for the ${c.schoolName} Class of ${c.year} Reunion! 🎉 Are you going?`);
       document.getElementById('fb-share').href =
         `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}&quote=${shareText}`;
@@ -105,7 +135,7 @@
     });
 
     function copyLink() {
-      const url = window.location.origin + '/index.html';
+      const url = (REUNION_CONFIG.siteUrl || window.location.origin).replace(/\/$/, '') + '/';
       navigator.clipboard.writeText(url).then(() => {
         showToast('Link copied! 🔗');
       }).catch(() => {
