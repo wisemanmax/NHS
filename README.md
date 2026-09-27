@@ -52,12 +52,23 @@ neighborhoods, "Search this area" queries OpenStreetMap live.
 
 The Sep 27 research run hit its web-search limit, so department stores, Madewell, J.Crew, Gap, Levi's, Aritzia, COS and others show "not researched".
 
+### Refreshing deals (optional, costs money)
+
+`scripts/research-deals.mjs` is the deal agent. Claude (`claude-opus-5`, web search + web fetch) researches each brand, then records its findings through a strict JSON tool. An offer is kept only if its source page was actually retrieved during the run and it hasn't ended. Refused requests re-run on Anthropic's recommended fallback model (`fallbacks: "default"`).
+
+1. Add an `ANTHROPIC_API_KEY` repository secret (Settings → Secrets and variables → Actions).
+2. Go to **Actions → Research deals → Run workflow**. You can do this from the GitHub mobile app. Leave "brands" empty to pick up to 40 brands with shops on the map, luxury last, skipping ones checked in the last 20 hours. Or list ids such as `madewell,jcrew,gap,levis,aritzia,cos`.
+3. It also looks for this week's NYC sample sales, geocodes them, commits, and Pages redeploys.
+
+Expect roughly $0.20–0.40 per brand at list prices. The run summary prints searches, tokens and an estimate. It only runs when you trigger it.
+
 ## Develop
 
 ```bash
 npm test          # unit + data tests (Node 20+, no dependencies)
 npm start         # serves the app at http://localhost:8080
 npm run build:stores   # rebuild data/stores.json from OpenStreetMap (needs internet)
+npm ci && ANTHROPIC_API_KEY=… node scripts/research-deals.mjs --brands=madewell --dry-run   # try the deal agent
 ```
 
 No build step. It's plain ES modules. Leaflet is vendored in `vendor/leaflet`, and `sw.js` caches the app and data for offline use.
@@ -75,7 +86,7 @@ js/map.js, js/overpass.js, js/geo.js, js/deals.js, js/format.js, js/state.js
 
 ## Next
 
-- Automate the deal research run (an LLM agent with web access, writing `data/deals.json` with the same source rules), plus a per-store **re-check** that shows what changed.
+- A per-store **re-check** button that re-runs the deal agent for one brand and shows what changed since the morning run.
 - Native SwiftUI app: background location and **walk-by nudges** via region monitoring.
 - Route planner, fitting-room memory, shared live pins for groups.
 
