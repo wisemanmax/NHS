@@ -1,0 +1,48 @@
+name: Refresh store list
+
+# The "morning run": rebuilds data/stores.json from OpenStreetMap and geocodes new
+# event addresses, then commits the result. GitHub Pages redeploys on the commit.
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 10 * * *" # ~6:17 AM in New York (EDT)
+  push:
+    paths:
+      - "data/areas.json"
+      - "data/events.json"
+      - "js/osm.js"
+      - "scripts/build-stores.mjs"
+      - ".github/workflows/refresh-stores.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-stores-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Build data/stores.json
+        run: node scripts/build-stores.mjs
+      - name: Check data
+        run: npm test
+      - name: Commit refreshed data
+        run: |
+          if [ -z "$(git status --porcelain -- data/stores.json data/events.json)" ]; then
+            echo "No changes."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/stores.json data/events.json
+          git commit -m "Refresh store list from OpenStreetMap"
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
