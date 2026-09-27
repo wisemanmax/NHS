@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Next Stop · NYC</title>
+  <meta name="description" content="Which store deserves your next 20 minutes? Fashion stores near you in New York, with deals that show their sources.">
+  <meta name="theme-color" content="#f7f4ef" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#121110" media="(prefers-color-scheme: dark)">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Next Stop">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+  <a class="skip" href="#list">Skip to the store list</a>
+
+  <header class="topbar">
+    <div class="wordmark" aria-label="Next Stop, New York">
+      <span class="wordmark-dot" aria-hidden="true"></span>
+      Next Stop <span class="wordmark-city">NYC</span>
+    </div>
+    <div class="topbar-actions">
+      <button type="button" class="icon-btn" id="about-btn" aria-label="How Next Stop works">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg>
+      </button>
+      <button type="button" class="pill pill-strong" id="pocket-btn">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3.5 2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8L3.5 9.7l5.9-.9z"/></svg>
+        Pocket <span class="count" id="pocket-count">0</span>
+      </button>
+    </div>
+  </header>
+
+  <section class="controls" aria-label="Where and what">
+    <div class="where" role="group" aria-label="Where are you?">
+      <button type="button" class="where-btn" id="loc-btn" aria-pressed="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/></svg>
+        <span id="loc-label">My location</span>
+      </button>
+      <label class="where-btn where-select" id="area-wrap">
+        <span class="sr-only">Choose a neighborhood</span>
+        <select id="area-select"></select>
+      </label>
+    </div>
+
+    <div class="mode-row">
+      <div class="segmented" role="tablist" aria-label="Shopping mode">
+        <button type="button" role="tab" data-mode="browse" id="mode-browse">Browse</button>
+        <button type="button" role="tab" data-mode="find" id="mode-find">Find something</button>
+      </div>
+    </div>
+
+    <form class="find" id="find-form" hidden autocomplete="off">
+      <label class="sr-only" for="find-text">What are you looking for?</label>
+      <input id="find-text" type="search" enterkeyhint="search" placeholder="What are you hunting for? e.g. black ankle boots">
+      <label class="sr-only" for="find-size">Size (optional)</label>
+      <input id="find-size" type="text" placeholder="Size" maxlength="12">
+      <button type="submit" class="btn btn-primary">Find</button>
+    </form>
+    <div class="hunt" id="hunt" hidden></div>
+
+    <div class="filters" id="filters" role="group" aria-label="Filters">
+      <label class="chip chip-select">
+        <span class="sr-only">Budget</span>
+        <select id="budget-select">
+          <option value="0">Any budget</option>
+          <option value="1">Budget: $</option>
+          <option value="2">Up to $$</option>
+          <option value="3">Up to $$$</option>
+        </select>
+      </label>
+      <button type="button" class="chip" id="offers-chip" aria-pressed="false">Offers only</button>
+      <span class="chip-divider" aria-hidden="true"></span>
+      <div class="style-chips" id="style-chips"></div>
+    </div>
+  </section>
+
+  <section class="map-wrap" id="map-wrap" aria-label="Map">
+    <div id="map" role="application" aria-label="Map of nearby stores"></div>
+    <div class="map-buttons">
+      <button type="button" class="map-btn" id="search-area-btn" hidden>Search this area</button>
+      <button type="button" class="map-btn map-btn-icon" id="recenter-btn" aria-label="Center on me" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3"/><circle cx="12" cy="12" r="7"/></svg>
+      </button>
+      <button type="button" class="map-btn" id="meet-btn" hidden>Share meet-up spot</button>
+    </div>
+    <button type="button" class="map-toggle" id="map-toggle" aria-expanded="true">Hide map</button>
+  </section>
+
+  <main id="list" tabindex="-1" aria-live="polite">
+    <p class="loading">Loading stores…</p>
+  </main>
+
+  <footer class="credits" id="credits"></footer>
+
+  <div class="sheet" id="sheet" hidden>
+    <div class="sheet-backdrop" data-close></div>
+    <section class="sheet-panel" role="dialog" aria-modal="true" aria-labelledby="sheet-title" tabindex="-1">
+      <div class="sheet-grip" aria-hidden="true"></div>
+      <button type="button" class="icon-btn sheet-close" data-close aria-label="Close">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+      <div class="sheet-body" id="sheet-body"></div>
+    </section>
+  </div>
+
+  <div class="checkout" id="checkout" role="dialog" aria-modal="true" aria-labelledby="checkout-title" hidden></div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+  <input type="file" id="shot-input" accept="image/*" hidden>
+
+  <script src="vendor/leaflet/leaflet.js"></script>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

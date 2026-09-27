@@ -26,6 +26,11 @@ test('chain names with location suffixes', () => {
   assert.equal(match({ name: 'The North Face' }), 'northface');
   assert.equal(match({ name: 'Arc’teryx' }), 'arcteryx');
   assert.equal(match({ name: 'Gap Factory' }), 'gap');
+  assert.equal(match({ name: 'All Saint' }), 'allsaints');
+  assert.equal(match({ name: 'L’Appartment Sézane' }), 'sezane');
+  assert.equal(match({ name: 'Eilene Fisher' }), 'eileenfisher');
+  assert.equal(match({ name: 'A.P.C. Surplus' }), 'apc');
+  assert.equal(match({ name: 'American Vintage' }), 'americanvintage');
 });
 
 test('longest alias wins', () => {
@@ -64,7 +69,11 @@ test('OSM tags give unresearched shops an honest basis', () => {
   const shoes = inferFromTags({ shop: 'shoes' });
   assert.ok(shoes.carries.includes('boots'));
 
-  const boutique = inferFromTags({ shop: 'boutique' });
+  const byName = inferFromTags({ shop: 'clothes', name: 'Awoke Vintage' });
+  assert.deepEqual(byName.styles, ['vintage']);
+  assert.deepEqual(byName.basis, ['name includes “Vintage”']);
+
+  const boutique = inferFromTags({ shop: 'boutique', name: 'Pinkyotto' });
   assert.deepEqual(boutique.styles, []);
   assert.deepEqual(boutique.basis, []);
 });

@@ -30,7 +30,8 @@ test('brand notes are well-formed', () => {
   assert.equal(brandIds.size, brandsDoc.brands.length, 'duplicate brand ids');
   const styles = new Set(Object.keys(brandsDoc.styles));
   for (const b of brandsDoc.brands) {
-    assert.ok(b.name && b.domain, b.id);
+    assert.ok(b.name, b.id);
+    if (b.domain) assert.match(b.domain, /^[a-z0-9.-]+\.[a-z]{2,}$/, `${b.id} domain`);
     assert.ok([1, 2, 3, 4].includes(b.price), `${b.id} price`);
     for (const s of b.styles) assert.ok(styles.has(s), `${b.id} style ${s}`);
     assert.ok(b.carries.length > 0, `${b.id} carries`);
@@ -43,6 +44,7 @@ test('every offer has a source, dates and an in-store status', () => {
   assert.ok(isIso(deals.checkedAt));
   for (const [id, entry] of Object.entries(deals.brands)) {
     assert.ok(brandIds.has(id), `deals for unknown brand ${id}`);
+    assert.ok(brandsDoc.brands.find((b) => b.id === id).domain, `${id} needs a domain for its links`);
     assert.ok(isIso(entry.checkedAt), `${id} checkedAt`);
     if (entry.offersPage) assert.ok(isHttps(entry.offersPage.url), `${id} offersPage`);
     for (const o of entry.offers) {

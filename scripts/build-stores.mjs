@@ -38,13 +38,33 @@ async function overpass(query) {
   throw lastError;
 }
 
-async function geocode(address) {
-  const url =
-    'https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&countrycodes=us&q=' +
-    encodeURIComponent(address);
+const inNycBox = (lat, lon) => lat > 40.49 && lat < 40.92 && lon > -74.26 && lon < -73.7;
+
+async function nominatim(params) {
+  const url = `https://nominatim.openstreetmap.org/search?${new URLSearchParams({
+    format: 'jsonv2',
+    addressdetails: '1',
+    limit: '5',
+    countrycodes: 'us',
+    ...params,
+  })}`;
   const res = await fetch(url, { headers: { 'User-Agent': USER_AGENT, 'Accept-Language': 'en' } });
   if (!res.ok) throw new Error(`Nominatim: HTTP ${res.status}`);
-  const [hit] = await res.json();
+  return res.json();
+}
+
+// Free-text geocoding happily puts "260 Fifth Avenue" in Pelham, so a hit must be inside
+// the five boroughs and, when the address has a ZIP code, carry that ZIP code.
+async function geocode(address) {
+  const zip = address.match(/\b(\d{5})(?:-\d{4})?\s*$/)?.[1];
+  const acceptable = (hit) =>
+    inNycBox(Number(hit.lat), Number(hit.lon)) && (!zip || (hit.address?.postcode || '').startsWith(zip));
+  let hit = (await nominatim({ q: address })).find(acceptable);
+  if (!hit && zip) {
+    await sleep(1100);
+    const street = address.split(',')[0];
+    hit = (await nominatim({ street, city: 'New York', state: 'NY', postalcode: zip })).find(acceptable);
+  }
   return hit ? [round5(Number(hit.lat)), round5(Number(hit.lon))] : null;
 }
 

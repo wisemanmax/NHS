@@ -57,6 +57,7 @@ const clamp = (n, lo, hi) => Math.max(lo, Math.min(hi, n));
 function sharedAdjustments(item, ctx) {
   let s = -item.dist / WALK_UNIT_M;
   if (item.hasOffer) s += 1;
+  else if (item.onlineOffer) s += 0.3;
   if (item.status?.state === 'closed') s -= 5;
   else if (item.status?.state === 'open' && item.status.closesIn < 20) s -= 2; // not worth the walk
   const cap = ctx.prefs?.priceCap;
@@ -85,7 +86,7 @@ export function findScore(item, ctx) {
 
 export function passesFilters(item, f) {
   if (f.budget && item.price && item.price > f.budget) return false;
-  if (f.offersOnly && !item.hasOffer) return false;
+  if (f.offersOnly && !item.hasOffer && !item.onlineOffer) return false;
   return true;
 }
 

@@ -65,6 +65,17 @@ export function matchBrand(store, index) {
 }
 
 const SHOE_CARRIES = ['shoes', 'sneakers', 'boots', 'sandals'];
+
+// Shop names that say what they sell. The card shows this as the basis ("name includes …").
+const NAME_HINTS = [
+  { re: /\b(vintage|thrift|consignment|resale|second ?hand|buy.?sell.?trade)\b/i, styles: ['vintage'], carries: ['secondhand'] },
+  { re: /\b(shoes?|sneakers?|boots?|footwear)\b/i, styles: ['shoes'], carries: SHOE_CARRIES },
+  { re: /\b(lingerie|corsets?|intimates)\b/i, styles: [], carries: ['underwear'] },
+  { re: /\b(denim|jeans)\b/i, styles: ['denim'], carries: ['denim'] },
+  { re: /\b(hats?|millinery)\b/i, styles: [], carries: ['accessories'] },
+  { re: /\b(bridal)\b/i, styles: ['romantic'], carries: ['dresses'] },
+  { re: /\b(menswear|tailors?|suits?)\b/i, styles: ['tailored'], carries: ['tailoring'] },
+];
 const DEPARTMENT_CARRIES = [
   'tops', 'knitwear', 'dresses', 'pants', 'denim', 'outerwear', 'shoes', 'sneakers', 'boots', 'bags', 'accessories',
 ];
@@ -103,6 +114,13 @@ export function inferFromTags(store) {
     styles.add('athletic');
     carries.add('activewear');
     basis.push('shop=sports');
+  }
+  for (const hint of NAME_HINTS) {
+    const m = String(store.name || '').match(hint.re);
+    if (!m) continue;
+    hint.styles.forEach((st) => styles.add(st));
+    hint.carries.forEach((c) => carries.add(c));
+    basis.push(`name includes “${m[0]}”`);
   }
   for (const value of (store.clothes || '').split(';').map((v) => v.trim()).filter(Boolean)) {
     const mapped = {
