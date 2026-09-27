@@ -97,3 +97,18 @@ export function dedupeStores(stores) {
   }
   return kept;
 }
+
+const ORDINALS = { first: '1st', second: '2nd', third: '3rd', fourth: '4th', fifth: '5th', sixth: '6th', seventh: '7th', eighth: '8th', ninth: '9th', tenth: '10th', eleventh: '11th', twelfth: '12th' };
+const STREET_WORDS = { avenue: 'ave', av: 'ave', street: 'st', west: 'w', east: 'e', north: 'n', south: 's', boulevard: 'blvd', place: 'pl', broadway: 'broadway' };
+
+/** "260 Fifth Avenue, New York, NY 10001" and "260 5th Avenue" → "260 5th ave". */
+export function addressKey(address) {
+  return String(address || '')
+    .split(',')[0]
+    .toLowerCase()
+    .replace(/[^a-z0-9 ]/g, ' ')
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((w) => ORDINALS[w] || STREET_WORDS[w] || w)
+    .join(' ');
+}

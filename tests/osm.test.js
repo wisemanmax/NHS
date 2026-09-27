@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { buildAreaQuery, buildBboxQuery, dedupeStores, normalizeElement } from '../js/osm.js';
+import { addressKey, buildAreaQuery, buildBboxQuery, dedupeStores, normalizeElement } from '../js/osm.js';
 
 test('normalizes a tagged node', () => {
   const s = normalizeElement({
@@ -56,4 +56,11 @@ test('dedupe keeps the richer twin and leaves distinct shops alone', () => {
     { id: 'n3', name: 'Zara', lat: 40.75, lon: -73.98, shop: 'clothes' },
   ];
   assert.deepEqual(dedupeStores(stores).map((s) => s.id), ['w2', 'n3']);
+});
+
+test('street addresses compare across spelling styles', () => {
+  assert.equal(addressKey('260 Fifth Avenue, New York, NY 10001'), '260 5th ave');
+  assert.equal(addressKey('260 5th Avenue'), '260 5th ave');
+  assert.equal(addressKey('22 Little West 12th Street, New York, NY 10014'), '22 little w 12th st');
+  assert.equal(addressKey('22 Little W 12th St'), '22 little w 12th st');
 });

@@ -3,7 +3,7 @@
 // data/stores.json, then geocode any event addresses in data/events.json that lack coordinates.
 // Runs daily in GitHub Actions (.github/workflows/refresh-stores.yml); also fine locally.
 import { readFile, writeFile } from 'node:fs/promises';
-import { OVERPASS_ENDPOINTS, buildAreaQuery, dedupeStores, normalizeElement } from '../js/osm.js';
+import { OVERPASS_ENDPOINTS, addressKey, buildAreaQuery, dedupeStores, normalizeElement } from '../js/osm.js';
 import { pointInPolygon } from '../js/geo.js';
 
 const USER_AGENT = 'next-stop-nyc/1.0 (+https://github.com/wisemanmax/NHS)';
@@ -102,13 +102,23 @@ async function buildStores() {
   const text = JSON.stringify({ ...header, stores: [] }, null, 2).replace('"stores": []', `"stores": [\n${lines}\n  ]`);
   await writeFile(new URL('data/stores.json', root), `${text}\n`);
   console.log(`Wrote ${unique.length} stores`, counts);
+  return unique;
 }
 
-async function geocodeEvents() {
+async function geocodeEvents(stores) {
   const doc = await readJson('data/events.json');
+  // Many venues are shops OpenStreetMap already knows at the same street address, which is
+  // more precise than Nominatim (it has few Manhattan house numbers).
+  const byAddress = new Map(stores.filter((s) => s.addr).map((s) => [addressKey(s.addr), s]));
   let changed = 0;
   for (const ev of doc.events) {
     if (!ev.address || (ev.lat != null && ev.lon != null)) continue;
+    const shop = byAddress.get(addressKey(ev.address));
+    if (shop) {
+      [ev.lat, ev.lon] = [shop.lat, shop.lon];
+      changed++;
+      continue;
+    }
     await sleep(1100); // Nominatim usage policy: at most one request per second
     try {
       const hit = await geocode(ev.address);
@@ -128,5 +138,5 @@ async function geocodeEvents() {
   }
 }
 
-await buildStores();
-await geocodeEvents();
+const stores = await buildStores();
+await geocodeEvents(stores);
