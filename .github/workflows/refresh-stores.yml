@@ -7,6 +7,7 @@ on:
   schedule:
     - cron: "17 10 * * *" # ~6:17 AM in New York (EDT)
   push:
+    branches: [main]
     paths:
       - "data/areas.json"
       - "data/events.json"
