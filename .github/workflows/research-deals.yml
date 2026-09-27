@@ -1,0 +1,75 @@
+name: Research deals
+
+# The deal agent: Claude with web search checks current promotions for brands on the map
+# (and this week's NYC sample sales), then commits verified results. Manual trigger only,
+# because every run costs money (roughly $0.20–0.40 per brand).
+# Needs the repository secret ANTHROPIC_API_KEY.
+on:
+  workflow_dispatch:
+    inputs:
+      brands:
+        description: "Brand ids to research, comma-separated (e.g. madewell,jcrew,gap). Leave empty to pick brands with shops on the map."
+        required: false
+        default: ""
+      limit:
+        description: "Maximum number of brands when picking automatically"
+        required: false
+        default: "40"
+      events:
+        description: "Also look for this week's NYC sample sales"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: research-deals-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Check for the API key
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          if [ -z "$ANTHROPIC_API_KEY" ]; then
+            echo "::error::Add an ANTHROPIC_API_KEY repository secret (Settings → Secrets and variables → Actions)."
+            exit 1
+          fi
+      - name: Research
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          BRANDS: ${{ inputs.brands }}
+          LIMIT: ${{ inputs.limit }}
+          EVENTS: ${{ inputs.events }}
+        run: |
+          args="--limit=${LIMIT:-40}"
+          if [ -n "$BRANDS" ]; then args="$args --brands=$BRANDS"; fi
+          if [ "$EVENTS" = "true" ]; then args="$args --events"; fi
+          node scripts/research-deals.mjs $args
+      - name: Geocode new events and refresh the store list
+        run: node scripts/build-stores.mjs
+      - name: Check data
+        run: npm test
+      - name: Commit results
+        run: |
+          if [ -z "$(git status --porcelain -- data/)" ]; then
+            echo "No changes."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/
+          git commit -m "Refresh deal research"
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"

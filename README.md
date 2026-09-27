@@ -1,220 +1,95 @@
-# 🎓 High School Reunion Website
+# Next Stop · NYC
 
-A lean, production-ready reunion site built for under 500 attendees with near-zero ongoing cost.
+**Which store deserves your next 20 minutes?** Next Stop is a mobile web app for shopping in New York. It shows the fashion stores near you, what they're known for, and current deals, and every deal carries its source link, the time it was checked, and whether the source says it works in store.
 
-**Stack:** Static HTML → GitHub Pages · Supabase (DB + Auth) · Vercel (Email API) · Resend (Email sending)
+It's the "ship it today" version of the plan: a single link that works in Safari on iPhone, with a native SwiftUI app later.
 
----
+## Use it today
 
-## 📁 Project Structure
+1. Open the site: GitHub Pages serves `main`, at `https://wisemanmax.github.io/NHS/`.
+2. In Safari, tap **Share → Add to Home Screen** so it opens like an app.
+3. Tap **My location**, or pick a neighborhood. You don't have to share your location.
+4. **Browse** ranks shops by distance and style fit. **Find something** ("black ankle boots", "denim jacket") puts shops whose catalogs carry the item first.
+5. Tap **☆ Save** on about five stores. Your **Pocket** keeps their addresses, hours and offer terms on the phone, so they work with no signal.
+6. Before you go, download Manhattan in **Apple Maps** (profile picture → Offline Maps). Every Directions button opens Apple Maps.
+
+## What a store card shows
+
+| Section | What it says | Basis shown |
+|---|---|---|
+| **Style fit** | "Worth checking for Denim" | Our brand notes, or OpenStreetMap tags / the shop's name for unresearched shops |
+| **Selection** | What the brand's catalog carries, plus links to browse or search it | Always labelled "online catalog, not confirmed stock at this store". Call the store if it matters |
+| **Deals** | Each offer's terms, exclusions, end date and in-store status | Source link, source type, and check time. "Online only" and "In store: not confirmed" are shown clearly |
+| **Worth the detour?** | Extra distance vs. going straight to your chosen next stop | Straight-line estimate |
+| **How did it go?** | Bought it · Wrong fit · Unavailable · Great selection · Not my vibe · Too pricey | Reorders what the app suggests next |
+
+**Show at checkout** opens a high-contrast view with the code, what qualifies, exclusions, the end date and the source. **Share** sends a link that drops the store (or your "meet here" spot) on a friend's map.
+
+## Honesty rules
+
+- A deal without a source link and check time doesn't ship. `tests/data.test.js` enforces this.
+- "Not researched" is different from "no deals", and the app says which one applies.
+- The coverage line says what the list covers: "243 shops listed · 15 with offers found". It never says "checked".
+- Distances are straight-line and labelled that way. Walking routes come from Apple Maps.
+- Catalog matches are never presented as stock at a specific store.
+
+## How the data works
 
 ```
-reunion/
-├── index.html          → Home page (hero, countdown, event summary)
-├── details.html        → Event details (date, venue, organizer)
-├── faq.html            → FAQ accordion
-├── rsvp.html           → RSVP form (writes to Supabase)
-├── success.html        → Post-RSVP confirmation
-├── admin.html          → Protected admin dashboard
-│
-├── css/
-│   └── style.css       → All styles (responsive, mobile-first)
-│
-├── js/
-│   └── config.js       → ✏️ Edit this to update event details
-│
-├── api/
-│   └── send-email.js   → Vercel serverless function (mass email)
-│
-├── schema.sql          → Supabase table setup
-├── vercel.json         → Vercel deployment config
-├── .env.example        → Environment variable template
-└── README.md
+OpenStreetMap ──(Overpass, daily GitHub Action)──▶ data/stores.json   shops in 8 neighborhoods
+Deal research run ─────────────────────────────▶ data/deals.json    offers per brand, sourced
+                                             └──▶ data/events.json   sample sales & store events
+Brand notes ───────────────────────────────────▶ data/brands.json   style, price tier, catalog
+                                                        │
+The app joins them on the phone; outside the covered   ▼
+neighborhoods, "Search this area" queries OpenStreetMap live.
 ```
 
----
+- **`data/areas.json`**: neighborhood outlines. Add one and the next refresh lists its shops.
+- **`scripts/build-stores.mjs`**: the morning run. `.github/workflows/refresh-stores.yml` runs it daily around 6:15 AM New York time, whenever the areas or events change, or on demand from the Actions tab. It also geocodes event addresses with Nominatim.
+- **`data/deals.json`**: written by the research run. Each brand gets `checkedAt`, `offersPage`, `offers[]` (title, code, terms, exclusions, starts/ends, `channel`: in-store | online | both | unknown, `sourceUrl`, `sourceType`, `evidence`, `confidence`), plus `signup` and `notes`.
+- **`data/brands.json`**: about 270 brands, matched to shops by OpenStreetMap `brand:wikidata`, then brand tag, then name.
 
-## ⚡ Quick Start (Step-by-Step)
+The Sep 27 research run hit its web-search limit, so department stores, Madewell, J.Crew, Gap, Levi's, Aritzia, COS and others show "not researched".
 
-### Step 1 — Customize your event
+### Refreshing deals (optional, costs money)
 
-Open `js/config.js` and update:
-- School name, graduation year, tagline
-- Event date, time, venue, address
-- Organizer name and email
-- Facebook group link
+`scripts/research-deals.mjs` is the deal agent. Claude (`claude-opus-5`, web search + web fetch) researches each brand, then records its findings through a strict JSON tool. An offer is kept only if its source page was actually retrieved during the run and it hasn't ended. Refused requests re-run on Anthropic's recommended fallback model (`fallbacks: "default"`).
 
-That's it for content — everything reads from this file.
+1. Add an `ANTHROPIC_API_KEY` repository secret (Settings → Secrets and variables → Actions).
+2. Go to **Actions → Research deals → Run workflow**. You can do this from the GitHub mobile app. Leave "brands" empty to pick up to 40 brands with shops on the map, luxury last, skipping ones checked in the last 20 hours. Or list ids such as `madewell,jcrew,gap,levis,aritzia,cos`.
+3. It also looks for this week's NYC sample sales, geocodes them, commits, and Pages redeploys.
 
----
+Expect roughly $0.20–0.40 per brand at list prices. The run summary prints searches, tokens and an estimate. It only runs when you trigger it.
 
-### Step 2 — Set up Supabase
-
-1. Go to [supabase.com](https://supabase.com) → New Project (free tier)
-2. Once created, go to **SQL Editor** and paste the entire contents of `schema.sql` → Run
-3. Go to **Settings → API** and copy:
-   - Project URL → `SUPABASE_URL`
-   - `anon` public key → `SUPABASE_ANON_KEY`
-   - `service_role` key → `SUPABASE_SERVICE_KEY` (server-side only!)
-4. Go to **Authentication → Users** → Invite the organizer's email as an admin user
-
----
-
-### Step 3 — Configure Supabase keys in your frontend
-
-In `js/config.js`, update:
-```js
-supabaseUrl: "https://yourproject.supabase.co",
-supabaseAnonKey: "eyJ...",
-```
-
-> ✅ The `anon` key is safe to put in frontend code. Supabase RLS policies protect your data.  
-> ❌ Never put the `service_role` key in frontend code.
-
----
-
-### Step 4 — Deploy frontend to GitHub Pages
+## Develop
 
 ```bash
-# Create a new GitHub repo (e.g. "reunion")
-git init
-git add .
-git commit -m "Initial commit"
-git remote add origin https://github.com/YOUR_USERNAME/reunion.git
-git push -u origin main
+npm test          # unit + data tests (Node 20+, no dependencies)
+npm start         # serves the app at http://localhost:8080
+npm run build:stores   # rebuild data/stores.json from OpenStreetMap (needs internet)
+npm ci && ANTHROPIC_API_KEY=… node scripts/research-deals.mjs --brands=madewell --dry-run   # try the deal agent
 ```
 
-Then in GitHub:
-1. Go to your repo → **Settings → Pages**
-2. Source: `Deploy from a branch`
-3. Branch: `main` / `/ (root)` → Save
-
-Your site will be live at: `https://YOUR_USERNAME.github.io/reunion/`
-
----
-
-### Step 5 — Set up Resend for email sending
-
-1. Sign up at [resend.com](https://resend.com) (free: 3,000 emails/month)
-2. Add and verify your sending domain (or use `onboarding@resend.dev` for testing)
-3. Create an API key → copy it
-
----
-
-### Step 6 — Deploy email API to Vercel
-
-```bash
-npm install -g vercel
-vercel login
-vercel  # follow prompts — select this folder as the project
-```
-
-In Vercel Dashboard → your project → **Settings → Environment Variables**, add:
-```
-SUPABASE_URL          = your Supabase URL
-SUPABASE_SERVICE_KEY  = your service role key
-RESEND_API_KEY        = re_xxxx...
-FROM_NAME             = Your Reunion Committee Name
-FROM_EMAIL            = hello@yourdomain.com
-SITE_URL              = https://yourusername.github.io/reunion
-```
-
-Redeploy after adding env vars:
-```bash
-vercel --prod
-```
-
----
-
-### Step 7 — Update admin email API endpoint
-
-In `admin.html`, the `sendEmail()` function calls `/api/send-email`. Update this to your Vercel URL:
-
-```js
-const res = await fetch('https://YOUR-PROJECT.vercel.app/api/send-email', {
-```
-
----
-
-## 🔐 Security Notes
-
-| Feature | Implementation |
-|---|---|
-| Form spam protection | Honeypot field + server-side email deduplication |
-| Duplicate email protection | Unique constraint on `email` column + client-side pre-check |
-| Admin access | Supabase Auth (email + password or magic link) |
-| Email API | Auth token validated server-side before any emails sent |
-| RLS | Anon users can INSERT but not SELECT other rows |
-| PII | Never exposed in public stats (aggregate only) |
-
----
-
-## 💰 Cost Breakdown
-
-| Service | Free Tier | Your Usage | Cost |
-|---|---|---|---|
-| GitHub Pages | Unlimited public repos | Static hosting | **$0** |
-| Supabase | 500MB DB, 50K monthly active users | ~500 rows, minimal auth | **$0** |
-| Resend | 3,000 emails/month, 100/day | <500 recipients, occasional blasts | **$0** |
-| Vercel | 100GB bandwidth, unlimited functions | API calls only | **$0** |
-| **Total** | | | **$0/month** |
-
----
-
-## 📧 Sending Mass Emails
-
-1. Log into `admin.html` with your organizer credentials
-2. Click **Send Email Update**
-3. Fill in subject and message body
-4. Use `{name}` in the message — it auto-personalizes with each recipient's first name
-5. Click Send — you'll see a success count
-
-All sends are logged to the `communication_logs` table in Supabase.
-
----
-
-## 📱 Sharing the Link
-
-Drop this into Facebook groups, group chats, etc.:
+No build step. It's plain ES modules. Leaflet is vendored in `vendor/leaflet`, and `sw.js` caches the app and data for offline use.
 
 ```
-🎓 [School Name] Class of [Year] Reunion!
-[Date, Venue]
-RSVP here (takes 60 seconds): https://yourusername.github.io/reunion
+index.html, app.css, sw.js, manifest.webmanifest
+js/app.js       controller: data loading, location, rendering, actions
+js/views.js     HTML for rows, store/event cards, checkout, pocket
+js/rank.js      Browse / Find ranking and list sections
+js/brands.js    brand matching and OSM-tag inference
+js/hours.js     opening_hours parser ("Closes in 35 min")
+js/osm.js       Overpass queries and OSM normalization (shared with the build script)
+js/map.js, js/overpass.js, js/geo.js, js/deals.js, js/format.js, js/state.js
 ```
 
-Use `?src=facebook` on the URL to track signup sources:
-`https://yourusername.github.io/reunion?src=facebook`
+## Next
 
----
+- A per-store **re-check** button that re-runs the deal agent for one brand and shows what changed since the morning run.
+- Native SwiftUI app: background location and **walk-by nudges** via region monitoring.
+- Route planner, fitting-room memory, shared live pins for groups.
 
-## 🔜 Phase 2: SMS Support (Twilio)
+## Credits
 
-The database already stores `sms_opt_in`. When ready to add SMS:
-
-1. Sign up at [twilio.com](https://twilio.com)
-2. Get a phone number (~$1/month)
-3. Add to `.env`: `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_FROM_NUMBER`
-4. Create `api/send-sms.js` following the same pattern as `send-email.js`
-5. Query `WHERE sms_opt_in = true` from attendees and send via Twilio's REST API
-
----
-
-## 🛠 Updating Event Details
-
-All event content lives in `js/config.js`. Edit and push to GitHub — GitHub Pages redeploys automatically within minutes.
-
-```bash
-git add js/config.js
-git commit -m "Update venue address"
-git push
-```
-
----
-
-## ❓ Support
-
-Questions about setup? Review the comments in:
-- `js/config.js` — event configuration
-- `schema.sql` — database setup notes
-- `api/send-email.js` — email sending logic
+Shop data © [OpenStreetMap](https://www.openstreetmap.org/copyright) contributors (ODbL); `data/stores.json` is an ODbL extract. Map tiles © [CARTO](https://carto.com/attributions). [Leaflet](https://leafletjs.com) (BSD-2-Clause, see `vendor/leaflet/LICENSE`).

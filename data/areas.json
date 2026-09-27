@@ -1,0 +1,63 @@
+{
+  "city": "New York City",
+  "timezone": "America/New_York",
+  "note": "Approximate neighborhood outlines ([lat, lon] rings). The morning run lists every fashion shop OpenStreetMap has inside them. Edit freely; the next run picks changes up.",
+  "areas": [
+    {
+      "id": "soho",
+      "name": "SoHo & NoLIta",
+      "center": [40.7233, -73.9993],
+      "zoom": 16,
+      "polygon": [[40.7287, -74.0055], [40.7252, -73.9918], [40.7176, -73.9952], [40.7212, -74.0067]]
+    },
+    {
+      "id": "les",
+      "name": "Lower East Side",
+      "center": [40.7203, -73.989],
+      "zoom": 16,
+      "polygon": [[40.724, -73.9915], [40.7212, -73.9842], [40.716, -73.9868], [40.7183, -73.9945]]
+    },
+    {
+      "id": "westvillage",
+      "name": "West Village & Meatpacking",
+      "center": [40.7375, -74.0058],
+      "zoom": 16,
+      "polygon": [[40.7432, -74.011], [40.7392, -73.9985], [40.731, -74.0], [40.733, -74.0105]]
+    },
+    {
+      "id": "flatiron",
+      "name": "Flatiron, NoMad & Union Square",
+      "center": [40.74, -73.99],
+      "zoom": 15,
+      "polygon": [[40.7475, -73.99], [40.744, -73.983], [40.7322, -73.986], [40.7378, -73.9975]]
+    },
+    {
+      "id": "herald",
+      "name": "Herald Square & 34th St",
+      "center": [40.7502, -73.9885],
+      "zoom": 16,
+      "polygon": [[40.7538, -73.9932], [40.7501, -73.9842], [40.7466, -73.9869], [40.7503, -73.9951]]
+    },
+    {
+      "id": "fifthave",
+      "name": "Fifth Avenue & Midtown",
+      "center": [40.759, -73.9765],
+      "zoom": 15,
+      "polygon": [[40.7548, -73.9852], [40.766, -73.9768], [40.763, -73.9642], [40.7506, -73.9735]]
+    },
+    {
+      "id": "fidi",
+      "name": "World Trade Center & Lower Manhattan",
+      "center": [40.7118, -74.011],
+      "zoom": 16,
+      "polygon": [[40.7185, -74.0165], [40.7138, -74.0048], [40.7058, -74.0078], [40.7075, -74.0185]]
+    },
+    {
+      "id": "williamsburg",
+      "name": "Williamsburg",
+      "center": [40.717, -73.9575],
+      "zoom": 16,
+      "polygon": [[40.7245, -73.9625], [40.7245, -73.948], [40.7085, -73.948], [40.7085, -73.9665]]
+    }
+  ]
+}

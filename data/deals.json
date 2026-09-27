@@ -1,0 +1,1023 @@
+{
+  "checkedAt": "2026-09-27T13:09:58Z",
+  "method": "Morning deal run by a research agent using web search on Sep 27, 2026. Retailer pages could not be opened directly in this run, so each offer quotes the search result it came from and links to that page. Codes that appeared only on coupon aggregator sites were left out.",
+  "coverage": "The run hit its web-search limit partway through. Brands missing from this file (for example Madewell, J.Crew, Gap, Levi’s, Aritzia, COS, department stores and luxury houses) were not researched, which is different from having no offers.",
+  "brands": {
+    "uniqlo": {
+      "checkedAt": "2026-09-27T13:04:51Z",
+      "offersPage": {
+        "url": "https://www.uniqlo.com/us/en/feature/limited-offers/women",
+        "label": "Limited-Time Offers (changes weekly)"
+      },
+      "offers": [],
+      "signup": {
+        "offer": "$5 off your next $75+ online purchase when you sign up for UNIQLO texts",
+        "channel": "online",
+        "sourceUrl": "https://www.uniqlo.com/us/en/special-feature/sign-up-for-texts",
+        "evidence": "Page titled 'Sign Up for Text & GET $5 OFF': $5 off your next $75+ online purchase."
+      },
+      "notes": "Weekly Limited-Time Offers rotate and no specific current deal was confirmed. Other UNIQLO coupons are online-only: an app referral ($10 off $50) and a birthday coupon ($5 off $50+). The new World Trade Center store's opening weekend ends today; see its event card."
+    },
+    "zara": {
+      "checkedAt": "2026-09-27T13:04:51Z",
+      "offersPage": {
+        "url": "https://www.zara.com/us/en/woman-special-prices-l1314.html",
+        "label": "Women's Special Prices"
+      },
+      "offers": [
+        {
+          "title": "Special Prices section: selected items marked down",
+          "code": null,
+          "terms": "Selected items at reduced prices as marked, including coats, pants, knitwear, dresses and tops. Men's and kids' Special Prices pages also exist.",
+          "exclusions": null,
+          "starts": null,
+          "ends": null,
+          "channel": "unknown",
+          "sourceUrl": "https://www.zara.com/us/en/woman-special-prices-l1314.html",
+          "sourceName": "zara.com",
+          "sourceType": "retailer",
+          "evidence": "'Women's Special Price Items | ZARA United States': classic coats, pants, knitwear, dresses and tops on sale. No dates shown.",
+          "confidence": "medium"
+        }
+      ],
+      "signup": null,
+      "notes": "Zara's US help center says Zara doesn't have discount codes and points to its newsletter for promotion news."
+    },
+    "hm": {
+      "checkedAt": "2026-09-27T13:04:51Z",
+      "offersPage": {
+        "url": "https://www2.hm.com/en_us/women/sale/view-all.html",
+        "label": "Sale"
+      },
+      "offers": [
+        {
+          "title": "Up to 30% off fall essentials",
+          "code": null,
+          "terms": "Selected fall essentials, up to 30% off as marked. Separate deal pages for women, men and kids.",
+          "exclusions": null,
+          "starts": null,
+          "ends": null,
+          "channel": "unknown",
+          "sourceUrl": "https://www2.hm.com/en_us/women/deals/deal-alpha.html",
+          "sourceName": "hm.com",
+          "sourceType": "retailer",
+          "evidence": "Page title 'UP TO 30% OFF FALL ESSENTIALS Women | H&M US'. No dates shown.",
+          "confidence": "medium"
+        },
+        {
+          "title": "Last Chance: up to 70% off",
+          "code": null,
+          "terms": "Last-chance sale styles, up to 70% off as marked.",
+          "exclusions": null,
+          "starts": null,
+          "ends": null,
+          "channel": "unknown",
+          "sourceUrl": "https://www2.hm.com/en_us/sale/men/last-chance-up-to-70-off.html",
+          "sourceName": "hm.com",
+          "sourceType": "retailer",
+          "evidence": "Page title 'Last Chance up to 70% off | H&M US'. No dates shown.",
+          "confidence": "medium"
+        }
+      ],
+      "signup": {
+        "offer": "Welcome offer for new H&M members (free to join on hm.com or in the app). The US amount isn't stated.",
+        "channel": "both",
+        "sourceUrl": "https://www2.hm.com/en_us/member/info.html",
+        "evidence": "The Welcome offer arrives within 24 hours under My account. In store: activate it in the app and show it to the cashier."
+      },
+      "notes": "Members earn a $5 reward per 200 points."
+    },
+    "mango": {
+      "checkedAt": "2026-09-27T13:04:51Z",
+      "offersPage": {
+        "url": "https://shop.mango.com/us/en/events",
+        "label": "Special days"
+      },
+      "offers": [
+        {
+          "title": "10% off your first online purchase",
+          "code": "HELLO10",
+          "terms": "First online purchase only, minimum spend $90. Enter the code in the 'Promotional code' field at checkout.",
+          "exclusions": null,
+          "starts": null,
+          "ends": null,
+          "channel": "online",
+          "sourceUrl": "https://shop.mango.com/us/en/discover/trends/women/refresh-your-wardrobe-in-style-enjoy-10-off-with-hello10-on-your-first-online-purchase_bltb3ccc5ba00e5e0a5",
+          "sourceName": "shop.mango.com",
+          "sourceType": "retailer",
+          "evidence": "Mango US page 'Get 10% off on your first online purchase with HELLO10', first online purchase of at least $90. No dates shown.",
+          "confidence": "medium"
+        }
+      ],
+      "signup": null,
+      "notes": "The Mango likes You loyalty club advertises discounts in store and online; join in store or on mango.com."
+    },
+    "nike": {
+      "checkedAt": "2026-09-27T13:05:00Z",
+      "offersPage": {
+        "url": "https://www.nike.com/w/sale-3yaep",
+        "label": "Sale"
+      },
+      "offers": [
+        {
+          "title": "Sale: 40%+ off hundreds of styles",
+          "code": null,
+          "terms": "Hundreds of styles from sneakers to sweats, workout gear and accessories; some up to 45% off.",
+          "exclusions": null,
+          "starts": null,
+          "ends": null,
+          "channel": "unknown",
+          "sourceUrl": "https://9to5toys.com/2026/09/23/save-over-40-on-hundreds-of-nike-favorites/",
+          "sourceName": "9to5Toys (Sep 23, 2026)",
+          "sourceType": "press",
+          "evidence": "'Right now Nike is offering over 40% off hundreds of styles from sneakers to sweats, workout gear, and accessories… some up to 45% off.'",
+          "confidence": "medium"
+        }
+      ],
+      "signup": {
+        "offer": "Free Nike Membership: members-only deals, birthday discounts, free shipping on $50+",
+        "channel": "unknown",
+        "sourceUrl": "https://www.nike.com/membership/member-rewards",
+        "evidence": "Nike Members enjoy free shipping on orders of $50 or more, a 60-day Wear Test and receipt-less returns, plus birthday discounts and Members-only deals."
+      },
+      "notes": "nike.com lists 10% off for students, military, first responders and medical professionals."
+    },
+    "adidas": {
+      "checkedAt": "2026-09-27T13:05:00Z",
+      "offersPage": {
+        "url": "https://www.adidas.com/us/sale",
+        "label": "Sale"
+      },
+      "offers": [
+        {
+          "title": "Fall Kick Off Sale: up to 50% off shoes",
+          "code": null,
+          "terms": "Select shoes, including sneakers and adidas Originals.",
+          "exclusions": null,
+          "starts": null,
+          "ends": null,
+          "channel": "unknown",
+          "sourceUrl": "https://www.adidas.com/us/shoes-sale",
+          "sourceName": "adidas.com",
+          "sourceType": "retailer",
+          "evidence": "Page titles 'Fall Kick Off Sale: Up to 50% off Shoes' and 'Fall Kick Off Sale: Up to 50% off adidas Originals'. No dates shown.",
+          "confidence": "medium"
+        }
+      ],
+      "signup": {
+        "offer": "15% off promo code for signing up for adidas emails",
+        "channel": "online",
+        "sourceUrl": "https://www.adidas.com/us/sale",
+        "evidence": "Sign up for emails to enjoy a 15% off promo code on adidas.com."
+      },
+      "notes": "30% off for nurses, teachers, doctors, military and first responders via adidas discount programs."
+    },
+    "newbalance": {
+      "checkedAt": "2026-09-27T13:05:00Z",
+      "offersPage": {
+        "url": "https://www.newbalance.com/sale/",
+        "label": "Sale"
+      },
+      "offers": [],
+      "signup": {
+        "offer": "10% off for signing up",
+        "channel": "unknown",
+        "sourceUrl": "https://support.newbalance.com/s/article/How-Do-I-Take-Advantage-of-the-10-Discount-for-Signing-Up",
+        "evidence": "Support article titled 'How Do I Take Advantage of the 10% Discount for Signing Up'."
+      },
+      "notes": "Recent dated promos (LABORDAY, a $125+ offer, a member tote) have all ended. New, limited-edition and signature styles are excluded from promotions."
+    },
+    "converse": {
+      "checkedAt": "2026-09-27T13:05:00Z",
+      "offersPage": {
+        "url": "https://www.converse.com/shop/sale",
+        "label": "Sale"
+      },
+      "offers": [
+        {
+          "title": "Sale: up to 75% off sneakers and clothing",
+          "code": null,
+          "terms": "Sale and clearance styles for men, women and kids.",
+          "exclusions": null,
+          "starts": null,
+          "ends": null,
+          "channel": "unknown",
+          "sourceUrl": "https://www.converse.com/shop/sale",
+          "sourceName": "converse.com",
+          "sourceType": "retailer",
+          "evidence": "Page title 'Converse Sale: Sneakers & Clothing - Up to 75% Off'. No dates shown.",
+          "confidence": "medium"
+        }
+      ],
+      "signup": null,
+      "notes": "15% off for verified students, teachers and first responders on converse.com."
+    },
+    "vans": {
+      "checkedAt": "2026-09-27T13:05:00Z",
+      "offersPage": {
+        "url": "https://www.vans.com/en-us/c/sale-5410",
+        "label": "Sale"
+      },
+      "offers": [
+        {
+          "title": "30% off markdowns, socks and fleece",
+          "code": null,
+          "terms": "At vans.com; applied automatically in cart. US residents 16+.",
+          "exclusions": "Can't be combined with gift card purchases or other coupons, promotions or discounts.",
+          "starts": "2026-09-22",
+          "ends": "2026-09-27",
+          "channel": "online",
+          "sourceUrl": "https://www.vans.com/en-us/help/offers",
+          "sourceName": "vans.com",
+          "sourceType": "retailer",
+          "evidence": "30% off markdowns, socks and men's and women's fleece at vans.com, Sep 22, 2026 through Sep 27, 2026 at 11:59 PM PT; offer available online only.",
+          "confidence": "high"
+        }
+      ],
+      "signup": null,
+      "notes": "Ends tonight at 11:59 PM PT (2:59 AM ET) and is online only per its terms."
+    },
+    "puma": {
+      "checkedAt": "2026-09-27T13:05:00Z",
+      "offersPage": {
+        "url": "https://us.puma.com/us/en/sale/all-sale",
+        "label": "Shop All Sale"
+      },
+      "offers": [
+        {
+          "title": "Sale styles up to 60% off",
+          "code": null,
+          "terms": "Select sale styles.",
+          "exclusions": null,
+          "starts": null,
+          "ends": null,
+          "channel": "unknown",
+          "sourceUrl": "https://us.puma.com/us/en/sale/up-to-60-off",
+          "sourceName": "us.puma.com",
+          "sourceType": "retailer",
+          "evidence": "Page title 'Up to 60% Off | PUMA'. No dates shown.",
+          "confidence": "medium"
+        }
+      ],
+      "signup": null,
+      "notes": "Code FALL30 ended at 3 AM ET today and was never valid at PUMA stores."
+    },
+    "footlocker": {
+      "checkedAt": "2026-09-27T13:05:00Z",
+      "offersPage": {
+        "url": "https://www.footlocker.com/category/sale.html",
+        "label": "Sale"
+      },
+      "offers": [
+        {
+          "title": "Price drops: footwear up to 40% off",
+          "code": null,
+          "terms": "Select footwear in the Price Drops category; clothing sale pages say up to 50% off.",
+          "exclusions": null,
+          "starts": null,
+          "ends": null,
+          "channel": "unknown",
+          "sourceUrl": "https://www.footlocker.com/category/price-drops/footwear.html",
+          "sourceName": "footlocker.com",
+          "sourceType": "retailer",
+          "evidence": "Page titles 'Footwear up to 40% off' and 'Up to 50% Off Clothing'. No dates shown.",
+          "confidence": "medium"
+        }
+      ],
+      "signup": {
+        "offer": "One-time discount code for subscribing to marketing emails and texts (amount not stated)",
+        "channel": "unknown",
+        "sourceUrl": "https://www.footlocker.com/coupons.html",
+        "evidence": "You can receive a one-time use discount code by subscribing to marketing emails and marketing SMS."
+      },
+      "notes": "Foot Locker's coupons page says offers are valid online, by mail or by phone. Codes don't apply to new releases."
+    },
+    "drmartens": {
+      "checkedAt": "2026-09-27T13:05:00Z",
+      "offersPage": {
+        "url": "https://www.drmartens.com/us/en/sale",
+        "label": "Sale"
+      },
+      "offers": [
+        {
+          "title": "Sale: up to 40% off boots, shoes and accessories",
+          "code": null,
+          "terms": "Sale / Last Chance styles.",
+          "exclusions": null,
+          "starts": null,
+          "ends": null,
+          "channel": "unknown",
+          "sourceUrl": "https://www.drmartens.com/us/en/sale",
+          "sourceName": "drmartens.com",
+          "sourceType": "retailer",
+          "evidence": "drmartens.com sale: up to 40% off boots, shoes and accessories. No dates shown.",
+          "confidence": "medium"
+        }
+      ],
+      "signup": {
+        "offer": "$15 off your first purchase for joining the newsletter",
+        "channel": "unknown",
+        "sourceUrl": "https://www.drmartens.com/us/en/newsletter-sign-up",
+        "evidence": "'Newsletter Sign Up | $15 Off': get $15 off your first purchase, code sent to your inbox."
+      },
+      "notes": "15% off selected styles for students and for first responders, healthcare workers and teachers (in store and online for the latter)."
+    },
+    "stevemadden": {
+      "checkedAt": "2026-09-27T13:05:00Z",
+      "offersPage": {
+        "url": "https://www.stevemadden.com/pages/deals",
+        "label": "Current Offers"
+      },
+      "offers": [
+        {
+          "title": "End of Season Sale: up to 50% off select styles",
+          "code": null,
+          "terms": "Select shoes, boots, heels, sandals, sneakers and accessories.",
+          "exclusions": null,
+          "starts": null,
+          "ends": null,
+          "channel": "unknown",
+          "sourceUrl": "https://www.stevemadden.com/collections/end-of-season-sale",
+          "sourceName": "stevemadden.com",
+          "sourceType": "retailer",
+          "evidence": "Collection page 'End of Season Sale Up to 50% Off Select Styles'. No dates shown.",
+          "confidence": "medium"
+        }
+      ],
+      "signup": {
+        "offer": "SM Pass rewards: a welcome discount (amount not stated), birthday gifts and points",
+        "channel": "unknown",
+        "sourceUrl": "https://www.stevemadden.com/",
+        "evidence": "Join SM Pass for rewards, from a discount to birthday gifts and stars."
+      },
+      "notes": "Steve Madden has a separate in-store deals page: https://www.stevemadden.com/pages/deals-stores (contents not captured)."
+    },
+    "aldo": {
+      "checkedAt": "2026-09-27T13:05:00Z",
+      "offersPage": {
+        "url": "https://www.aldoshoes.com/collections/sale",
+        "label": "Sale"
+      },
+      "offers": [
+        {
+          "title": "Sale: up to 50% off select styles",
+          "code": null,
+          "terms": "Up to 50% off the original price on select sale styles.",
+          "exclusions": null,
+          "starts": null,
+          "ends": null,
+          "channel": "unknown",
+          "sourceUrl": "https://www.aldoshoes.com/pages/promotional-details",
+          "sourceName": "aldoshoes.com",
+          "sourceType": "retailer",
+          "evidence": "ALDO is offering up to 50% off the original price on select sale styles. No dates shown.",
+          "confidence": "medium"
+        }
+      ],
+      "signup": {
+        "offer": "15% off your first purchase for signing up for texts and emails (new subscribers, one-time use within 30 days)",
+        "channel": "both",
+        "sourceUrl": "https://www.aldoshoes.com/pages/promotional-details",
+        "evidence": "15% off your first purchase when signing up for texts and emails, valid in-store or online for a one-time use within 30 days."
+      },
+      "notes": null
+    },
+    "allbirds": {
+      "checkedAt": "2026-09-27T13:05:00Z",
+      "offersPage": {
+        "url": "https://www.allbirds.com/collections/sale-womens",
+        "label": "Women's sale"
+      },
+      "offers": [],
+      "signup": null,
+      "notes": "No dated promotions were found. Men's sale: https://www.allbirds.com/collections/sale-mens"
+    },
+    "on": {
+      "checkedAt": "2026-09-27T13:05:00Z",
+      "offersPage": {
+        "url": "https://www.on.com/en-us/shop/classics",
+        "label": "Last Season"
+      },
+      "offers": [
+        {
+          "title": "Last Season: up to 40% off shoes and apparel",
+          "code": null,
+          "terms": "Last-season running, training and tennis shoes and gear, while stocks last.",
+          "exclusions": null,
+          "starts": null,
+          "ends": null,
+          "channel": "unknown",
+          "sourceUrl": "https://www.on.com/en-us/shop/classics",
+          "sourceName": "on.com",
+          "sourceType": "retailer",
+          "evidence": "Savings of up to 40% on running, training and tennis shoes and up to 40% on gear, while stocks last. No dates shown.",
+          "confidence": "medium"
+        }
+      ],
+      "signup": null,
+      "notes": "Students get a single-use 10% code."
+    },
+    "hoka": {
+      "checkedAt": "2026-09-27T13:05:00Z",
+      "offersPage": {
+        "url": "https://www.hoka.com/en/us/sale/",
+        "label": "Sale"
+      },
+      "offers": [],
+      "signup": null,
+      "notes": "hoka.com has a members-only shoe sale page, but no amounts or dates were found."
+    },
+    "lululemon": {
+      "checkedAt": "2026-09-27T13:05:00Z",
+      "offersPage": {
+        "url": "https://shop.lululemon.com/c/we-made-too-much/n18mhd",
+        "label": "We Made Too Much (markdowns)"
+      },
+      "offers": [],
+      "signup": null,
+      "notes": "No dated promotions were found."
+    },
+    "alo": {
+      "checkedAt": "2026-09-27T13:05:00Z",
+      "offersPage": {
+        "url": "https://www.aloyoga.com/collections/womens-sale-1",
+        "label": "Women's sale"
+      },
+      "offers": [],
+      "signup": null,
+      "notes": "No dated promotions were found."
+    },
+    "athleta": {
+      "checkedAt": "2026-09-27T13:05:00Z",
+      "offersPage": {
+        "url": "https://athleta.gap.com/browse/sale?cid=49936",
+        "label": "Sale"
+      },
+      "offers": [
+        {
+          "title": "Sale: up to 60% off new markdowns",
+          "code": null,
+          "terms": "Select sale styles, including leggings and accessories.",
+          "exclusions": null,
+          "starts": null,
+          "ends": null,
+          "channel": "unknown",
+          "sourceUrl": "https://athleta.gap.com/browse/sale/all-sale/new-markdowns?cid=1023728&style=3029246",
+          "sourceName": "athleta.gap.com",
+          "sourceType": "retailer",
+          "evidence": "Page title 'SALE All Sale: Up To 60% Off New Markdowns'. No dates shown.",
+          "confidence": "medium"
+        }
+      ],
+      "signup": null,
+      "notes": "Athleta's coupons page mentions online and in-store savings without details."
+    },
+    "vuori": {
+      "checkedAt": "2026-09-27T13:05:00Z",
+      "offersPage": {
+        "url": "https://vuoriclothing.com/collections/sale-1",
+        "label": "Sale"
+      },
+      "offers": [],
+      "signup": null,
+      "notes": "No dated promotions were found."
+    },
+    "skechers": {
+      "checkedAt": "2026-09-27T13:05:00Z",
+      "offersPage": {
+        "url": "https://www.skechers.com/sale/",
+        "label": "Clearance & Sale"
+      },
+      "offers": [
+        {
+          "title": "Skechers Plus members: extra 10% off everything",
+          "code": null,
+          "terms": "Select regular-priced and sale styles at skechers.com while logged in to Skechers Plus; applied in cart.",
+          "exclusions": "Excludes website premieres, select accessories, gift cards and prior purchases. Not valid at Skechers stores.",
+          "starts": "2026-09-23",
+          "ends": "2026-09-28",
+          "channel": "online",
+          "sourceUrl": "https://www.skechers.com/m/sitewide-offer/",
+          "sourceName": "skechers.com",
+          "sourceType": "retailer",
+          "evidence": "Extra 10% OFF Everything, valid 9/23/26–9/28/26 at Skechers.com… online only and not valid at Skechers stores.",
+          "confidence": "high"
+        },
+        {
+          "title": "Step into Fall: 20% off boots and outdoor styles",
+          "code": null,
+          "terms": "Select boots and outdoor styles. The page's fine print says online only, but it's unclear whether that applies to this offer.",
+          "exclusions": null,
+          "starts": null,
+          "ends": null,
+          "channel": "unknown",
+          "sourceUrl": "https://www.skechers.com/m/fall-favs/",
+          "sourceName": "skechers.com",
+          "sourceType": "retailer",
+          "evidence": "Page title 'Step into Fall! 20% off Boots & Outdoor Styles'.",
+          "confidence": "medium"
+        }
+      ],
+      "signup": {
+        "offer": "20% off for joining the Skechers SMS list",
+        "channel": "unknown",
+        "sourceUrl": "https://www.skechers.com/join-sms/",
+        "evidence": "Page title 'Join our SMS list to Unlock 20% Off + Special Offers'."
+      },
+      "notes": null
+    },
+    "birkenstock": {
+      "checkedAt": "2026-09-27T13:05:00Z",
+      "offersPage": {
+        "url": "https://www.birkenstock.com/us/trending/last-chance/",
+        "label": "Last Chance"
+      },
+      "offers": [],
+      "signup": null,
+      "notes": "10% off full-price styles for ID.me-verified students, teachers, nurses, first responders and military."
+    },
+    "clarks": {
+      "checkedAt": "2026-09-27T13:05:00Z",
+      "offersPage": {
+        "url": "https://www.clarks.com/en-us/all-sale/sale_us-c",
+        "label": "All Sale"
+      },
+      "offers": [],
+      "signup": null,
+      "notes": "Indexed promo pages were for past events, so none is listed."
+    },
+    "timberland": {
+      "checkedAt": "2026-09-27T13:05:00Z",
+      "offersPage": {
+        "url": "https://www.timberland.com/en-us/c/sale-10184",
+        "label": "All Sale"
+      },
+      "offers": [
+        {
+          "title": "Extra 30% off select items, taken in cart",
+          "code": null,
+          "terms": "Select items, including work boots and popular styles; discount applied in cart.",
+          "exclusions": null,
+          "starts": null,
+          "ends": null,
+          "channel": "unknown",
+          "sourceUrl": "https://www.timberland.com/en-us/c/featured-collections/promotion-91612",
+          "sourceName": "timberland.com",
+          "sourceType": "retailer",
+          "evidence": "Timberland 'Promotion' page: Extra 30% Off in cart on select items. No dates shown.",
+          "confidence": "medium"
+        }
+      ],
+      "signup": {
+        "offer": "Timberland Community: 10% off your first order, free shipping over $75, 20% off on your birthday",
+        "channel": "unknown",
+        "sourceUrl": "https://www.timberland.com/en-us/customer-care/promotions-and-discounts",
+        "evidence": "Timberland Community members receive 10% off their first order and free shipping on orders over $75."
+      },
+      "notes": null
+    },
+    "ugg": {
+      "checkedAt": "2026-09-27T13:05:00Z",
+      "offersPage": {
+        "url": "https://www.ugg.com/master-sale/",
+        "label": "Sale"
+      },
+      "offers": [],
+      "signup": {
+        "offer": "UGG Rewards: 10% off your first order, sale styles included",
+        "channel": "unknown",
+        "sourceUrl": "https://www.ugg.com/promos-coupons-discounts/",
+        "evidence": "New UGG Rewards members receive 10% off their first order, including sale styles."
+      },
+      "notes": "UGG's Labor Day sale has ended. College students and community heroes get 10% off full-priced styles."
+    },
+    "veja": {
+      "checkedAt": "2026-09-27T13:05:00Z",
+      "offersPage": {
+        "url": "https://www.veja-store.com/en_us/outlet",
+        "label": "Final Sale"
+      },
+      "offers": [
+        {
+          "title": "Final Sale: up to 50% off sneakers",
+          "code": null,
+          "terms": "Final Sale styles; limited stock by size and color.",
+          "exclusions": null,
+          "starts": null,
+          "ends": null,
+          "channel": "unknown",
+          "sourceUrl": "https://www.veja-store.com/en_us/outlet",
+          "sourceName": "veja-store.com",
+          "sourceType": "retailer",
+          "evidence": "Page title 'Final Sale: Up to 50% off sneakers - VEJA'. No dates shown.",
+          "confidence": "medium"
+        },
+        {
+          "title": "Archive Sale: up to 70% off",
+          "code": null,
+          "terms": "Archive styles for a limited time.",
+          "exclusions": null,
+          "starts": null,
+          "ends": null,
+          "channel": "online",
+          "sourceUrl": "https://www.veja-store.com/en_us/archives",
+          "sourceName": "veja-store.com",
+          "sourceType": "retailer",
+          "evidence": "Page title 'Archive Sale : Up to -70% | VEJA', described as online only for a limited time. No dates shown.",
+          "confidence": "medium"
+        }
+      ],
+      "signup": null,
+      "notes": null
+    },
+    "reformation": {
+      "checkedAt": "2026-09-27T13:09:58Z",
+      "offersPage": {
+        "url": "https://www.thereformation.com/all-sale",
+        "label": "Sale"
+      },
+      "offers": [],
+      "signup": {
+        "offer": "Free 'Friends with Benefits' loyalty program: free hemming and repairs on Reformation clothing",
+        "channel": "unknown",
+        "sourceUrl": "https://www.thereformation.com/alterations.html",
+        "evidence": "Free hemming and repairs for all Reformation clothing for members of the Friends with Benefits loyalty program."
+      },
+      "notes": "No current dated promotion found. A Reformation sample sale at 260 Sample Sale ran Sep 8–13 and has ended."
+    },
+    "sezane": {
+      "checkedAt": "2026-09-27T13:09:58Z",
+      "offersPage": {
+        "url": "https://www.sezane.com/us-en/spring-summer-archives",
+        "label": "Archives (periodic, final sale)"
+      },
+      "offers": [],
+      "signup": {
+        "offer": "A small gift (a pouch) with your first order in the Sézane app",
+        "channel": "online",
+        "sourceUrl": "https://www.sezane.com/us-en/app-sezane",
+        "evidence": "A small gift with your first order on the App — this handy pouch will be slipped into your first order."
+      },
+      "notes": "No active US promotion found. The Archives sale opens periodically; no fall 2026 date was found."
+    },
+    "allsaints": {
+      "checkedAt": "2026-09-27T13:09:58Z",
+      "offersPage": {
+        "url": "https://www.allsaints.com/us/sale.html",
+        "label": "Sale"
+      },
+      "offers": [
+        {
+          "title": "Sale: up to 70% off selected items",
+          "code": null,
+          "terms": "Select items. The discount is already reflected in the displayed price online and in store.",
+          "exclusions": "Can't be combined with other offers or used for gift cards.",
+          "starts": "2026-08-14",
+          "ends": null,
+          "channel": "both",
+          "sourceUrl": "https://www.allsaints.com/us/help/about-us/sale-terms-and-conditions.html",
+          "sourceName": "allsaints.com",
+          "sourceType": "retailer",
+          "evidence": "Sale T&Cs: up to 70% off selected items, started Friday 14 August 2026, already reflected in the displayed price online and in store.",
+          "confidence": "medium"
+        },
+        {
+          "title": "Buy 3, get 10% off sale items",
+          "code": null,
+          "terms": "Sale items only.",
+          "exclusions": null,
+          "starts": null,
+          "ends": null,
+          "channel": "unknown",
+          "sourceUrl": "https://www.allsaints.com/us/sale.html",
+          "sourceName": "allsaints.com",
+          "sourceType": "retailer",
+          "evidence": "US sale page (undated): 'Buy 3 Get 10% Off' on sale items only.",
+          "confidence": "medium"
+        }
+      ],
+      "signup": {
+        "offer": "10% off your first full-price order for joining the newsletter, plus private-sale access",
+        "channel": "unknown",
+        "sourceUrl": "https://www.allsaints.com/us/newsletter.html",
+        "evidence": "Welcome gift of 10% off your first full-price order when you sign up; 24-hour private sale access."
+      },
+      "notes": null
+    },
+    "ragbone": {
+      "checkedAt": "2026-09-27T13:09:58Z",
+      "offersPage": {
+        "url": "https://www.rag-bone.com/sale/",
+        "label": "Sale & Clearance"
+      },
+      "offers": [],
+      "signup": null,
+      "notes": "A Friends & Family sale ran through Sep 26 and has ended. Undated sale pages list jeans up to 50% off and sweaters up to 60% off select styles."
+    },
+    "theory": {
+      "checkedAt": "2026-09-27T13:09:58Z",
+      "offersPage": {
+        "url": "https://www.theory.com/sale/",
+        "label": "Sale (End of Season)"
+      },
+      "offers": [],
+      "signup": null,
+      "notes": "No current dated promotion found. Per theory.com, items 40% off or more are final sale (size exchanges only)."
+    },
+    "vince": {
+      "checkedAt": "2026-09-27T13:09:58Z",
+      "offersPage": {
+        "url": "https://www.vince.com/sale/",
+        "label": "Sale"
+      },
+      "offers": [],
+      "signup": null,
+      "notes": "An undated Friends & Family code appeared in a snippet but couldn't be confirmed as current, so it isn't listed."
+    },
+    "clubmonaco": {
+      "checkedAt": "2026-09-27T13:09:58Z",
+      "offersPage": {
+        "url": "https://www.clubmonaco.com/collections/sale",
+        "label": "Sale"
+      },
+      "offers": [],
+      "signup": null,
+      "notes": "Wikipedia reports Club Monaco's US stores closed in 2026. Call before visiting. Undated sale pages say up to 70% off, with conflicting extra-discount claims."
+    },
+    "faherty": {
+      "checkedAt": "2026-09-27T13:09:58Z",
+      "offersPage": {
+        "url": "https://fahertybrand.com/collections/sale",
+        "label": "Sale"
+      },
+      "offers": [],
+      "signup": null,
+      "notes": "No dated promotion found on the brand site or in the press."
+    },
+    "buckmason": {
+      "checkedAt": "2026-09-27T13:09:58Z",
+      "offersPage": null,
+      "offers": [],
+      "signup": null,
+      "notes": "No sale page or current promotion found."
+    },
+    "toddsnyder": {
+      "checkedAt": "2026-09-27T13:09:58Z",
+      "offersPage": {
+        "url": "https://www.toddsnyder.com/collections/sale",
+        "label": "Sale"
+      },
+      "offers": [],
+      "signup": null,
+      "notes": "There's also a Clearance collection. No dated promotion was found."
+    },
+    "aninebing": {
+      "checkedAt": "2026-09-27T13:09:58Z",
+      "offersPage": {
+        "url": "https://www.aninebing.com/collections/sale-dresses-skirts",
+        "label": "Sale: dresses & skirts"
+      },
+      "offers": [],
+      "signup": null,
+      "notes": "Undated sale pages: dresses, skirts and jewelry up to 70% off; tops and shoes up to 50% off; jackets and bags up to 40% off."
+    },
+    "skims": {
+      "checkedAt": "2026-09-27T13:09:58Z",
+      "offersPage": {
+        "url": "https://skims.com/collections/skims-sale",
+        "label": "Sale"
+      },
+      "offers": [],
+      "signup": null,
+      "notes": "The sale collection exists, but no discount level or dated promotion was found."
+    },
+    "freepeople": {
+      "checkedAt": "2026-09-27T13:09:58Z",
+      "offersPage": {
+        "url": "https://www.freepeople.com/help/current-promotions/",
+        "label": "Current Promotions"
+      },
+      "offers": [],
+      "signup": {
+        "offer": "10% off your first online order for new email subscribers",
+        "channel": "online",
+        "sourceUrl": "https://www.freepeople.com/help/current-promotions/",
+        "evidence": "First time subscribers will receive a promo code for 10% off their first online order."
+      },
+      "notes": "The current promotions page lists only shipping perks. The sale section is at freepeople.com/sale-all/."
+    },
+    "anthropologie": {
+      "checkedAt": "2026-09-27T13:09:58Z",
+      "offersPage": {
+        "url": "https://www.anthropologie.com/help/current-promotions",
+        "label": "Current Promotions"
+      },
+      "offers": [
+        {
+          "title": "20% off coupon, if you got the Sep 17 email",
+          "code": null,
+          "terms": "Emailed on 9/17/2026 to qualifying customers only. Valid in US stores and online through 10/1/2026, 11:59 PM PT.",
+          "exclusions": "Excludes select brands and products, and gift cards.",
+          "starts": "2026-09-17",
+          "ends": "2026-10-01",
+          "channel": "both",
+          "sourceUrl": "https://www.anthropologie.com/help/current-promotions",
+          "sourceName": "anthropologie.com",
+          "sourceType": "retailer",
+          "evidence": "A 20% off coupon was sent to qualifying customers on 9/17/2026 via email and is valid in US and Canada stores and online through 10/1/2026, 11:59 PM PT.",
+          "confidence": "high"
+        },
+        {
+          "title": "Extra 50% off sale items",
+          "code": null,
+          "terms": "Limited time; all sales final. End date not stated.",
+          "exclusions": "Sale furniture and other items noted on the page.",
+          "starts": null,
+          "ends": null,
+          "channel": "unknown",
+          "sourceUrl": "https://www.anthropologie.com/sale-all",
+          "sourceName": "anthropologie.com",
+          "sourceType": "retailer",
+          "evidence": "Brand site (undated): 'Extra 50% Off Sale', limited time, all sales final.",
+          "confidence": "medium"
+        }
+      ],
+      "signup": {
+        "offer": "AnthroPerks: $20 off one full-price purchase (code arrives by email 15 days after joining)",
+        "channel": "unknown",
+        "sourceUrl": "https://www.anthropologie.com/help/current-promotions",
+        "evidence": "New AnthroPerks members will receive $20 off one full-price purchase, delivered via email 15 days following sign-up."
+      },
+      "notes": "An app-only preview of the extra 50% off sale ended 9/23."
+    },
+    "ralphlauren": {
+      "checkedAt": "2026-09-27T13:09:58Z",
+      "offersPage": {
+        "url": "https://www.ralphlauren.com/sale",
+        "label": "Sale"
+      },
+      "offers": [],
+      "signup": null,
+      "notes": "The most recent dated promotion (Sep 3–8) has ended."
+    },
+    "tommy": {
+      "checkedAt": "2026-09-27T13:09:58Z",
+      "offersPage": {
+        "url": "https://usa.tommy.com/tommy-hilfiger-coupons",
+        "label": "Coupons + Promotions"
+      },
+      "offers": [
+        {
+          "title": "Tommy Adaptive Big Fall Sale: 40% off, up to 60% off sale styles",
+          "code": null,
+          "terms": "Tommy Hilfiger Adaptive styles only. Hilfiger Club members get an extra 15% off, applied in cart.",
+          "exclusions": null,
+          "starts": null,
+          "ends": null,
+          "channel": "unknown",
+          "sourceUrl": "https://usa.tommy.com/en/tommy-adaptive-promotions",
+          "sourceName": "usa.tommy.com",
+          "sourceType": "retailer",
+          "evidence": "The Big Fall Sale — up to 60% off sale styles when you take 40% off; extra 15% off for Hilfiger Club members (undated page).",
+          "confidence": "medium"
+        }
+      ],
+      "signup": {
+        "offer": "Hilfiger Club: 15% off your first purchase",
+        "channel": "unknown",
+        "sourceUrl": "https://usa.tommy.com/en/hilfiger-club.html",
+        "evidence": "Join The Hilfiger Club for 15% off your first purchase, VIP access and birthday bonuses."
+      },
+      "notes": "Other undated extra-off claims couldn't be tied to a live page, so they aren't listed."
+    },
+    "calvinklein": {
+      "checkedAt": "2026-09-27T13:09:58Z",
+      "offersPage": {
+        "url": "https://www.calvinklein.us/en/calvin-klein-coupons",
+        "label": "Coupons + Promotions"
+      },
+      "offers": [
+        {
+          "title": "Extra 30% off $175+ or extra 20% off $100+",
+          "code": null,
+          "terms": "Taken in cart. Valid only at calvinklein.us.",
+          "exclusions": "Calvin Klein Collection, gift cards and prior purchases.",
+          "starts": null,
+          "ends": "2026-09-29",
+          "channel": "online",
+          "sourceUrl": "https://www.calvinklein.us/en/calvin-klein-coupons",
+          "sourceName": "calvinklein.us",
+          "sourceType": "retailer",
+          "evidence": "Extra 30% off when you spend $175+ … ending September 29, 2026 at 11:59 PM PT … only valid at calvinklein.us.",
+          "confidence": "high"
+        }
+      ],
+      "signup": null,
+      "notes": "This promotion is online only and doesn't apply in NYC stores."
+    },
+    "guess": {
+      "checkedAt": "2026-09-27T13:09:58Z",
+      "offersPage": {
+        "url": "https://www.guess.com/en-us/promotions-and-offers.html",
+        "label": "Promotions & Offers"
+      },
+      "offers": [],
+      "signup": {
+        "offer": "15% off plus free shipping for first-time text subscribers",
+        "channel": "unknown",
+        "sourceUrl": "https://www.guess.com/en-us/promotions-and-offers.html",
+        "evidence": "First-time subscribers get 15% off and free shipping when they sign up for GUESS texts."
+      },
+      "notes": "Undated guess.com pages disagree about an extra 20–30% off sale, so nothing is listed as active. Ask in store."
+    },
+    "diesel": {
+      "checkedAt": "2026-09-27T13:09:58Z",
+      "offersPage": {
+        "url": "https://diesel.com/en-us/sale/",
+        "label": "Sale"
+      },
+      "offers": [],
+      "signup": {
+        "offer": "House of Diesel: 10% off your first purchase",
+        "channel": "unknown",
+        "sourceUrl": "https://diesel.com/en-us/",
+        "evidence": "Join House of Diesel for 10% off your first purchase and free standard shipping when logged in."
+      },
+      "notes": null
+    },
+    "kith": {
+      "checkedAt": "2026-09-27T13:09:58Z",
+      "offersPage": {
+        "url": "https://kith.com/collections/sale",
+        "label": "Sale"
+      },
+      "offers": [],
+      "signup": null,
+      "notes": "No dated promotion was found; the sale page snippet looked stale."
+    },
+    "stussy": {
+      "checkedAt": "2026-09-27T13:09:58Z",
+      "offersPage": null,
+      "offers": [],
+      "signup": null,
+      "notes": "It's unclear whether a sale is live."
+    },
+    "carhartt-wip": {
+      "checkedAt": "2026-09-27T13:09:58Z",
+      "offersPage": {
+        "url": "https://us.carhartt-wip.com/en-us/collections/sale",
+        "label": "Sale"
+      },
+      "offers": [],
+      "signup": null,
+      "notes": "The US sale collection shows marked-down items. No dated promotion or code was found."
+    },
+    "patagonia": {
+      "checkedAt": "2026-09-27T13:09:58Z",
+      "offersPage": {
+        "url": "https://www.patagonia.com/shop/web-specials-nav",
+        "label": "Web Specials (online)"
+      },
+      "offers": [],
+      "signup": null,
+      "notes": "Web Specials are past-season items sold online. Worn Wear sells used Patagonia gear."
+    },
+    "northface": {
+      "checkedAt": "2026-09-27T13:09:58Z",
+      "offersPage": {
+        "url": "https://www.thenorthface.com/en-us/c/sale-829803",
+        "label": "Sale"
+      },
+      "offers": [],
+      "signup": null,
+      "notes": "An undated 'End of Summer Sale — up to 30% off' page says online only; its status today is unclear."
+    },
+    "arcteryx": {
+      "checkedAt": "2026-09-27T13:09:58Z",
+      "offersPage": {
+        "url": "https://outlet.arcteryx.com/us/en",
+        "label": "Outlet (online)"
+      },
+      "offers": [],
+      "signup": null,
+      "notes": "No current US promotion found. ReBIRD resells used gear."
+    },
+    "canadagoose": {
+      "checkedAt": "2026-09-27T13:09:58Z",
+      "offersPage": null,
+      "offers": [],
+      "signup": null,
+      "notes": "No US sale or promotion found."
+    },
+    "lacoste": {
+      "checkedAt": "2026-09-27T13:09:58Z",
+      "offersPage": {
+        "url": "https://www.lacoste.com/us/sale.html",
+        "label": "Shop All Sale"
+      },
+      "offers": [],
+      "signup": null,
+      "notes": "Undated pages mention a Semi-Annual Sale (up to 50% off) with an extra 20% off; its current status is unclear."
+    }
+  }
+}

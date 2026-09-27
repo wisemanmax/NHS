@@ -1,0 +1,142 @@
+#!/usr/bin/env node
+// Morning run: list every fashion shop OpenStreetMap knows inside data/areas.json and write
+// data/stores.json, then geocode any event addresses in data/events.json that lack coordinates.
+// Runs daily in GitHub Actions (.github/workflows/refresh-stores.yml); also fine locally.
+import { readFile, writeFile } from 'node:fs/promises';
+import { OVERPASS_ENDPOINTS, addressKey, buildAreaQuery, dedupeStores, normalizeElement } from '../js/osm.js';
+import { pointInPolygon } from '../js/geo.js';
+
+const USER_AGENT = 'next-stop-nyc/1.0 (+https://github.com/wisemanmax/NHS)';
+const MIN_STORES = Number(process.env.MIN_STORES || 100);
+const root = new URL('../', import.meta.url);
+const readJson = async (path) => JSON.parse(await readFile(new URL(path, root), 'utf8'));
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const round5 = (n) => Math.round(n * 1e5) / 1e5;
+
+async function overpass(query) {
+  let lastError;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    for (const endpoint of OVERPASS_ENDPOINTS) {
+      try {
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'User-Agent': USER_AGENT },
+          body: `data=${encodeURIComponent(query)}`,
+          signal: AbortSignal.timeout(180_000),
+        });
+        if (!res.ok) throw new Error(`${endpoint}: HTTP ${res.status}`);
+        const json = await res.json();
+        if (json.remark && /error|timed out/i.test(json.remark)) throw new Error(`${endpoint}: ${json.remark}`);
+        return json;
+      } catch (err) {
+        lastError = err;
+        console.warn(String(err));
+      }
+    }
+    await sleep(15_000 * (attempt + 1));
+  }
+  throw lastError;
+}
+
+const inNycBox = (lat, lon) => lat > 40.49 && lat < 40.92 && lon > -74.26 && lon < -73.7;
+
+async function nominatim(params) {
+  const url = `https://nominatim.openstreetmap.org/search?${new URLSearchParams({
+    format: 'jsonv2',
+    addressdetails: '1',
+    limit: '5',
+    countrycodes: 'us',
+    ...params,
+  })}`;
+  const res = await fetch(url, { headers: { 'User-Agent': USER_AGENT, 'Accept-Language': 'en' } });
+  if (!res.ok) throw new Error(`Nominatim: HTTP ${res.status}`);
+  return res.json();
+}
+
+// Free-text geocoding happily puts "260 Fifth Avenue" in Pelham, so a hit must be inside
+// the five boroughs and, when the address has a ZIP code, carry that ZIP code.
+async function geocode(address) {
+  const zip = address.match(/\b(\d{5})(?:-\d{4})?\s*$/)?.[1];
+  const acceptable = (hit) =>
+    inNycBox(Number(hit.lat), Number(hit.lon)) && (!zip || (hit.address?.postcode || '').startsWith(zip));
+  let hit = (await nominatim({ q: address })).find(acceptable);
+  if (!hit && zip) {
+    await sleep(1100);
+    const street = address.split(',')[0];
+    hit = (await nominatim({ street, city: 'New York', state: 'NY', postalcode: zip })).find(acceptable);
+  }
+  return hit ? [round5(Number(hit.lat)), round5(Number(hit.lon))] : null;
+}
+
+async function buildStores() {
+  const { areas } = await readJson('data/areas.json');
+  const json = await overpass(buildAreaQuery(areas));
+
+  const stores = [];
+  for (const el of json.elements) {
+    const store = normalizeElement(el);
+    if (!store) continue;
+    const area = areas.find((a) => pointInPolygon([store.lat, store.lon], a.polygon));
+    if (!area) continue;
+    store.area = area.id;
+    stores.push(store);
+  }
+  const unique = dedupeStores(stores).sort((a, b) => a.area.localeCompare(b.area) || a.name.localeCompare(b.name));
+
+  // Refuse to replace good data with a truncated Overpass response.
+  const previous = await readJson('data/stores.json').catch(() => null);
+  const floor = Math.max(MIN_STORES, Math.floor((previous?.stores?.length || 0) * 0.6));
+  if (unique.length < floor) throw new Error(`Only ${unique.length} stores (expected at least ${floor}); keeping the old file.`);
+
+  const counts = Object.fromEntries(areas.map((a) => [a.id, 0]));
+  for (const s of unique) counts[s.area]++;
+  const header = {
+    generatedAt: new Date().toISOString(),
+    source: 'OpenStreetMap via the Overpass API',
+    license: 'ODbL 1.0, © OpenStreetMap contributors',
+    osmDataAsOf: json.osm3s?.timestamp_osm_base ?? null,
+    counts,
+  };
+  // One store per line keeps the daily diff readable.
+  const lines = unique.map((s) => `    ${JSON.stringify(s)}`).join(',\n');
+  const text = JSON.stringify({ ...header, stores: [] }, null, 2).replace('"stores": []', `"stores": [\n${lines}\n  ]`);
+  await writeFile(new URL('data/stores.json', root), `${text}\n`);
+  console.log(`Wrote ${unique.length} stores`, counts);
+  return unique;
+}
+
+async function geocodeEvents(stores) {
+  const doc = await readJson('data/events.json');
+  // Many venues are shops OpenStreetMap already knows at the same street address, which is
+  // more precise than Nominatim (it has few Manhattan house numbers).
+  const byAddress = new Map(stores.filter((s) => s.addr).map((s) => [addressKey(s.addr), s]));
+  let changed = 0;
+  for (const ev of doc.events) {
+    if (!ev.address || (ev.lat != null && ev.lon != null)) continue;
+    const shop = byAddress.get(addressKey(ev.address));
+    if (shop) {
+      [ev.lat, ev.lon] = [shop.lat, shop.lon];
+      changed++;
+      continue;
+    }
+    await sleep(1100); // Nominatim usage policy: at most one request per second
+    try {
+      const hit = await geocode(ev.address);
+      if (hit) {
+        [ev.lat, ev.lon] = hit;
+        changed++;
+      } else {
+        console.warn(`No geocode result for ${ev.address}`);
+      }
+    } catch (err) {
+      console.warn(String(err));
+    }
+  }
+  if (changed) {
+    await writeFile(new URL('data/events.json', root), `${JSON.stringify(doc, null, 2)}\n`);
+    console.log(`Geocoded ${changed} event address(es)`);
+  }
+}
+
+const stores = await buildStores();
+await geocodeEvents(stores);
