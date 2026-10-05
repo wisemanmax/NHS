@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-10-04T11:51:27.506Z",
+  "generatedAt": "2026-10-05T10:44:38.287Z",
   "source": "OpenStreetMap via the Overpass API",
   "license": "ODbL 1.0, © OpenStreetMap contributors",
-  "osmDataAsOf": "2026-10-04T11:50:11Z",
+  "osmDataAsOf": "2026-10-05T10:43:18Z",
   "counts": {
     "soho": 243,
     "les": 48,
