@@ -1,17 +1,17 @@
 {
-  "generatedAt": "2026-10-20T10:41:22.767Z",
+  "generatedAt": "2026-10-21T10:37:11.337Z",
   "source": "OpenStreetMap via the Overpass API",
   "license": "ODbL 1.0, © OpenStreetMap contributors",
-  "osmDataAsOf": "2026-10-20T10:39:51Z",
+  "osmDataAsOf": "2026-10-21T10:35:21Z",
   "counts": {
-    "soho": 243,
+    "soho": 244,
     "les": 48,
     "westvillage": 29,
     "flatiron": 66,
     "herald": 46,
     "fifthave": 116,
     "fidi": 32,
-    "williamsburg": 64
+    "williamsburg": 65
   },
   "stores": [
     {"id":"n10281405368","name":"& Other Stories","lat":40.71157,"lon":-74.01126,"shop":"clothes","brand":"& Other Stories","wd":"Q85322338","hours":"Mo-Fr 09:00-19:00; Sa 10:00-20:00; Su 11:00-19:00","clothes":"women","area":"fidi"},
@@ -205,7 +205,7 @@
     {"id":"w377371386","name":"Nordstrom Rack","lat":40.73434,"lon":-73.99021,"shop":"clothes","brand":"Nordstrom Rack","wd":"Q21463374","addr":"60 East 14th Street","hours":"Mo-Sa 10:00-20:00; Su 11:00-19:00","phone":"+1 212-220-2080","web":"https://stores.nordstromrack.com/us/ny/new-york/60-e-14th-st","clothes":"women;men;shirts;denim","area":"flatiron"},
     {"id":"n2478897579","name":"Old Navy","lat":40.73959,"lon":-73.99496,"shop":"clothes","brand":"Old Navy","wd":"Q2735242","hours":"Mo-Sa 09:00-22:00; Su 10:00-20:00","web":"https://oldnavy.gap.com/stores/ny/newyork/oldnavy-5589.html","area":"flatiron"},
     {"id":"n12775624196","name":"On","lat":40.74045,"lon":-73.99064,"shop":"clothes","brand":"On","wd":"Q43452713","hours":"Mo-Sa 10:00-20:00; Su 11:00-19:00","web":"https://www.on.com/en-us/explore/stores/nyc-flatiron","clothes":"sports","area":"flatiron"},
-    {"id":"n14300997829","name":"Pacsun","lat":40.73893,"lon":-73.99174,"shop":"clothes","addr":"136 5th Avenue","hours":"Mo-Sa 11:00-20:00; Su 11:00-19:00","phone":"+1 (646) 814-4423","web":"https://www.pacsun.com/","area":"flatiron"},
+    {"id":"n14300997829","name":"Pacsun","lat":40.73893,"lon":-73.99174,"shop":"clothes","addr":"136 5th Avenue","hours":"Mo-Sa 11:00-20:00; Su 11:00-19:00","phone":"+1-646-814-4423","web":"https://www.pacsun.com/","area":"flatiron"},
     {"id":"n6462387666","name":"Peter Manning NYC","lat":40.74033,"lon":-73.98975,"shop":"clothes","addr":"933 Broadway","hours":"Mo-Fr 11:00-18:00","phone":"+1-800-564-1227","web":"https://www.petermanningnyc.com","clothes":"men","area":"flatiron"},
     {"id":"n5584167815","name":"Rent the Runway NYC Flagship","lat":40.73723,"lon":-73.99478,"shop":"clothes","brand":"Rent the Runway","addr":"30 West 15th Street","hours":"Mo-Fr 08:00-21:00; Sa 09:00-20:00; Su 09:00-19:00","phone":"+1-800-509-0842","web":"https://www.renttherunway.com/stories/nycflagship","area":"flatiron"},
     {"id":"n9140832093","name":"Rhone","lat":40.73948,"lon":-73.99082,"shop":"clothes","area":"flatiron"},
@@ -463,6 +463,7 @@
     {"id":"n6064061185","name":"Naked & Famous Denim","lat":40.7206,"lon":-74.00048,"shop":"clothes","addr":"123 Grand Street","hours":"Mo-Su 11:00-19:00","phone":"+1 646-892-3085","web":"https://www.nakedandfamousdenim.com/nyc-store","clothes":"women;men;denim","area":"soho"},
     {"id":"n4813825721","name":"Nati","lat":40.72321,"lon":-73.99555,"shop":"clothes","addr":"44 Prince Street","web":"https://natiboutique.com","clothes":"women","area":"soho"},
     {"id":"n12232419922","name":"NC Outlet","lat":40.72116,"lon":-74.0002,"shop":"clothes","area":"soho"},
+    {"id":"n14304711101","name":"New Era","lat":40.72492,"lon":-73.99582,"shop":"clothes","area":"soho"},
     {"id":"n5152316164","name":"New York or Nowhere","lat":40.72309,"lon":-73.99698,"shop":"clothes","hours":"Mo-Th 11:00-19:00, Fr-Su 10:00-19:00","web":"https://newyorkornowhere.com/","area":"soho"},
     {"id":"n5419527593","name":"Nicholas K","lat":40.7202,"lon":-73.99964,"shop":"clothes","addr":"137 Grand Street","hours":"Mo-Sa 11:00-19:00, Su 12:00-18:00","phone":"+1-212-532-8988","area":"soho"},
     {"id":"n4565955298","name":"Nike Community Store","lat":40.72069,"lon":-74.00204,"shop":"clothes","brand":"Nike","wd":"Q483915","addr":"21 Mercer Street","hours":"Mo-Su 11:00-19:00","area":"soho"},
@@ -638,6 +639,7 @@
     {"id":"n14060104848","name":"Marmalade","lat":40.71316,"lon":-73.95762,"shop":"clothes","hours":"Mo-Su 12:00-19:00","web":"https://marmaladefreshclothing.com/pages/marmalade-brooklyn","area":"williamsburg"},
     {"id":"n11142577055","name":"Men’s Store","lat":40.71932,"lon":-73.95988,"shop":"clothes","addr":"97 North 7th Street","hours":"Th-Mo 12:00-19:00","clothes":"men","sh":"yes","area":"williamsburg"},
     {"id":"n12393975438","name":"Mirth","lat":40.72333,"lon":-73.95039,"shop":"clothes","area":"williamsburg"},
+    {"id":"n14303512601","name":"Monk Vintage","lat":40.71834,"lon":-73.9552,"shop":"clothes","addr":"500 Driggs Avenue","hours":"Mo-Th 11:30-19:30; Fr-Sa 11:30-20:00; Su 12:00-19:30","area":"williamsburg"},
     {"id":"n13688994003","name":"Mother of Junk","lat":40.71663,"lon":-73.95669,"shop":"second_hand","addr":"567 Driggs Avenue","hours":"Mo-Su 09:00-21:00","area":"williamsburg"},
     {"id":"n5223969050","name":"Muji","lat":40.71859,"lon":-73.96165,"shop":"department_store","brand":"Muji","wd":"Q708789","addr":"200 Wythe Avenue","hours":"Mo-Sa 10:00-20:00; Su 11:00-20:00","phone":"+1-718-599-1920","web":"https://www.muji.com/us","area":"williamsburg"},
     {"id":"n4320114931","name":"Narnia","lat":40.71441,"lon":-73.95941,"shop":"clothes","addr":"672 Driggs Avenue","area":"williamsburg"},
