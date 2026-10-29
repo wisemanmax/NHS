@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-10-28T10:24:10.247Z",
+  "generatedAt": "2026-10-29T10:35:34.144Z",
   "source": "OpenStreetMap via the Overpass API",
   "license": "ODbL 1.0, © OpenStreetMap contributors",
-  "osmDataAsOf": "2026-10-28T10:22:32Z",
+  "osmDataAsOf": "2026-10-29T10:33:22Z",
   "counts": {
-    "soho": 244,
+    "soho": 245,
     "les": 48,
     "westvillage": 29,
     "flatiron": 66,
@@ -520,6 +520,7 @@
     {"id":"n5712863313","name":"Still Here","lat":40.72413,"lon":-73.99345,"shop":"clothes","addr":"268 Elizabeth Street","area":"soho"},
     {"id":"n13391591362","name":"Stòffa","lat":40.72051,"lon":-74.00029,"shop":"clothes","addr":"125 Grand Street","hours":"Mo-Sa 11:00-19:00, Su 12:00-18:00","web":"https://stoffa.co/pages/showroom","clothes":"men","area":"soho"},
     {"id":"n5754908921","name":"Stone Island","lat":40.72315,"lon":-74.00064,"shop":"clothes","addr":"70 Greene Street","hours":"Mo-Sa 11:00-19:00, Su 12:00-18:00","phone":"+1 646-918-6549","clothes":"women;men;fashion;denim","area":"soho"},
+    {"id":"n14325739501","name":"Stüssy","lat":40.72334,"lon":-73.99596,"shop":"clothes","addr":"50 Prince Street","hours":"Mo-Sa 11:00-19:00; Su 12:00-18:00","phone":"+1-646-3604788","web":"https://www.stussy.com/blogs/chapters/stussy-new-york","area":"soho"},
     {"id":"n1378899236","name":"Suitsupply","lat":40.72219,"lon":-74.00094,"shop":"clothes","brand":"Suitsupply","wd":"Q17149142","addr":"453 Broome Street","hours":"Mo-Sa 11:00-19:00; Su 12:00-18:00","phone":"+1 917-521-5759","web":"https://suitsupply.com/en-us/stores-detail?storeID=stores-NewYork-Soho","clothes":"suits","area":"soho"},
     {"id":"n11875228070","name":"Sunglasses Hut","lat":40.72288,"lon":-73.99912,"shop":"clothes","addr":"523 Broadway","area":"soho"},
     {"id":"n2547109375","name":"Target","lat":40.72517,"lon":-73.99682,"shop":"department_store","brand":"Target","wd":"Q1046951","addr":"600 Broadway","hours":"Mo-Su 08:00-21:00","phone":"+1 646-822-5200","web":"https://www.target.com/sl/manhattan-soho/3411","area":"soho"},
