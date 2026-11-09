@@ -1,15 +1,15 @@
 {
-  "generatedAt": "2026-11-08T10:21:45.115Z",
+  "generatedAt": "2026-11-09T10:21:37.974Z",
   "source": "OpenStreetMap via the Overpass API",
   "license": "ODbL 1.0, © OpenStreetMap contributors",
-  "osmDataAsOf": "2026-11-08T10:20:36Z",
+  "osmDataAsOf": "2026-11-09T10:20:34Z",
   "counts": {
     "soho": 245,
     "les": 48,
     "westvillage": 29,
     "flatiron": 66,
     "herald": 46,
-    "fifthave": 116,
+    "fifthave": 115,
     "fidi": 32,
     "williamsburg": 65
   },
@@ -148,7 +148,6 @@
     {"id":"n4316479494","name":"The Walking Company","lat":40.76109,"lon":-73.97303,"shop":"shoes","brand":"The Walking Company","wd":"Q30716262","addr":"551 Madison Avenue","hours":"Mo-Sa 09:00-20:00; Su 12:00-18:00","area":"fifthave"},
     {"id":"n9913666987","name":"Todd Snyder","lat":40.75874,"lon":-73.97803,"shop":"clothes","brand":"Todd Snyder","addr":"620 5th Avenue","hours":"Mo-Sa 10:00-19:00; Su 11:00-18:00","phone":"+1 917-281-0551","web":"https://www.toddsnyder.com/pages/rockefeller-center","area":"fifthave"},
     {"id":"n12630609043","name":"Tommy Bahama","lat":40.75545,"lon":-73.97923,"shop":"clothes","brand":"Tommy Bahama","wd":"Q3531299","web":"https://www.tommybahama.com/store/New%20York%20City","area":"fifthave"},
-    {"id":"n4353113390","name":"Topman","lat":40.75747,"lon":-73.97823,"shop":"clothes","brand":"Topman","wd":"Q1090880","addr":"West 48th Street","clothes":"men","area":"fifthave"},
     {"id":"n5377775221","name":"Tumi","lat":40.75223,"lon":-73.97626,"shop":"bag","brand":"Tumi","wd":"Q4465402","area":"fifthave"},
     {"id":"n5377775121","name":"Tumi","lat":40.75898,"lon":-73.97985,"shop":"bag","brand":"Tumi","wd":"Q4465402","addr":"53 West 49th Street","hours":"Mo-Sa 10:00-19:00, Su 11:00-17:00","phone":"+1-212-245-7460","web":"https://www.tumi.com/store/0000001000","area":"fifthave"},
     {"id":"n12631340866","name":"UGG","lat":40.75537,"lon":-73.97983,"shop":"shoes","brand":"UGG","wd":"Q1138480","area":"fifthave"},
