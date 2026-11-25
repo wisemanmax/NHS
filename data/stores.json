@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-11-24T10:21:52.509Z",
+  "generatedAt": "2026-11-25T10:22:58.558Z",
   "source": "OpenStreetMap via the Overpass API",
   "license": "ODbL 1.0, © OpenStreetMap contributors",
-  "osmDataAsOf": "2026-11-24T10:20:43Z",
+  "osmDataAsOf": "2026-11-25T10:20:50Z",
   "counts": {
-    "soho": 245,
+    "soho": 244,
     "les": 48,
     "westvillage": 29,
     "flatiron": 66,
@@ -524,7 +524,6 @@
     {"id":"n11875228070","name":"Sunglasses Hut","lat":40.72288,"lon":-73.99912,"shop":"clothes","addr":"523 Broadway","area":"soho"},
     {"id":"n2547109375","name":"Target","lat":40.72517,"lon":-73.99682,"shop":"department_store","brand":"Target","wd":"Q1046951","addr":"600 Broadway","hours":"Mo-Su 08:00-21:00","phone":"+1 646-822-5200","web":"https://www.target.com/sl/manhattan-soho/3411","area":"soho"},
     {"id":"n11897285216","name":"The Elder Statesman","lat":40.72423,"lon":-74.00149,"shop":"clothes","area":"soho"},
-    {"id":"n5796438082","name":"The Hat Shop","lat":40.72597,"lon":-74.00157,"shop":"clothes","addr":"120 Thompson Street","hours":"Mo-Sa 12:00-19:00; Su 13:00-18:00","phone":"+1-212-219-1445","web":"https://thehatshopnyc.com/","clothes":"hats","area":"soho"},
     {"id":"n11746463847","name":"The Hat Shop","lat":40.72722,"lon":-74.0019,"shop":"fashion_accessories","addr":"148 Sullivan Street","hours":"Mo-Sa 12:00-19:00; Su 13:00-18:00","phone":"+12122191445","web":"https://www.thehatshopnyc.com","clothes":"hats","area":"soho"},
     {"id":"n2547109321","name":"The North Face","lat":40.7247,"lon":-73.99721,"shop":"clothes","brand":"The North Face","wd":"Q152784","addr":"584 Broadway","hours":"Mo-Sa 10:00-19:00; Su 11:00-18:00","phone":"+1-212-226-6094","web":"https://locations.thenorthface.com/en-us/NY/New%20York/USA527/","clothes":"outdoor;women;men;children;sports","area":"soho"},
     {"id":"n2547241541","name":"The North Face","lat":40.72219,"lon":-73.99927,"shop":"clothes","brand":"The North Face","wd":"Q152784","addr":"Broadway","clothes":"outdoor","area":"soho"},
